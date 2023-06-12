@@ -1,16 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useMemo,
-} from 'react';
+import { createContext, ReactNode, useContext, useMemo } from 'react';
+
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 import { ROUTE_LANDING_PAGE } from '../utils/route';
-import {useAccount, useConnect, useDisconnect} from "wagmi";
-import {InjectedConnector} from "wagmi/connectors/injected";
 
 export interface AuthContextProps {
   logout(): void;
@@ -38,12 +34,11 @@ type AuthenticatedProviderProps = {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProviderProps) {
-
-  const { address, isConnected } = useAccount()
+  const { address, isConnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
-  })
-  const { disconnect } = useDisconnect()
+  });
+  const { disconnect } = useDisconnect();
 
   const router = useRouter();
 
@@ -57,7 +52,7 @@ export default function AuthenticatedProvider({
       logout: handleLogout,
       address,
       isConnected,
-      login : () => connect(),
+      login: () => connect(),
     };
   }, [address, isConnected]);
 
