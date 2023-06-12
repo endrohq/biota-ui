@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+
+
+@layer base {
+    .container-xl {
+        @apply w-[95%] xl:w-[90%] mx-auto max-w-[1280px];
+    }
+    .container-sm {
+        @apply w-[95%] xl:w-[90%] mx-auto max-w-[1024px];
+    }
+}
+
+@tailwind utilities;
+
+html, body {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
