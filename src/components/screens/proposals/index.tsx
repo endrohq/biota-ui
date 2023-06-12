@@ -1,24 +1,5 @@
 import {ProposalItem} from "./_ProposalItem";
-import {Proposal} from "@shared/typings";
-
-const proposals: Proposal[] = [
-  {
-    id: '1',
-    title: 'Proposal 1',
-  },
-  {
-    id: '2',
-    title: 'Proposal 2',
-  },
-  {
-    id: '3',
-    title: 'Proposal 3',
-  },
-  {
-    id: '4',
-    title: 'Proposal 4'
-  }
-]
+import {proposals} from "../../../config/proposals";
 
 
 export function  Proposals () {
