@@ -5,3 +5,8 @@ export type User = {
   photoURL: string;
   createdAt: string;
 }
+
+export type Proposal = {
+  id: string;
+  title: string;
+}

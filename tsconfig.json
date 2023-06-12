@@ -43,6 +43,9 @@
       "@shared/models/*": [
         "src/models/*"
       ],
+      "@shared/typings": [
+        "src/typings"
+      ],
     },
     "plugins": [
       {
