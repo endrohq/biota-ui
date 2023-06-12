@@ -9,4 +9,11 @@ export type Proposal = {
   id: string;
   title: string;
   description?: string;
+  requiredCourseIds: string[];
+};
+
+export type Course = {
+  id: string;
+  title: string;
+  description?: string;
 };
