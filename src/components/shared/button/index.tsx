@@ -36,14 +36,14 @@ function ButtonInner({
     <>
       <div
         className={clsx(
-          'absolute inset-0 rounded border opacity-100 transition disabled:opacity-50',
+          'absolute inset-0 rounded-full border opacity-100 transition disabled:opacity-50',
           {
             '!bg-transparent': ghost,
             'group-hover:brightness-110 group-focus:brightness-90 bg-accent border-accent':
               variant === 'primary',
             'group-hover:brightness-110 group-focus:brightness-90 bg-secondary border-secondary':
               variant === 'secondary',
-            'bg-primary border-0 group-hover:border-accent':
+            'bg-white border-gray-200 group-hover:border-gray-700':
               variant === 'default',
             'bg-black border-gray-900': variant === 'black',
             'group-hover:brightness-110 group-focus:brightness-90 bg-red-600 border-red-600':
@@ -131,45 +131,4 @@ function Button({
   );
 }
 
-function LinkButton({
-  className,
-  underlined,
-  ...buttonProps
-}: { underlined?: boolean } & JSX.IntrinsicElements['button']) {
-  return (
-    <button
-      {...buttonProps}
-      className={clsx(
-        className,
-        underlined
-          ? 'underlined whitespace-nowrap focus:outline-none'
-          : 'underline',
-        'text-primary inline-block',
-      )}
-    />
-  );
-}
-
-const ButtonLink = React.forwardRef<
-  HTMLAnchorElement,
-  ButtonProps & JSX.IntrinsicElements['a']
->(function ButtonLink(
-  { children, download, href, onClick, fullSize, ...props },
-  ref,
-) {
-  return (
-    <a
-      ref={ref}
-      href={href}
-      onClick={onClick}
-      download={download}
-      className={clsx(getClassName(), {
-        'w-full': fullSize,
-      })}
-    >
-      <ButtonInner {...props}>{children}</ButtonInner>
-    </a>
-  );
-});
-
-export { Button, LinkButton, ButtonLink };
+export { Button };

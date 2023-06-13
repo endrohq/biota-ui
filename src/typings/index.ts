@@ -17,3 +17,9 @@ export type Course = {
   title: string;
   description?: string;
 };
+
+export enum VoteTypes {
+  'for' = 'for',
+  'against' = 'against',
+  'abstain' = 'abstain',
+}
