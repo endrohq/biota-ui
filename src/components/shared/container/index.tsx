@@ -1,3 +1,4 @@
+import { WrongNetwork } from '@shared/components/container/WrongNetwork';
 import { Header } from '@shared/components/header';
 
 interface ContainerProps {
@@ -9,6 +10,7 @@ export function Container({ children }: ContainerProps) {
     <div className="h-screen bg-white">
       <Header />
       <div className="container mx-auto mt-20">{children}</div>
+      <WrongNetwork />
     </div>
   );
 }

@@ -33,7 +33,7 @@ export function Modal({ children, close, title, open }: ModalProps) {
         >
           <div
             onClick={e => e.stopPropagation()}
-            className="mx-auto flex max-h-full min-h-[50%] w-full max-w-lg flex-col items-center overflow-scroll rounded bg-white p-6"
+            className="mx-auto flex max-h-full w-full max-w-lg flex-col items-center overflow-scroll rounded bg-white p-6"
           >
             {title && (
               <div className="mb-2.5 flex w-full items-center justify-between border-b border-gray-100 pb-2.5">
