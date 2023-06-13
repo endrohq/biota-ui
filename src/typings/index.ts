@@ -8,7 +8,8 @@ export type User = {
 export type Proposal = {
   id: string;
   title: string;
-  description?: string;
+  description: string;
+  author: string;
   requiredCourseIds: string[];
 };
 
