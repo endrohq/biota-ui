@@ -25,14 +25,10 @@ export default function Page() {
 
   return (
     <Container>
-      <section className="w-full py-20">
-        <div className="container mx-auto">
-          <div className="flex flex-col space-y-3">
-            <H1 className="!text-3xl font-black">{course?.title || '-'}</H1>
-            <Paragraph className="w-1/2">
-              {course?.description || '-'}
-            </Paragraph>
-          </div>
+      <section className="w-full">
+        <div className="flex flex-col space-y-3">
+          <H1 className="!text-3xl font-black">{course?.title || '-'}</H1>
+          <Paragraph className="w-1/2">{course?.description || '-'}</Paragraph>
         </div>
       </section>
     </Container>

@@ -8,7 +8,7 @@ export function Container({ children }: ContainerProps) {
   return (
     <div className="h-screen bg-white">
       <Header />
-      {children}
+      <div className="container mx-auto mt-20">{children}</div>
     </div>
   );
 }

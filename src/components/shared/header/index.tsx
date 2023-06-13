@@ -24,8 +24,8 @@ export function Header() {
     watch: true,
   });
   return (
-    <>
-      <div className="flex h-16 w-full items-center justify-between bg-third px-10">
+    <div className="h-16 w-full bg-third">
+      <div className="container mx-auto flex h-full w-full items-center justify-between">
         <div className="flex items-center justify-between space-x-10">
           <Link
             href={ROUTE_LANDING_PAGE}
@@ -62,6 +62,6 @@ export function Header() {
           hello world
         </Modal>
       )}
-    </>
+    </div>
   );
 }

@@ -6,12 +6,10 @@ import { Proposals } from '../components/screens/proposals';
 export default function LandingPage() {
   return (
     <Container>
-      <section className="w-full py-20">
-        <div className="container mx-auto">
-          <div className="flex flex-col space-y-6">
-            <H1 className="!text-5xl font-black">Hello world</H1>
-            <Proposals />
-          </div>
+      <section className="w-full">
+        <div className="flex flex-col space-y-6">
+          <H1 className="!text-5xl font-black">Hello world</H1>
+          <Proposals />
         </div>
       </section>
     </Container>
