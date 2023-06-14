@@ -1,11 +1,10 @@
-import { ArrowLeftOutlined } from '@shared/components/icons/ArrowLeftOutlined';
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
+import { BackLink } from '@shared/components/link/BackLink';
 import { H1 } from '@shared/components/typography/Title';
 
 import { Proposal, VoteTypes } from '@shared/typings';
 import { ROUTE_PROPOSALS } from '@shared/utils/route';
 import { getShortenedFormat } from '@shared/utils/string.utils';
-import Link from 'next/link';
 import { useState } from 'react';
 
 import { CastYourVote } from './_CastYourVote';
@@ -30,16 +29,10 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
 
   return (
     <>
-      <div className="flex items-start justify-between  space-x-20">
+      <div className="mx-auto flex w-3/4 items-start justify-between space-x-20">
         <div className="w-8/12 space-y-10">
           <div className="">
-            <Link
-              className="mb-2 flex items-center space-x-1 text-sm text-gray-500 transition-all duration-500 hover:text-gray-900"
-              href={ROUTE_PROPOSALS}
-            >
-              <ArrowLeftOutlined />
-              <span>Back</span>
-            </Link>
+            <BackLink href={ROUTE_PROPOSALS} />
             <H1 weight="black" className="!text-3xl">
               {proposal?.title || '-'}
             </H1>

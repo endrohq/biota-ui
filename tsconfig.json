@@ -19,7 +19,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": false,
     "noImplicitAny": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "ignoreDeprecations": "5.0",
     "noUnusedLocals": true,
