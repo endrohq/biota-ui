@@ -2,7 +2,7 @@ import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { BackLink } from '@shared/components/link/BackLink';
 import { H1 } from '@shared/components/typography/Title';
 
-import { Proposal, VoteTypes } from '@shared/typings';
+import { IpfsProposal, VoteTypes } from '@shared/typings';
 import { ROUTE_PROPOSALS } from '@shared/utils/route';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 import { useState } from 'react';
@@ -13,7 +13,7 @@ import { Results } from './_Results';
 import { RequiredCourses } from './RequiredCourses';
 
 interface ProposalItemPageProps {
-  proposal: Proposal;
+  proposal: IpfsProposal;
 }
 
 export function ProposalItemPage({ proposal }: ProposalItemPageProps) {

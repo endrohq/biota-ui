@@ -1,12 +1,12 @@
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import { Proposal } from '@shared/typings';
+import { IpfsProposal } from '@shared/typings';
 
 import { useEffect } from 'react';
 
 import { useStorage } from '../../../../hooks/useStorage';
 
 interface CreateModalProps {
-  proposal: Partial<Proposal>;
+  proposal: Partial<IpfsProposal>;
   id: string;
   setCid: (cid: string) => void;
   onError: (error: Error | unknown) => void;

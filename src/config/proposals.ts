@@ -1,6 +1,6 @@
-import { Proposal } from '@shared/typings';
+import { IpfsProposal } from '@shared/typings';
 
-export const proposals: Proposal[] = [
+export const proposals: IpfsProposal[] = [
   {
     id: '1',
     title: 'Proposal 1',

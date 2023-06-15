@@ -25,9 +25,8 @@ export function useStorage() {
     const client = makeStorageClient();
     const res = await client.get(cid);
     const files = await res?.files();
-    res?.body;
     for (const file of files || []) {
-      console.log(`${file.cid} -- ${file.path} -- ${file.size}`);
+      console.info(`${file.cid} -- ${file.size}`);
     }
   }
 

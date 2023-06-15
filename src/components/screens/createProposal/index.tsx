@@ -2,7 +2,7 @@ import { Button } from '@shared/components/button';
 import InputText from '@shared/components/input/InputText';
 import { BackLink } from '@shared/components/link/BackLink';
 import { H4 } from '@shared/components/typography/Title';
-import { Proposal } from '@shared/typings';
+import { IpfsProposal } from '@shared/typings';
 import { ROUTE_PROPOSALS } from '@shared/utils/route';
 import { randomBytes32 } from '@shared/utils/string.utils';
 import { useState } from 'react';
@@ -11,7 +11,7 @@ import { CreateModal } from './createModal';
 
 export function CreateProposal() {
   const [submitWithId, setSubmitWithId] = useState<string>();
-  const [proposal, setProposal] = useState<Partial<Proposal>>({
+  const [proposal, setProposal] = useState<Partial<IpfsProposal>>({
     title: 'Hello',
     description: 'My world',
   });
@@ -21,7 +21,7 @@ export function CreateProposal() {
     setSubmitWithId(id);
   }
 
-  const handleProposal = (key: keyof Proposal, value: string) =>
+  const handleProposal = (key: keyof IpfsProposal, value: string) =>
     setProposal(prevState => ({ ...prevState, [key]: value }));
 
   return (

@@ -1,6 +1,8 @@
 import { Button } from '@shared/components/button';
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { H1 } from '@shared/components/typography/Title';
 
+import { isArrayWithElements } from '@shared/utils/array.utils';
 import { ROUTE_CREATE_PROPOSAL } from '@shared/utils/route';
 import Link from 'next/link';
 
@@ -9,7 +11,7 @@ import { ProposalItem } from './_ProposalItem';
 import { useProposals } from '../../../hooks/useProposals';
 
 export function ProposalsPage() {
-  const { proposalIds } = useProposals();
+  const { proposals, loading } = useProposals();
 
   return (
     <section className="mx-auto w-3/4">
@@ -21,11 +23,21 @@ export function ProposalsPage() {
           </Link>
         </div>
         <div className="space-y-10">
-          <div className="grid grid-cols-4 gap-4">
-            {proposalIds.map(proposalId => (
-              <ProposalItem proposalId={proposalId} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex rounded bg-gray-100 px-6 py-3">
+              <LoadingOutlined />
+            </div>
+          ) : !isArrayWithElements(proposals) ? (
+            <div className="flex rounded bg-gray-100 px-6 py-3">
+              <div className="text-gray-500">No proposals found..</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-4">
+              {proposals.map(proposal => (
+                <ProposalItem proposal={proposal} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

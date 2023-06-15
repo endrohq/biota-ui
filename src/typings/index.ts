@@ -1,17 +1,19 @@
-export type User = {
-  uid: string;
-  displayName: string;
-  photoURL: string;
-  createdAt: string;
+export type OnChainProposal = {
+  fileId: string;
+  forVotes: number;
+  againstVotes: number;
+  abstainVotes: number;
+  author: string;
 };
 
-export type Proposal = {
-  id: string;
+export type IpfsProposal = {
   title: string;
   description: string;
   author: string;
   requiredCourseIds: string[];
 };
+
+export type Proposal = IpfsProposal & OnChainProposal;
 
 export type Course = {
   id: string;

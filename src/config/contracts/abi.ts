@@ -84,6 +84,52 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: 'page',
+        type: 'uint256',
+      },
+    ],
+    name: 'getProposalsPage',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'string',
+            name: 'fileId',
+            type: 'string',
+          },
+          {
+            internalType: 'uint256',
+            name: 'forVotes',
+            type: 'uint256',
+          },
+          {
+            internalType: 'address',
+            name: 'author',
+            type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'againstVotes',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'abstainVotes',
+            type: 'uint256',
+          },
+        ],
+        internalType: 'struct ProposalContract.Proposal[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'bytes32',
         name: 'id',
         type: 'bytes32',

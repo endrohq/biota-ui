@@ -1,5 +1,5 @@
-import { utils } from 'ethers';
-import { useState } from 'react';
+import { OnChainProposal } from '@shared/typings';
+import { useMemo, useState } from 'react';
 
 import { useContractRead } from 'wagmi';
 
@@ -7,22 +7,35 @@ import { abi } from '../config/contracts/abi';
 import { proposalContractAddress } from '../env';
 
 type UseProposalProps = {
-  proposalIds: string[];
+  proposals: OnChainProposal[];
   loading: boolean;
 };
 
 export function useProposals(): UseProposalProps {
-  const [proposalIds, setProposalIds] = useState<string[]>([]);
-  const [loading, _] = useState<boolean>(true);
+  const [proposals, setProposals] = useState<OnChainProposal[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useContractRead({
     address: proposalContractAddress,
     abi,
-    functionName: 'getProposalIds',
+    functionName: 'getProposalsPage',
+    args: [0],
     onSuccess: (data: any) => {
-      setProposalIds(data?.map((id: any) => utils.parseBytes32String(id)));
+      setProposals(
+        data?.map(
+          (proposal: Record<string, any>) =>
+            ({
+              author: data.author,
+              fileId: proposal.fileId,
+              abstainVotes: Number(proposal.abstainVotes),
+              againstVotes: Number(proposal.againstVotes),
+              forVotes: Number(proposal.forVotes),
+            } as OnChainProposal),
+        ),
+      );
+      setLoading(false);
     },
   });
 
-  return { loading, proposalIds };
+  return useMemo(() => ({ loading, proposals }), [loading, proposals]);
 }

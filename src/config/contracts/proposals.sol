@@ -50,6 +50,31 @@ contract ProposalContract {
         return proposalIds;
     }
 
+    function getProposalsPage(uint page) public view returns (Proposal[] memory) {
+        uint size = 10;
+
+        uint start = page * size;
+        uint end = start + size;
+
+        // Ensure the start index is not out of bounds
+        require(start < proposalIds.length, "Start index out of bounds");
+
+        // Adjust the end index if it's out of bounds
+        if (end > proposalIds.length) {
+            end = proposalIds.length;
+        }
+
+        Proposal[] memory proposalPage = new Proposal[](end - start);
+
+        // Loop through the range and assign each proposal to the new array
+        for (uint i = 0; i < (end - start); i++) {
+            bytes32 id = proposalIds[start + i];
+            proposalPage[i] = proposals[id];
+        }
+
+        return proposalPage;
+    }
+
     function getVotes(bytes32 id) public view returns (uint, uint, uint) {
         Proposal storage proposal = proposals[id];
         return (proposal.forVotes, proposal.againstVotes, proposal.abstainVotes);

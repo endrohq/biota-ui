@@ -1,5 +1,5 @@
 import { Modal } from '@shared/components/modal';
-import { Proposal } from '@shared/typings';
+import { IpfsProposal } from '@shared/typings';
 import { useState } from 'react';
 
 import { ErrorMessage } from './ErrorMessage';
@@ -8,7 +8,7 @@ import { WriteToHedera } from './WriteToHedera';
 import { WriteToIpfs } from './WriteToIpfs';
 
 interface CreateModalProps {
-  proposal: Partial<Proposal>;
+  proposal: Partial<IpfsProposal>;
   close: () => void;
   id: string;
 }
