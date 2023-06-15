@@ -41,7 +41,7 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
 
   return (
     <>
-      <div className="mx-auto flex w-3/4 items-start justify-between space-x-20">
+      <div className="mx-auto flex w-3/4 items-start justify-between space-x-10">
         <div className="w-8/12 space-y-10">
           <div className="">
             <BackLink href={ROUTE_PROPOSALS} />

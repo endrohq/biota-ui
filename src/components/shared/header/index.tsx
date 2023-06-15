@@ -1,8 +1,8 @@
 import { Button } from '@shared/components/button';
 
+import { AccountModal } from '@shared/components/header/AccountModal';
 import { MenuItem } from '@shared/components/header/MenuItem';
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
-import { Modal } from '@shared/components/modal';
 import { Paragraph } from '@shared/components/typography/Paragraph';
 import { Hash } from '@shared/typings';
 import {
@@ -17,17 +17,8 @@ import { useState } from 'react';
 import { useUser } from '../../../hooks/useUser';
 
 export function Header() {
-  const [showUserDetails, setShowUserDetails] = useState(false);
-  const { address, isConnected, login, logout } = useUser();
-  /* const { data } = useBlockNumber({
-    enabled: true,
-    watch: true,
-  });*/
-
-  function handleLogout() {
-    setShowUserDetails(false);
-    logout();
-  }
+  const [showAccountDetails, setShowAccountDetails] = useState<boolean>(false);
+  const { address, isConnected, login } = useUser();
 
   return (
     <div className="h-16 w-full bg-third">
@@ -48,7 +39,7 @@ export function Header() {
           {/* <div className="text-xs font-medium">{data?.toString()}</div>*/}
           {isConnected ? (
             <div
-              onClick={() => setShowUserDetails(true)}
+              onClick={() => setShowAccountDetails(true)}
               className="flex w-full items-center justify-between space-x-2 rounded bg-third px-4 py-2 brightness-95 transition-all duration-500 hover:brightness-90"
             >
               <EthAddressIcon address={address as Hash} />
@@ -63,12 +54,8 @@ export function Header() {
           )}
         </div>
       </div>
-      {showUserDetails && address && (
-        <Modal close={() => setShowUserDetails(false)} open={true}>
-          <div onClick={handleLogout} className="cursor-pointer underline">
-            Logout
-          </div>
-        </Modal>
+      {showAccountDetails && (
+        <AccountModal close={() => setShowAccountDetails(false)} />
       )}
     </div>
   );
