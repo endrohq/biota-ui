@@ -1,4 +1,4 @@
-export const votingContractABI = [
+export const abi = [
   {
     inputs: [],
     stateMutability: 'nonpayable',
@@ -8,8 +8,13 @@ export const votingContractABI = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'fileId',
+        name: 'id',
         type: 'bytes32',
+      },
+      {
+        internalType: 'string',
+        name: 'fileId',
+        type: 'string',
       },
     ],
     name: 'createProposal',
@@ -21,7 +26,7 @@ export const votingContractABI = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'fileId',
+        name: 'id',
         type: 'bytes32',
       },
     ],
@@ -30,9 +35,9 @@ export const votingContractABI = [
       {
         components: [
           {
-            internalType: 'bytes32',
+            internalType: 'string',
             name: 'fileId',
-            type: 'bytes32',
+            type: 'string',
           },
           {
             internalType: 'uint256',
@@ -80,7 +85,7 @@ export const votingContractABI = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'fileId',
+        name: 'id',
         type: 'bytes32',
       },
     ],
@@ -116,9 +121,9 @@ export const votingContractABI = [
     name: 'proposals',
     outputs: [
       {
-        internalType: 'bytes32',
+        internalType: 'string',
         name: 'fileId',
-        type: 'bytes32',
+        type: 'string',
       },
       {
         internalType: 'uint256',
@@ -148,7 +153,7 @@ export const votingContractABI = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'fileId',
+        name: 'id',
         type: 'bytes32',
       },
       {
@@ -165,48 +170,6 @@ export const votingContractABI = [
     name: 'vote',
     outputs: [],
     stateMutability: 'payable',
-    type: 'function',
-  },
-];
-
-export const abi = [
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: '_from',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'count',
-        type: 'uint256',
-      },
-    ],
-    name: 'CountIncrement',
-    type: 'event',
-  },
-  {
-    inputs: [],
-    name: 'count',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'increment',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
 ];

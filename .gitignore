@@ -48,3 +48,7 @@ dist
 .env
 
 .yarnrc.yml
+/contracts/artificats/
+/contracts/proposals_sol_ProposalContract.abi
+
+/contracts/proposals_sol_ProposalContract.bin

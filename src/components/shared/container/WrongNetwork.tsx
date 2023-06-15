@@ -20,6 +20,8 @@ export function WrongNetwork() {
     }
   }, [chain?.id]);
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <Modal open={hasWrongNetwork} close={() => ''}>
       <div className="flex h-full flex-col justify-between px-4 py-10">
@@ -41,6 +43,7 @@ export function WrongNetwork() {
         </Paragraph>
         <Button
           className="mt-10 py-1 font-medium"
+          // @ts-ignore
           onClick={() => switchNetwork(hederaTestnet.id)}
           variant="primary"
           fullSize

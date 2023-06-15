@@ -20,8 +20,8 @@ export const hederaTestnet = {
   },
   blockExplorers: {
     default: {
-      name: 'Etherscan',
-      url: 'https://etherscan.io',
+      name: 'Hashscan',
+      url: 'https://hashscan.io',
     },
   },
 };

@@ -1,7 +1,8 @@
 import jazzicon from '@raugfer/jazzicon';
+import { Hash } from '@shared/typings';
 
 interface EthAddressIconProps {
-  address: string;
+  address: Hash;
 }
 
 export function EthAddressIcon({ address }: EthAddressIconProps) {

@@ -1,3 +1,5 @@
+import crypto from 'crypto';
+
 export const getShortenedFormat = (
   address: string = '',
   length: number = 6,
@@ -17,3 +19,7 @@ export const getShortenedFormat = (
     return address;
   }
 };
+
+export function randomBytes32(): string {
+  return crypto.randomBytes(15).toString('hex');
+}

@@ -8,7 +8,6 @@
     "lint-fix": "eslint --fix --ext .js,.jsx,.ts,.tsx ."
   },
   "dependencies": {
-    "@hallarhq/ui-core": "1.3.27",
     "@hashgraph/sdk": "^2.26.0",
     "@liskhq/lisk-passphrase": "^4.0.0-beta.1",
     "@raugfer/jazzicon": "^1.0.6",

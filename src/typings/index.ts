@@ -24,3 +24,5 @@ export enum VoteTypes {
   'against' = 'against',
   'abstain' = 'abstain',
 }
+
+export type Hash = `0x${string}`;

@@ -6,9 +6,11 @@ import Link from 'next/link';
 
 import { ProposalItem } from './_ProposalItem';
 
-import { proposals } from '../../../config/proposals';
+import { useProposals } from '../../../hooks/useProposals';
 
 export function ProposalsPage() {
+  const { proposalIds } = useProposals();
+
   return (
     <section className="mx-auto w-3/4">
       <div className="flex flex-col space-y-6 ">
@@ -20,8 +22,8 @@ export function ProposalsPage() {
         </div>
         <div className="space-y-10">
           <div className="grid grid-cols-4 gap-4">
-            {proposals.map(proposal => (
-              <ProposalItem proposal={proposal} />
+            {proposalIds.map(proposalId => (
+              <ProposalItem proposalId={proposalId} />
             ))}
           </div>
         </div>

@@ -1,18 +1,21 @@
-import { Proposal } from '@shared/typings';
 import { getProposalItemRoute } from '@shared/utils/route';
 import Link from 'next/link';
 
+import { useProposal } from '../../../hooks/useProposal';
+
 interface ProposalProps {
-  proposal: Proposal;
+  proposalId: string;
 }
 
-export function ProposalItem({ proposal }: ProposalProps) {
+export function ProposalItem({ proposalId }: ProposalProps) {
+  const { proposal } = useProposal(proposalId);
+
   return (
     <Link
-      href={getProposalItemRoute(proposal.id)}
+      href={getProposalItemRoute(proposalId)}
       className="rounded bg-gray-100 px-4 py-2"
     >
-      {proposal.title}
+      {JSON.stringify(proposal)}
     </Link>
   );
 }

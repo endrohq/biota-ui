@@ -1,30 +1,36 @@
 import { Proposal } from '@shared/typings';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { utils } from 'ethers';
+import { useState } from 'react';
 
-import { proposals } from '../config/proposals';
+import { useContractRead } from 'wagmi';
+
+import { useStorage } from './useStorage';
+
+import { abi } from '../config/contracts/abi';
+import { proposalContractAddress } from '../env';
 
 type UseProposalProps = {
-  proposal: Proposal;
+  proposal: Proposal | null;
   loading: boolean;
 };
 
-export function useProposal(): UseProposalProps {
-  const { query } = useRouter();
+export function useProposal(proposalId: string): UseProposalProps {
   const [proposal, setProposal] = useState<Proposal | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { readProposal } = useStorage();
+  const [loading, _] = useState<boolean>(true);
 
-  useEffect(() => {
-    if (query.proposalId) {
-      const proposal = proposals.find(
-        proposal => proposal.id === query.proposalId,
-      );
-      if (proposal) {
-        setProposal(proposal);
-        setLoading(false);
-      }
-    }
-  }, [query.proposalId]);
+  useContractRead({
+    address: proposalContractAddress,
+    abi,
+    args: [utils.formatBytes32String(proposalId)],
+    functionName: 'getProposalById',
+    onSuccess: async (data: any) => {
+      console.log(data);
+      const content = await readProposal(data?.fileId);
+      console.log(content);
+      setProposal({} as Proposal);
+    },
+  });
 
-  return { proposal, loading };
+  return { loading, proposal };
 }
