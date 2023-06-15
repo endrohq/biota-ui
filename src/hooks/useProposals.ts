@@ -22,17 +22,19 @@ export function useProposals(): UseProposalProps {
     args: [0],
     onSuccess: (data: any) => {
       setProposals(
-        data?.map(
-          (proposal: Record<string, any>) =>
-            ({
-              author: data.author,
-              fileId: proposal.fileId,
-              abstainVotes: Number(proposal.abstainVotes),
-              againstVotes: Number(proposal.againstVotes),
-              forVotes: Number(proposal.forVotes),
-            } as OnChainProposal),
-        ),
+        data?.map((proposal: Record<string, any>) => ({
+          id: proposal.id,
+          cid: proposal.cid,
+          author: proposal.author,
+          abstainVotes: Number(proposal.abstainVotes),
+          againstVotes: Number(proposal.againstVotes),
+          forVotes: Number(proposal.forVotes),
+        })),
       );
+      setLoading(false);
+    },
+    onError: (error: any) => {
+      console.error(error);
       setLoading(false);
     },
   });

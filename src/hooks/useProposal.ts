@@ -1,23 +1,41 @@
-import { IpfsProposal } from '@shared/typings';
-import { utils } from 'ethers';
-import { useState } from 'react';
+import { Proposal } from '@shared/typings';
+import { useMemo, useState } from 'react';
 
 import { useContractRead } from 'wagmi';
-
-import { useStorage } from './useStorage';
 
 import { abi } from '../config/contracts/abi';
 import { proposalContractAddress } from '../env';
 
 type UseProposalProps = {
-  proposal: IpfsProposal | null;
+  proposal: Proposal | undefined;
   loading: boolean;
 };
 
-export function useProposal(proposalId: string): UseProposalProps {
-  const [proposal, setProposal] = useState<IpfsProposal | null>(null);
-  const { readProposal } = useStorage();
-  const [loading, _] = useState<boolean>(true);
+export function useProposal(id: string): UseProposalProps {
+  const [proposal, setProposal] = useState<Proposal>();
+  const [loading, setLoading] = useState<boolean>(true);
 
-  return { loading, proposal };
+  useContractRead({
+    address: proposalContractAddress,
+    abi,
+    functionName: 'getProposalById',
+    args: [id],
+    onSuccess: (data: any) => {
+      setProposal({
+        id: data.id,
+        cid: data.cid,
+        author: data.author,
+        abstainVotes: Number(data.abstainVotes),
+        againstVotes: Number(data.againstVotes),
+        forVotes: Number(data.forVotes),
+      } as any);
+      setLoading(false);
+    },
+    onError: (error: any) => {
+      console.error(error);
+      setLoading(false);
+    },
+  });
+
+  return useMemo(() => ({ loading, proposal }), [loading, proposal]);
 }

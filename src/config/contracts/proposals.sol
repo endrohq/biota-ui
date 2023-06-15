@@ -5,7 +5,8 @@ contract ProposalContract {
     address owner;
 
     struct Proposal {
-        string fileId;
+        bytes32 id;
+        string cid;
         uint forVotes;
         address author;
         uint againstVotes;
@@ -19,9 +20,10 @@ contract ProposalContract {
         owner = msg.sender;
     }
 
-    function createProposal(bytes32 id, string memory fileId) public {
+    function createProposal(bytes32 id, string memory cid) public {
         proposals[id] = Proposal({
-            fileId: fileId,
+            id: id,
+            cid: cid,
             author: msg.sender,
             forVotes: 0,
             againstVotes: 0,

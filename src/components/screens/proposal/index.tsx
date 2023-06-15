@@ -2,29 +2,41 @@ import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { BackLink } from '@shared/components/link/BackLink';
 import { H1 } from '@shared/components/typography/Title';
 
-import { IpfsProposal, VoteTypes } from '@shared/typings';
+import { VoteTypes, Proposal, IpfsProposal } from '@shared/typings';
 import { ROUTE_PROPOSALS } from '@shared/utils/route';
 import { getShortenedFormat } from '@shared/utils/string.utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CastYourVote } from './_CastYourVote';
 import { Description } from './_Description';
 import { Results } from './_Results';
 import { RequiredCourses } from './RequiredCourses';
 
+import { useStorage } from '../../../hooks/useStorage';
+
 interface ProposalItemPageProps {
-  proposal: IpfsProposal;
+  proposal: Proposal;
 }
 
 export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
   const [requiredCourses, setRequiredCourses] = useState<string[]>();
+  const { getIpfsProposal } = useStorage();
+  const [ipfsProposal, setIpfsProposal] = useState<IpfsProposal>();
+
+  useEffect(() => {
+    async function handleIpfsFetch() {
+      const ipfsProposal = await getIpfsProposal(proposal.cid);
+      setIpfsProposal(ipfsProposal);
+    }
+    handleIpfsFetch();
+  }, []);
 
   function vote(_: VoteTypes) {
-    // TODO: Check if user has required courses
+    /* // TODO: Check if user has required courses
     const hasOpenCourses = proposal.requiredCourseIds?.length > 0;
     if (hasOpenCourses) {
       setRequiredCourses(proposal.requiredCourseIds || []);
-    }
+    }*/
   }
 
   return (
@@ -34,7 +46,7 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
           <div className="">
             <BackLink href={ROUTE_PROPOSALS} />
             <H1 weight="black" className="!text-3xl">
-              {proposal?.title || '-'}
+              {ipfsProposal?.title || '-'}
             </H1>
             <div className="my-3 space-y-1 rounded border border-gray-100 bg-gray-50 px-4 py-2 text-sm">
               <div>Author</div>
@@ -45,7 +57,7 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
                 </div>
               </div>
             </div>
-            <Description description={proposal?.description || '-'} />
+            <Description description={ipfsProposal?.description || '-'} />
           </div>
           <CastYourVote vote={vote} />
         </div>

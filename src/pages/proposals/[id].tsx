@@ -2,14 +2,21 @@ import { Container } from '@shared/components/container';
 
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 
+import { useRouter } from 'next/router';
+
 import { ProposalItemPage } from '../../components/screens/proposal';
 import { useProposal } from '../../hooks/useProposal';
 
 export default function Page() {
-  const { proposal, loading } = useProposal();
+  const { query } = useRouter();
+  const { proposal, loading } = useProposal(query.id as string);
   return (
     <Container>
-      {loading ? <LoadingOutlined /> : <ProposalItemPage proposal={proposal} />}
+      {loading ? (
+        <LoadingOutlined />
+      ) : (
+        proposal && <ProposalItemPage proposal={proposal} />
+      )}
     </Container>
   );
 }

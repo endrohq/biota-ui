@@ -32,7 +32,7 @@ export function ProposalsPage() {
               <div className="text-gray-500">No proposals found..</div>
             </div>
           ) : (
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               {proposals.map(proposal => (
                 <ProposalItem proposal={proposal} />
               ))}

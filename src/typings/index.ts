@@ -1,15 +1,15 @@
 export type OnChainProposal = {
-  fileId: string;
+  id: string;
+  cid: string;
   forVotes: number;
   againstVotes: number;
   abstainVotes: number;
-  author: string;
+  author: Hash;
 };
 
 export type IpfsProposal = {
   title: string;
   description: string;
-  author: string;
   requiredCourseIds: string[];
 };
 

@@ -31,7 +31,7 @@ export function Header() {
 
   return (
     <div className="h-16 w-full bg-third">
-      <div className="container mx-auto flex h-full w-full items-center justify-between">
+      <div className="mx-auto flex h-full w-full items-center justify-between px-5">
         <div className="flex items-center justify-between space-x-10">
           <Link
             href={ROUTE_LANDING_PAGE}
@@ -49,7 +49,7 @@ export function Header() {
           {isConnected ? (
             <div
               onClick={() => setShowUserDetails(true)}
-              className="flex w-full items-center justify-between space-x-2 rounded bg-green-50 px-4 py-2 transition-all duration-500 hover:bg-green-100"
+              className="flex w-full items-center justify-between space-x-2 rounded bg-third px-4 py-2 brightness-95 transition-all duration-500 hover:brightness-90"
             >
               <EthAddressIcon address={address as Hash} />
               <Paragraph className="text-sm">

@@ -13,7 +13,7 @@ export const abi = [
       },
       {
         internalType: 'string',
-        name: 'fileId',
+        name: 'cid',
         type: 'string',
       },
     ],
@@ -35,8 +35,13 @@ export const abi = [
       {
         components: [
           {
+            internalType: 'bytes32',
+            name: 'id',
+            type: 'bytes32',
+          },
+          {
             internalType: 'string',
-            name: 'fileId',
+            name: 'cid',
             type: 'string',
           },
           {
@@ -69,19 +74,6 @@ export const abi = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'getProposalIds',
-    outputs: [
-      {
-        internalType: 'bytes32[]',
-        name: '',
-        type: 'bytes32[]',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [
       {
         internalType: 'uint256',
@@ -94,8 +86,13 @@ export const abi = [
       {
         components: [
           {
+            internalType: 'bytes32',
+            name: 'id',
+            type: 'bytes32',
+          },
+          {
             internalType: 'string',
-            name: 'fileId',
+            name: 'cid',
             type: 'string',
           },
           {
@@ -167,8 +164,13 @@ export const abi = [
     name: 'proposals',
     outputs: [
       {
+        internalType: 'bytes32',
+        name: 'id',
+        type: 'bytes32',
+      },
+      {
         internalType: 'string',
-        name: 'fileId',
+        name: 'cid',
         type: 'string',
       },
       {
