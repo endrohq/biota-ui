@@ -9,6 +9,9 @@
     .container-sm {
         @apply w-[95%] xl:w-[90%] mx-auto max-w-[1024px];
     }
+    .bg-transition {
+        @apply transition-all duration-200 ease-in-out;
+    }
 }
 
 @tailwind utilities;

@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react';
 import { Web3Storage } from 'web3.storage';
 
 const proposalFileName = 'proposal.json';
 
 export function useStorage() {
-  const [client, setClient] = useState<Web3Storage>();
-
-  useEffect(() => {
-    setClient(
-      new Web3Storage({
-        token: process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN || '',
-      }),
-    );
-  }, []);
+  function getClient() {
+    return new Web3Storage({
+      token: process.env.NEXT_PUBLIC_WEB3STORAGE_TOKEN || '',
+    });
+  }
 
   async function uploadProposal(id: string, props: Record<string, any>) {
     const data = JSON.stringify(props);
+    const client = await getClient();
 
     // Web3.Storage requires data to be a File object, so we create a Blob with our data,
     // then turn it into a File
@@ -28,6 +24,7 @@ export function useStorage() {
   }
 
   async function getIpfsProposal(cid: string) {
+    const client = await getClient();
     const res = await client?.get(cid);
 
     // Retrieve the specific file directly using its path

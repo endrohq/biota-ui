@@ -33,8 +33,8 @@ export function ProposalsPage() {
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-4">
-              {proposals.map(proposal => (
-                <ProposalItem proposal={proposal} />
+              {proposals.map((proposal, idx) => (
+                <ProposalItem key={idx} proposal={proposal} />
               ))}
             </div>
           )}

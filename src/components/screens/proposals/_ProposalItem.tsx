@@ -15,17 +15,17 @@ export function ProposalItem({ proposal }: ProposalProps) {
   const [ipfsProposal, setIpfsProposal] = useState<IpfsProposal>();
 
   useEffect(() => {
-    async function handleIpfsFetch() {
-      const ipfsProposal = await getIpfsProposal(proposal.cid);
-      setIpfsProposal(ipfsProposal);
+    if (proposal.cid) {
+      getIpfsProposal(proposal.cid).then(res => {
+        setIpfsProposal(res);
+      });
     }
-    handleIpfsFetch();
-  }, []);
+  }, [proposal?.cid]);
 
   return (
     <Link
       href={getProposalItemRoute(proposal.id)}
-      className="flex-wrap rounded bg-gray-100 px-4 py-3 transition-all duration-200 ease-in-out hover:bg-gray-200"
+      className="bg-transition flex-wrap rounded bg-gray-100 px-4 py-3 hover:bg-gray-200"
     >
       <div className="mb-2 break-all border-b border-gray-200 pb-2 text-sm last:mb-0 last:border-0 last:pb-0">
         <div className="font-medium">{ipfsProposal?.title || '-'}</div>
