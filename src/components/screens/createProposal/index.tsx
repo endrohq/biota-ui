@@ -8,6 +8,7 @@ import { randomBytes32 } from '@shared/utils/string.utils';
 import { useState } from 'react';
 
 import { CreateModal } from './createModal';
+import { PositionMap } from './map';
 
 export function CreateProposal() {
   const [submitWithId, setSubmitWithId] = useState<string>();
@@ -51,6 +52,9 @@ export function CreateProposal() {
               value={proposal.description}
               onChange={value => handleProposal('description', value)}
             />
+          </div>
+          <div className="">
+            {typeof window !== 'undefined' && <PositionMap />}
           </div>
           <div className="flex justify-end space-y-1">
             <Button
