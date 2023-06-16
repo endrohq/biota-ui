@@ -37,6 +37,7 @@ export function MapBox({
   useEffect(() => {
     if (mode === 'editable') {
       setEditorMode(new DrawPolygonMode());
+      setViewport(DEFAULT_VIEWPORT);
     }
   }, [mode]);
 

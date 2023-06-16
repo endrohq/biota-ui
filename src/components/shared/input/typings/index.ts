@@ -18,8 +18,18 @@ export interface BaseInputProps<T>
   inputRef?: React.Ref<HTMLInputElement>;
 }
 
-export const KeyCode = {
-  ENTER: 13,
-  UP: 38, // also NUM_NORTH
-  DOWN: 40, // also NUM_SOUTH
-};
+export interface BaseTextAreaProps<T>
+  extends Omit<
+    React.InputHTMLAttributes<HTMLTextAreaElement>,
+    'value' | 'defaultValue' | 'onChange' | 'className'
+  > {
+  value: T | undefined;
+  onChange(value: T): void;
+  isValid?: boolean;
+  validator?: (value: T) => Promise<void>;
+  validatorWaitFor?: number;
+  wrapperClassName?: string;
+  className?: string;
+  tabIndex?: number;
+  inputRef?: React.Ref<HTMLTextAreaElement>;
+}
