@@ -38,7 +38,7 @@ export function CreateModal({ proposal, close, id }: CreateModalProps) {
             onError={setError}
           />
         ) : (
-          <SuccessfulCreate cid={cid} />
+          <SuccessfulCreate id={id} />
         )}
       </div>
     </Modal>

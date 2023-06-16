@@ -5,15 +5,15 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 interface CreateModalProps {
-  cid: string;
+  id: string;
 }
 
-export function SuccessfulCreate({ cid }: CreateModalProps) {
+export function SuccessfulCreate({ id }: CreateModalProps) {
   const router = useRouter();
 
   useEffect(() => {
     setTimeout(() => {
-      router.push(getProposalItemRoute(cid));
+      router.push(getProposalItemRoute(id));
     }, 3000);
   }, []);
 

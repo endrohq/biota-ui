@@ -1,3 +1,5 @@
+import { Feature } from '@nebula.gl/edit-modes';
+
 export type OnChainProposal = {
   id: string;
   cid: string;
@@ -10,7 +12,9 @@ export type OnChainProposal = {
 export type IpfsProposal = {
   title: string;
   description: string;
+  location: number[][];
   requiredCourseIds: string[];
+  positions: Feature[];
 };
 
 export type Proposal = IpfsProposal & OnChainProposal;

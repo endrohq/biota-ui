@@ -1,9 +1,8 @@
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
-import { BackLink } from '@shared/components/link/BackLink';
+import { MapBox } from '@shared/components/map';
 import { H1 } from '@shared/components/typography/Title';
 
 import { VoteTypes, Proposal, IpfsProposal } from '@shared/typings';
-import { ROUTE_PROPOSALS } from '@shared/utils/route';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 import { useEffect, useState } from 'react';
 
@@ -41,10 +40,9 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
 
   return (
     <>
-      <div className="mx-auto flex w-3/4 items-start justify-between space-x-10">
+      <div className="mx-auto flex w-3/4 items-start justify-between space-x-10 pb-20">
         <div className="w-8/12 space-y-10">
           <div className="">
-            <BackLink href={ROUTE_PROPOSALS} />
             <H1 weight="black" className="!text-3xl">
               {ipfsProposal?.title || '-'}
             </H1>
@@ -57,8 +55,13 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
                 </div>
               </div>
             </div>
-            <Description description={ipfsProposal?.description || '-'} />
           </div>
+          <MapBox
+            positions={ipfsProposal?.positions}
+            height={300}
+            mode="read-only"
+          />
+          <Description description={ipfsProposal?.description || '-'} />
           <CastYourVote vote={vote} />
         </div>
         <div className="w-4/12">

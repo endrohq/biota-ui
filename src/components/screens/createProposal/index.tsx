@@ -8,7 +8,7 @@ import { randomBytes32 } from '@shared/utils/string.utils';
 import { useState } from 'react';
 
 import { CreateModal } from './createModal';
-import { PositionMap } from './map';
+import { CreateProposalMap } from './map';
 
 export function CreateProposal() {
   const [submitWithId, setSubmitWithId] = useState<string>();
@@ -22,12 +22,12 @@ export function CreateProposal() {
     setSubmitWithId(id);
   }
 
-  const handleProposal = (key: keyof IpfsProposal, value: string) =>
+  const handleProposal = (key: keyof IpfsProposal, value: any) =>
     setProposal(prevState => ({ ...prevState, [key]: value }));
 
   return (
     <>
-      <div className="mx-auto w-1/2">
+      <div className="mx-auto w-1/2 pb-20">
         <BackLink href={ROUTE_PROPOSALS} />
         <H4>Create Proposal</H4>
         <div className="space-y-5 py-6">
@@ -54,7 +54,12 @@ export function CreateProposal() {
             />
           </div>
           <div className="">
-            {typeof window !== 'undefined' && <PositionMap />}
+            {typeof window !== 'undefined' && (
+              <CreateProposalMap
+                positions={proposal.positions}
+                onChange={value => handleProposal('positions', value)}
+              />
+            )}
           </div>
           <div className="flex justify-end space-y-1">
             <Button
