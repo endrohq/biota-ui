@@ -1,6 +1,7 @@
 import { Button } from '@shared/components/button';
 import InputText from '@shared/components/input/InputText';
 import TextArea from '@shared/components/input/TextArea';
+import UploadInput from '@shared/components/input/UploadInput';
 import { BackLink } from '@shared/components/link/BackLink';
 import { MapBox } from '@shared/components/map';
 import { Paragraph } from '@shared/components/typography/Paragraph';
@@ -56,6 +57,9 @@ export function CreateProposal() {
               value={proposal.description}
               onChange={value => handleProposal('description', value)}
             />
+          </div>
+          <div>
+            <UploadInput />
           </div>
           <div className="!mt-8 border-t border-gray-100 pt-6">
             {typeof window !== 'undefined' && (
