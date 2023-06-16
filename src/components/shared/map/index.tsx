@@ -35,6 +35,12 @@ export function MapBox({
   const [editorMode, setEditorMode] = useState<DrawPolygonMode | undefined>();
 
   useEffect(() => {
+    if (mode === 'editable') {
+      setEditorMode(new DrawPolygonMode());
+    }
+  }, [mode]);
+
+  useEffect(() => {
     console.log(positions);
     if (mode === 'read-only' && positions) {
       const [
@@ -48,7 +54,7 @@ export function MapBox({
         latitude,
       });
     }
-  }, [positions]);
+  }, [positions, mode]);
 
   const _onUpdate = ({ data }: any) => {
     onChange?.(data);
@@ -98,7 +104,7 @@ export function MapBox({
         <MapGL
           height="100%"
           width="100%"
-          className="overflow-hidden rounded-sm"
+          className="overflow-hidden rounded"
           {...viewport}
           mapboxApiAccessToken={MAPBOX_TOKEN}
           mapStyle="mapbox://styles/mapbox/dark-v9"
