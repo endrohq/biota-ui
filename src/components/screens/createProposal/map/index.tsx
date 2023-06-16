@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import MapGL from 'react-map-gl';
 import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 
-const MAPBOX_TOKEN =
-  'pk.eyJ1IjoidWJlcmRhdGEiLCJhIjoiY2pwY3owbGFxMDVwNTNxcXdwMms2OWtzbiJ9.1PPVl0VLUQgqrosrI2nUhg';
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX || '';
 
 const DEFAULT_VIEWPORT = {
   longitude: 4.4775362,
