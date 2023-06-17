@@ -32,3 +32,10 @@ export enum VoteTypes {
 }
 
 export type Hash = `0x${string}`;
+
+export type CreateProposalForm = {
+  title: string;
+  description: string;
+  images?: File[];
+  positions?: Feature[];
+};

@@ -11,7 +11,7 @@ export default function Page() {
   const { query } = useRouter();
   const { proposal, loading } = useProposal(query.id as string);
   return (
-    <Container>
+    <Container access="public">
       {loading ? (
         <LoadingOutlined />
       ) : (

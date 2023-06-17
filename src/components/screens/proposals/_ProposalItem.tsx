@@ -11,12 +11,12 @@ interface ProposalProps {
 }
 
 export function ProposalItem({ proposal }: ProposalProps) {
-  const { getIpfsProposal } = useStorage();
+  const { getJsonFile } = useStorage();
   const [ipfsProposal, setIpfsProposal] = useState<IpfsProposal>();
 
   useEffect(() => {
     if (proposal.cid) {
-      getIpfsProposal(proposal.cid).then(res => {
+      getJsonFile(proposal.cid, 'metadata').then(res => {
         setIpfsProposal(res);
       });
     }

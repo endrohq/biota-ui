@@ -17,6 +17,7 @@ export function CastYourVote({ vote }: ProposalItemPageProps) {
       <div className="space-y-2 p-6">
         {Object.keys(VoteTypes).map(key => (
           <Button
+            key={key}
             onClick={() => setVoteType(VoteTypes[key])}
             className="px-10 py-1"
             fullSize
@@ -28,7 +29,7 @@ export function CastYourVote({ vote }: ProposalItemPageProps) {
         <div className="!mt-4 border-t border-gray-100 pt-4">
           <Button
             variant={voteType ? 'primary' : 'default'}
-            onClick={() => vote(voteType)}
+            onClick={() => voteType && vote(voteType)}
             className="px-10 py-1"
             fullSize
           >

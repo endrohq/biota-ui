@@ -6,17 +6,16 @@ import { BackLink } from '@shared/components/link/BackLink';
 import { MapBox } from '@shared/components/map';
 import { Paragraph } from '@shared/components/typography/Paragraph';
 import { H4 } from '@shared/components/typography/Title';
-import { IpfsProposal } from '@shared/typings';
+import { CreateProposalForm } from '@shared/typings';
 import { ROUTE_PROPOSALS } from '@shared/utils/route';
 import { randomBytes32 } from '@shared/utils/string.utils';
 import React, { useState } from 'react';
 
 import { CreateModal } from './createModal';
-import { CreateProposalMap } from './map';
 
 export function CreateProposal() {
   const [submitWithId, setSubmitWithId] = useState<string>();
-  const [proposal, setProposal] = useState<Partial<IpfsProposal>>({
+  const [proposal, setProposal] = useState<CreateProposalForm>({
     title: 'Hello',
     description: 'My world',
   });
@@ -26,7 +25,7 @@ export function CreateProposal() {
     setSubmitWithId(id);
   }
 
-  const handleProposal = (key: keyof IpfsProposal, value: any) =>
+  const handleProposal = (key: keyof CreateProposalForm, value: any) =>
     setProposal(prevState => ({ ...prevState, [key]: value }));
 
   return (
@@ -59,7 +58,10 @@ export function CreateProposal() {
             />
           </div>
           <div>
-            <UploadInput />
+            <UploadInput
+              images={proposal.images}
+              onChange={value => handleProposal('images', value)}
+            />
           </div>
           <div className="!mt-8 border-t border-gray-100 pt-6">
             {typeof window !== 'undefined' && (

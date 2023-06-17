@@ -15,7 +15,7 @@ export function Results(_: ResultsProps) {
       </div>
       <div className="space-y-3 p-6">
         {Object.keys(VoteTypes).map(key => (
-          <div className="space-y-1 py-1">
+          <div key={key} className="space-y-1 py-1">
             <div className="capitalize">{key}</div>
             <div className="h-2 w-full rounded-full bg-gray-200">
               <div

@@ -1,12 +1,12 @@
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import { IpfsProposal } from '@shared/typings';
+import { CreateProposalForm } from '@shared/typings';
 
 import { useEffect } from 'react';
 
 import { useStorage } from '../../../../hooks/useStorage';
 
 interface CreateModalProps {
-  proposal: Partial<IpfsProposal>;
+  proposal: CreateProposalForm;
   id: string;
   setCid: (cid: string) => void;
   onError: (error: Error | unknown) => void;
@@ -18,12 +18,12 @@ export function WriteToIpfs({
   onError,
   id,
 }: CreateModalProps) {
-  const { upload } = useStorage();
+  const { uploadIncident } = useStorage();
 
   useEffect(() => {
     const uploadContent = async () => {
       try {
-        const cid = await upload(id, proposal);
+        const cid = await uploadIncident(id, proposal);
         setCid(cid);
       } catch (error) {
         onError(error);

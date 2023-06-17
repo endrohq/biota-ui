@@ -1,18 +1,15 @@
 import { CameraOutlined } from '@shared/components/icons/CameraOutlined';
-import React, { useState } from 'react';
+import React from 'react';
 
 interface UploadComponentProps {
-  // any props that come into the component
+  images: File[] | undefined;
+  onChange(images: File[]): void;
 }
 
-const UploadInput: React.FC<UploadComponentProps> = (
-  props: UploadComponentProps,
-) => {
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-
+function UploadInput({ images, onChange }: UploadComponentProps) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setSelectedImages(Array.from(e.target.files));
+      onChange(Array.from(e.target.files));
     }
   };
 
@@ -35,7 +32,7 @@ const UploadInput: React.FC<UploadComponentProps> = (
       />
 
       <div className="flex flex-wrap justify-center">
-        {selectedImages.map((image, index) => (
+        {images?.map((image, index) => (
           <div
             key={index}
             className="m-1 overflow-hidden rounded-md border"
@@ -51,6 +48,6 @@ const UploadInput: React.FC<UploadComponentProps> = (
       </div>
     </div>
   );
-};
+}
 
 export default UploadInput;

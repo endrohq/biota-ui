@@ -1,4 +1,5 @@
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { MapBox } from '@shared/components/map';
 import { H1 } from '@shared/components/typography/Title';
 
@@ -8,6 +9,7 @@ import { useEffect, useState } from 'react';
 
 import { CastYourVote } from './_CastYourVote';
 import { Description } from './_Description';
+import { Gallery } from './_Gallery';
 import { Results } from './_Results';
 import { RequiredCourses } from './RequiredCourses';
 
@@ -19,13 +21,20 @@ interface ProposalItemPageProps {
 
 export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
   const [requiredCourses, setRequiredCourses] = useState<string[]>();
-  const { getIpfsProposal } = useStorage();
+  const { getJsonFile } = useStorage();
   const [ipfsProposal, setIpfsProposal] = useState<IpfsProposal>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function handleIpfsFetch() {
-      const ipfsProposal = await getIpfsProposal(proposal.cid);
-      setIpfsProposal(ipfsProposal);
+      try {
+        const ipfsProposal = await getJsonFile(proposal.cid, 'proposal');
+        setIpfsProposal(ipfsProposal);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     }
     handleIpfsFetch();
   }, []);
@@ -36,6 +45,14 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
     if (hasOpenCourses) {
       setRequiredCourses(proposal.requiredCourseIds || []);
     }*/
+  }
+
+  if (loading) {
+    return (
+      <div className="mx-auto flex w-10/12 items-start justify-between space-x-10 pb-20">
+        <LoadingOutlined />
+      </div>
+    );
   }
 
   return (
@@ -57,6 +74,7 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
             </div>
           </div>
           <Description description={ipfsProposal?.description || '-'} />
+          <Gallery cid={proposal.cid} />
           <CastYourVote vote={vote} />
         </div>
         <div className="w-5/12 space-y-4">

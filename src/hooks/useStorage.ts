@@ -1,6 +1,10 @@
+import { CreateProposalForm } from '@shared/typings';
 import { Web3Storage } from 'web3.storage';
 
-const proposalFileName = 'proposal.json';
+const incidentFileName = 'proposal.json';
+const metadataFileName = 'metadata.json';
+
+type FileType = 'proposal' | 'metadata';
 
 export function useStorage() {
   function getClient() {
@@ -9,43 +13,78 @@ export function useStorage() {
     });
   }
 
-  async function uploadProposal(id: string, props: Record<string, any>) {
-    const data = JSON.stringify(props);
+  async function uploadIncident(id: string, props: CreateProposalForm) {
     const client = await getClient();
+    const { images, ...incident } = props;
+    const files: File[] = [
+      // all contents
+      createJsonFile(JSON.stringify(incident), incidentFileName),
+      // metadata
+      createJsonFile(
+        JSON.stringify({ title: incident.title }),
+        metadataFileName,
+      ),
+    ];
 
-    // Web3.Storage requires data to be a File object, so we create a Blob with our data,
-    // then turn it into a File
-    const file = new File([new Blob([data])], proposalFileName, {
+    if (images) {
+      files.push(
+        ...images.map(file => new File([file], `images/${file.name}`)),
+      );
+    }
+
+    return client.put(files); // The IPFS hash of the data
+  }
+
+  function createJsonFile(data: string, fileName: string) {
+    return new File([new Blob([data])], fileName, {
       type: 'application/json',
       lastModified: new Date().getTime(),
     });
-
-    return client?.put([file]); // The IPFS hash of the data
   }
 
-  async function getIpfsProposal(cid: string) {
+  async function getJsonFile(cid: string, type: FileType) {
     const client = await getClient();
     const res = await client?.get(cid);
 
     // Retrieve the specific file directly using its path
     const files = await res?.files();
-    const file = files?.find(file => file.name === proposalFileName);
+    const fileName = type === 'proposal' ? incidentFileName : metadataFileName;
+    const file = files?.find(file => file.name === fileName);
     if (!file) return;
 
     const decoder = new TextDecoder();
     let fileContent = '';
+    await readStream(file, value => (fileContent += decoder.decode(value)));
 
+    return JSON.parse(fileContent);
+  }
+
+  async function readStream(file: File, callback: (value: Uint8Array) => void) {
     const reader = file.stream().getReader();
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       const { done, value } = await reader.read();
       if (done) {
         break;
       }
-      fileContent += decoder.decode(value);
+      callback(value);
     }
-    return JSON.parse(fileContent);
   }
 
-  return { upload: uploadProposal, getIpfsProposal };
+  async function getImageUrls(cid: string) {
+    const client = await getClient();
+    const res = await client.get(cid);
+    const files = await res?.files();
+
+    // We assume files are images if they're in the 'images/' directory and end with '.png'
+    const imageFiles = files?.filter(file => file.name.startsWith('images/'));
+
+    // Construct URLs for each image file
+    const imageURLs =
+      imageFiles?.map(file => `https://dweb.link/ipfs/${cid}/${file.name}`) ||
+      [];
+
+    return imageURLs;
+  }
+
+  return { getJsonFile, uploadIncident, getImageUrls };
 }
