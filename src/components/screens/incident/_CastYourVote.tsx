@@ -3,11 +3,11 @@ import { H5 } from '@shared/components/typography/Title';
 import { VoteTypes } from '@shared/typings';
 import { useState } from 'react';
 
-interface ProposalItemPageProps {
+interface CastYourVoteProps {
   vote: (vote: VoteTypes) => void;
 }
 
-export function CastYourVote({ vote }: ProposalItemPageProps) {
+export function CastYourVote({ vote }: CastYourVoteProps) {
   const [voteType, setVoteType] = useState<VoteTypes>();
   return (
     <div className="rounded border border-gray-100 bg-gray-50 ">

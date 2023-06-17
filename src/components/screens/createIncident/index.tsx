@@ -6,16 +6,16 @@ import { BackLink } from '@shared/components/link/BackLink';
 import { MapBox } from '@shared/components/map';
 import { Paragraph } from '@shared/components/typography/Paragraph';
 import { H4 } from '@shared/components/typography/Title';
-import { CreateProposalForm } from '@shared/typings';
-import { ROUTE_PROPOSALS } from '@shared/utils/route';
+import { CreateIncidentForm } from '@shared/typings';
+import { ROUTE_INCIDENTS } from '@shared/utils/route';
 import { randomBytes32 } from '@shared/utils/string.utils';
 import React, { useState } from 'react';
 
 import { CreateModal } from './createModal';
 
-export function CreateProposal() {
+export function CreateIncident() {
   const [submitWithId, setSubmitWithId] = useState<string>();
-  const [proposal, setProposal] = useState<CreateProposalForm>({
+  const [incidentForm, setIncidentForm] = useState<CreateIncidentForm>({
     title: 'Hello',
     description: 'My world',
   });
@@ -25,13 +25,13 @@ export function CreateProposal() {
     setSubmitWithId(id);
   }
 
-  const handleProposal = (key: keyof CreateProposalForm, value: any) =>
-    setProposal(prevState => ({ ...prevState, [key]: value }));
+  const handleSave = (key: keyof CreateIncidentForm, value: any) =>
+    setIncidentForm(prevState => ({ ...prevState, [key]: value }));
 
   return (
     <>
       <div className="mx-auto w-1/2 pb-20">
-        <BackLink href={ROUTE_PROPOSALS} />
+        <BackLink href={ROUTE_INCIDENTS} />
         <H4>Report a new incident</H4>
         <div className="space-y-5 py-6">
           <div className="space-y-1">
@@ -41,8 +41,8 @@ export function CreateProposal() {
             <InputText
               name="title"
               placeholder="hello world"
-              value={proposal.title}
-              onChange={value => handleProposal('title', value)}
+              value={incidentForm.title}
+              onChange={value => handleSave('title', value)}
             />
           </div>
           <div className="space-y-1">
@@ -53,14 +53,14 @@ export function CreateProposal() {
               name="description"
               minRows={3}
               placeholder="hello world"
-              value={proposal.description}
-              onChange={value => handleProposal('description', value)}
+              value={incidentForm.description}
+              onChange={value => handleSave('description', value)}
             />
           </div>
           <div>
             <UploadInput
-              images={proposal.images}
-              onChange={value => handleProposal('images', value)}
+              images={incidentForm.images}
+              onChange={value => handleSave('images', value)}
             />
           </div>
           <div className="!mt-8 border-t border-gray-100 pt-6">
@@ -74,8 +74,8 @@ export function CreateProposal() {
                 </div>
                 <MapBox
                   mode="editable"
-                  positions={proposal.positions}
-                  onChange={value => handleProposal('positions', value)}
+                  positions={incidentForm.positions}
+                  onChange={value => handleSave('positions', value)}
                 />
               </div>
             )}
@@ -97,7 +97,7 @@ export function CreateProposal() {
         <CreateModal
           id={submitWithId}
           close={() => setSubmitWithId(undefined)}
-          proposal={proposal}
+          incident={incidentForm}
         />
       )}
     </>

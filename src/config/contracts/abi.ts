@@ -8,7 +8,30 @@ export const abi = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'id',
+        name: '_incidentId',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'string',
+        name: 'cid',
+        type: 'string',
+      },
+    ],
+    name: 'createIncident',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_incidentId',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_proposalId',
         type: 'bytes32',
       },
       {
@@ -26,7 +49,84 @@ export const abi = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'id',
+        name: '_incidentId',
+        type: 'bytes32',
+      },
+    ],
+    name: 'getIncidentById',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'bytes32',
+            name: 'id',
+            type: 'bytes32',
+          },
+          {
+            internalType: 'string',
+            name: 'cid',
+            type: 'string',
+          },
+          {
+            internalType: 'address',
+            name: 'author',
+            type: 'address',
+          },
+        ],
+        internalType: 'struct IncidentContract.Incident',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'page',
+        type: 'uint256',
+      },
+    ],
+    name: 'getIncidentByPage',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'bytes32',
+            name: 'id',
+            type: 'bytes32',
+          },
+          {
+            internalType: 'string',
+            name: 'cid',
+            type: 'string',
+          },
+          {
+            internalType: 'address',
+            name: 'author',
+            type: 'address',
+          },
+        ],
+        internalType: 'struct IncidentContract.Incident[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_incidentId',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_proposalId',
         type: 'bytes32',
       },
     ],
@@ -45,14 +145,14 @@ export const abi = [
             type: 'string',
           },
           {
-            internalType: 'uint256',
-            name: 'forVotes',
-            type: 'uint256',
-          },
-          {
             internalType: 'address',
             name: 'author',
             type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'forVotes',
+            type: 'uint256',
           },
           {
             internalType: 'uint256',
@@ -65,7 +165,7 @@ export const abi = [
             type: 'uint256',
           },
         ],
-        internalType: 'struct ProposalContract.Proposal',
+        internalType: 'struct IncidentContract.Proposal',
         name: '',
         type: 'tuple',
       },
@@ -76,12 +176,17 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: 'bytes32',
+        name: '_incidentId',
+        type: 'bytes32',
+      },
+      {
         internalType: 'uint256',
         name: 'page',
         type: 'uint256',
       },
     ],
-    name: 'getProposalsPage',
+    name: 'getProposalsByIncidentIdAndPage',
     outputs: [
       {
         components: [
@@ -96,14 +201,14 @@ export const abi = [
             type: 'string',
           },
           {
-            internalType: 'uint256',
-            name: 'forVotes',
-            type: 'uint256',
-          },
-          {
             internalType: 'address',
             name: 'author',
             type: 'address',
+          },
+          {
+            internalType: 'uint256',
+            name: 'forVotes',
+            type: 'uint256',
           },
           {
             internalType: 'uint256',
@@ -116,7 +221,7 @@ export const abi = [
             type: 'uint256',
           },
         ],
-        internalType: 'struct ProposalContract.Proposal[]',
+        internalType: 'struct IncidentContract.Proposal[]',
         name: '',
         type: 'tuple[]',
       },
@@ -128,26 +233,26 @@ export const abi = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'id',
+        name: '',
         type: 'bytes32',
       },
     ],
-    name: 'getVotes',
+    name: 'incidents',
     outputs: [
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: 'bytes32',
+        name: 'id',
+        type: 'bytes32',
       },
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: 'string',
+        name: 'cid',
+        type: 'string',
       },
       {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
+        internalType: 'address',
+        name: 'author',
+        type: 'address',
       },
     ],
     stateMutability: 'view',
@@ -155,6 +260,11 @@ export const abi = [
   },
   {
     inputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
       {
         internalType: 'bytes32',
         name: '',
@@ -174,14 +284,14 @@ export const abi = [
         type: 'string',
       },
       {
-        internalType: 'uint256',
-        name: 'forVotes',
-        type: 'uint256',
-      },
-      {
         internalType: 'address',
         name: 'author',
         type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'forVotes',
+        type: 'uint256',
       },
       {
         internalType: 'uint256',
@@ -201,7 +311,12 @@ export const abi = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: 'id',
+        name: '_incidentId',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'bytes32',
+        name: '_proposalId',
         type: 'bytes32',
       },
       {

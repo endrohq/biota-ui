@@ -1,19 +1,19 @@
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import { CreateProposalForm } from '@shared/typings';
+import { CreateIncidentForm } from '@shared/typings';
 
 import { useEffect } from 'react';
 
 import { useStorage } from '../../../../hooks/useStorage';
 
 interface CreateModalProps {
-  proposal: CreateProposalForm;
+  incident: CreateIncidentForm;
   id: string;
   setCid: (cid: string) => void;
   onError: (error: Error | unknown) => void;
 }
 
 export function WriteToIpfs({
-  proposal,
+  incident,
   setCid,
   onError,
   id,
@@ -23,7 +23,7 @@ export function WriteToIpfs({
   useEffect(() => {
     const uploadContent = async () => {
       try {
-        const cid = await uploadIncident(id, proposal);
+        const cid = await uploadIncident(id, incident);
         setCid(cid);
       } catch (error) {
         onError(error);

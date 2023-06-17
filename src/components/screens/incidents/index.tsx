@@ -3,23 +3,23 @@ import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { H1 } from '@shared/components/typography/Title';
 
 import { isArrayWithElements } from '@shared/utils/array.utils';
-import { ROUTE_CREATE_PROPOSAL } from '@shared/utils/route';
+import { ROUTE_CREATE_INCIDENT } from '@shared/utils/route';
 import Link from 'next/link';
 
-import { ProposalItem } from './_ProposalItem';
+import { IncidentItem } from './_IncidentItem';
 
-import { useProposals } from '../../../hooks/useProposals';
+import { useIncidents } from '../../../hooks/useIncidents';
 
-export function ProposalsPage() {
-  const { proposals, loading } = useProposals();
+export function IncidentsPage() {
+  const { incidents, loading } = useIncidents();
 
   return (
     <section className="mx-auto w-3/4">
       <div className="flex flex-col space-y-6 ">
         <div className="flex items-center justify-between">
-          <H1 className="!text-3xl font-black">Proposals</H1>
-          <Link href={ROUTE_CREATE_PROPOSAL}>
-            <Button>New Proposal</Button>
+          <H1 className="!text-3xl font-black">Incidents</H1>
+          <Link href={ROUTE_CREATE_INCIDENT}>
+            <Button>New Incident</Button>
           </Link>
         </div>
         <div className="space-y-10">
@@ -27,14 +27,14 @@ export function ProposalsPage() {
             <div className="flex rounded bg-gray-100 px-6 py-3">
               <LoadingOutlined />
             </div>
-          ) : !isArrayWithElements(proposals) ? (
+          ) : !isArrayWithElements(incidents) ? (
             <div className="flex rounded bg-gray-100 px-6 py-3">
-              <div className="text-gray-500">No proposals found..</div>
+              <div className="text-gray-500">No incidents found..</div>
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-4">
-              {proposals.map((proposal, idx) => (
-                <ProposalItem key={idx} proposal={proposal} />
+              {incidents.map((incident, idx) => (
+                <IncidentItem key={idx} incident={incident} />
               ))}
             </div>
           )}

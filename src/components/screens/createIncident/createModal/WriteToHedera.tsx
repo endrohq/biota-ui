@@ -4,7 +4,7 @@ import { ethers, utils } from 'ethers';
 import { useEffect } from 'react';
 
 import { abi } from '../../../../config/contracts/abi';
-import { proposalContractAddress } from '../../../../env';
+import { incidentContractAddress } from '../../../../env';
 import { useUser } from '../../../../hooks/useUser';
 
 interface CreateModalProps {
@@ -23,22 +23,22 @@ export function WriteToHedera({
   const { signer } = useUser();
   useEffect(() => {
     const handleContractSave = async () => {
-      createProposal?.();
+      createIncident?.();
     };
     if (cid) handleContractSave();
   }, [cid]);
 
-  async function createProposal() {
+  async function createIncident() {
     // Check if Web3 has been injected by the browser
     // MetaMask is present, set it as the current provider for ethers.js
 
     try {
       const myContract = new ethers.Contract(
-        proposalContractAddress,
+        incidentContractAddress,
         abi,
         signer,
       );
-      const incrementTx = await myContract.createProposal(
+      const incrementTx = await myContract.createIncident(
         utils.formatBytes32String(id),
         cid,
       );

@@ -1,25 +1,25 @@
-import { Proposal } from '@shared/typings';
+import { Incident } from '@shared/typings';
 import { useMemo } from 'react';
 
 import { useContractRead } from 'wagmi';
 
 import { abi } from '../config/contracts/abi';
-import { proposalContractAddress } from '../env';
+import { incidentContractAddress } from '../env';
 
-type UseProposalProps = {
-  proposal?: Proposal | undefined;
+type UseIncidentsProps = {
+  incident?: Incident | undefined;
   loading: boolean;
 };
 
-export function useProposal(id: string): UseProposalProps {
+export function useIncident(id: string): UseIncidentsProps {
   const { data, isLoading } = useContractRead({
-    address: proposalContractAddress,
+    address: incidentContractAddress,
     abi,
-    functionName: 'getProposalById',
+    functionName: 'getIncidentById',
     args: [id],
   });
 
-  function convertToProposal(data: unknown) {
+  function convertToIncident(data: unknown) {
     if (!data) return undefined;
     const props = data as Record<string, any>;
     return {
@@ -29,10 +29,10 @@ export function useProposal(id: string): UseProposalProps {
       abstainVotes: Number(props.abstainVotes),
       againstVotes: Number(props.againstVotes),
       forVotes: Number(props.forVotes),
-    } as Proposal;
+    } as Incident;
   }
 
   return useMemo(() => {
-    return { loading: isLoading, proposal: convertToProposal(data) };
+    return { loading: isLoading, incident: convertToIncident(data) };
   }, [data, isLoading]);
 }

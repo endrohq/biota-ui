@@ -1,12 +1,12 @@
 export const ROUTE_LANDING_PAGE = '/';
-export const ROUTE_PROPOSALS = '/proposals';
+export const ROUTE_INCIDENTS = '/incidents';
 export const ROUTE_COURSES = '/courses';
 export const ROUTE_COURSE_ITEM = '/courses/:id';
-export const ROUTE_PROPOSAL_ITEM = '/proposals/:id';
-export const ROUTE_CREATE_PROPOSAL = '/proposals/create';
+export const ROUTE_INCIDENTS_ITEM = '/incidents/:id';
+export const ROUTE_CREATE_INCIDENT = '/incidents/create';
 
-export function getProposalItemRoute(id: string) {
-  return ROUTE_PROPOSAL_ITEM.replace(':id', id);
+export function getIncidentItemRoute(id: string) {
+  return ROUTE_INCIDENTS_ITEM.replace(':id', id);
 }
 
 export function getCourseItemRoute(id: string) {

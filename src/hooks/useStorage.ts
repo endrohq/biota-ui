@@ -1,10 +1,10 @@
-import { CreateProposalForm } from '@shared/typings';
+import { CreateIncidentForm } from '@shared/typings';
 import { Web3Storage } from 'web3.storage';
 
-const incidentFileName = 'proposal.json';
+const incidentFileName = 'incident.json';
 const metadataFileName = 'metadata.json';
 
-type FileType = 'proposal' | 'metadata';
+type FileType = 'incident' | 'metadata';
 
 export function useStorage() {
   function getClient() {
@@ -13,7 +13,7 @@ export function useStorage() {
     });
   }
 
-  async function uploadIncident(id: string, props: CreateProposalForm) {
+  async function uploadIncident(id: string, props: CreateIncidentForm) {
     const client = await getClient();
     const { images, ...incident } = props;
     const files: File[] = [
@@ -48,7 +48,7 @@ export function useStorage() {
 
     // Retrieve the specific file directly using its path
     const files = await res?.files();
-    const fileName = type === 'proposal' ? incidentFileName : metadataFileName;
+    const fileName = type === 'incident' ? incidentFileName : metadataFileName;
     const file = files?.find(file => file.name === fileName);
     if (!file) return;
 
@@ -70,6 +70,9 @@ export function useStorage() {
     }
   }
 
+  const getIpfsUrlPath = (cid: string, name: string) =>
+    `https://dweb.link/ipfs/${cid}/${name}`;
+
   async function getImageUrls(cid: string) {
     const client = await getClient();
     const res = await client.get(cid);
@@ -79,11 +82,7 @@ export function useStorage() {
     const imageFiles = files?.filter(file => file.name.startsWith('images/'));
 
     // Construct URLs for each image file
-    const imageURLs =
-      imageFiles?.map(file => `https://dweb.link/ipfs/${cid}/${file.name}`) ||
-      [];
-
-    return imageURLs;
+    return imageFiles?.map(file => getIpfsUrlPath(cid, file.name)) || [];
   }
 
   return { getJsonFile, uploadIncident, getImageUrls };

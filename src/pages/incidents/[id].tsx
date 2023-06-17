@@ -4,18 +4,18 @@ import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 
 import { useRouter } from 'next/router';
 
-import { ProposalItemPage } from '../../components/screens/proposal';
-import { useProposal } from '../../hooks/useProposal';
+import { IncidentItemPage } from '../../components/screens/incident';
+import { useIncident } from '../../hooks/useIncident';
 
 export default function Page() {
   const { query } = useRouter();
-  const { proposal, loading } = useProposal(query.id as string);
+  const { incident, loading } = useIncident(query.id as string);
   return (
     <Container access="public">
       {loading ? (
         <LoadingOutlined />
       ) : (
-        proposal && <ProposalItemPage proposal={proposal} />
+        incident && <IncidentItemPage incident={incident} />
       )}
     </Container>
   );

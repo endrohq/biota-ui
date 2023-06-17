@@ -1,6 +1,6 @@
 import { CheckCircleOutlined } from '@shared/components/icons/CheckCircleOutlined';
 
-import { getProposalItemRoute } from '@shared/utils/route';
+import { getIncidentItemRoute } from '@shared/utils/route';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -13,7 +13,7 @@ export function SuccessfulCreate({ id }: CreateModalProps) {
 
   useEffect(() => {
     setTimeout(() => {
-      router.push(getProposalItemRoute(id));
+      router.push(getIncidentItemRoute(id));
     }, 3000);
   }, []);
 

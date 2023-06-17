@@ -1,5 +1,5 @@
 import { Modal } from '@shared/components/modal';
-import { IpfsProposal } from '@shared/typings';
+import { CreateIncidentForm } from '@shared/typings';
 import { useState } from 'react';
 
 import { ErrorMessage } from './ErrorMessage';
@@ -8,12 +8,12 @@ import { WriteToHedera } from './WriteToHedera';
 import { WriteToIpfs } from './WriteToIpfs';
 
 interface CreateModalProps {
-  proposal: Partial<IpfsProposal>;
+  incident: CreateIncidentForm;
   close: () => void;
   id: string;
 }
 
-export function CreateModal({ proposal, close, id }: CreateModalProps) {
+export function CreateModal({ incident, close, id }: CreateModalProps) {
   const [cid, setCid] = useState<string>();
   const [txSuccess, setTxSuccess] = useState<boolean>(false);
   const [error, setError] = useState<Error | unknown>();
@@ -25,7 +25,7 @@ export function CreateModal({ proposal, close, id }: CreateModalProps) {
           <ErrorMessage error={error} close={close} />
         ) : !cid ? (
           <WriteToIpfs
-            proposal={proposal}
+            incident={incident}
             setCid={setCid}
             onError={setError}
             id={id}

@@ -1,4 +1,4 @@
 import { Hash } from '@shared/typings';
 
-export const proposalContractAddress =
-  (process.env.NEXT_PUBLIC_PROPOSAL_CONTRACT_ADDRESS as Hash) || undefined;
+export const incidentContractAddress =
+  (process.env.NEXT_PUBLIC_INCIDENTS_CONTRACT_ADDRESS as Hash) || undefined;

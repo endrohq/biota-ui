@@ -1,6 +1,6 @@
 import { Feature } from '@nebula.gl/edit-modes';
 
-export type OnChainProposal = {
+export type OnChainIncident = {
   id: string;
   cid: string;
   forVotes: number;
@@ -9,7 +9,7 @@ export type OnChainProposal = {
   author: Hash;
 };
 
-export type IpfsProposal = {
+export type IncidentContent = {
   title: string;
   description: string;
   location: number[][];
@@ -17,7 +17,7 @@ export type IpfsProposal = {
   positions: Feature[];
 };
 
-export type Proposal = IpfsProposal & OnChainProposal;
+export type Incident = IncidentContent & OnChainIncident;
 
 export type Course = {
   id: string;
@@ -33,7 +33,7 @@ export enum VoteTypes {
 
 export type Hash = `0x${string}`;
 
-export type CreateProposalForm = {
+export type CreateIncidentForm = {
   title: string;
   description: string;
   images?: File[];

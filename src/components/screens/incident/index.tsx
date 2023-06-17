@@ -3,7 +3,7 @@ import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { MapBox } from '@shared/components/map';
 import { H1 } from '@shared/components/typography/Title';
 
-import { VoteTypes, Proposal, IpfsProposal } from '@shared/typings';
+import { VoteTypes, Incident, IncidentContent } from '@shared/typings';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 import { useEffect, useState } from 'react';
 
@@ -15,21 +15,21 @@ import { RequiredCourses } from './RequiredCourses';
 
 import { useStorage } from '../../../hooks/useStorage';
 
-interface ProposalItemPageProps {
-  proposal: Proposal;
+interface IncidentItemPageProps {
+  incident: Incident;
 }
 
-export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
+export function IncidentItemPage({ incident }: IncidentItemPageProps) {
   const [requiredCourses, setRequiredCourses] = useState<string[]>();
   const { getJsonFile } = useStorage();
-  const [ipfsProposal, setIpfsProposal] = useState<IpfsProposal>();
+  const [ipfsContent, setIpfsContent] = useState<IncidentContent>();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function handleIpfsFetch() {
       try {
-        const ipfsProposal = await getJsonFile(proposal.cid, 'proposal');
-        setIpfsProposal(ipfsProposal);
+        const content = await getJsonFile(incident.cid, 'incident');
+        setIpfsContent(content);
       } catch (error) {
         console.log(error);
       } finally {
@@ -56,30 +56,30 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
   }
 
   return (
-    <>
-      <div className="mx-auto flex w-10/12 items-start justify-between space-x-10 pb-20">
+    <div className="mx-auto w-10/12 space-y-10 py-10">
+      <Gallery cid={incident.cid} />
+      <div className=" flex  items-start justify-between space-x-10 pb-20">
         <div className="w-7/12 space-y-10">
           <div className="">
             <H1 weight="black" className="">
-              {ipfsProposal?.title || '-'}
+              {ipfsContent?.title || '-'}
             </H1>
             <div className="my-3 space-y-1 rounded border border-gray-100 bg-gray-50 px-4 py-2 text-sm">
               <div>Author</div>
               <div className="flex items-center space-x-2">
-                <EthAddressIcon address={proposal.author} />
+                <EthAddressIcon address={incident.author} />
                 <div className="font-medium text-gray-600">
-                  {getShortenedFormat(proposal.author)}
+                  {getShortenedFormat(incident.author)}
                 </div>
               </div>
             </div>
           </div>
-          <Description description={ipfsProposal?.description || '-'} />
-          <Gallery cid={proposal.cid} />
+          <Description description={ipfsContent?.description || '-'} />
           <CastYourVote vote={vote} />
         </div>
         <div className="w-5/12 space-y-4">
           <MapBox
-            positions={ipfsProposal?.positions}
+            positions={ipfsContent?.positions}
             height={300}
             mode="read-only"
           />
@@ -92,6 +92,6 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
           requiredCourseIds={requiredCourses}
         />
       )}
-    </>
+    </div>
   );
 }
