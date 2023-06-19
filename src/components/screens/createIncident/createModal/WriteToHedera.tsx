@@ -3,8 +3,7 @@ import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { ethers, utils } from 'ethers';
 import { useEffect } from 'react';
 
-import { abi } from '../../../../config/contracts/abi';
-import { incidentContractAddress } from '../../../../env';
+import { incidentContract } from '../../../../config/contracts/incidents';
 import { useUser } from '../../../../hooks/useUser';
 
 interface CreateModalProps {
@@ -34,8 +33,8 @@ export function WriteToHedera({
 
     try {
       const myContract = new ethers.Contract(
-        incidentContractAddress,
-        abi,
+        incidentContract.address,
+        incidentContract.abi,
         signer,
       );
       const incrementTx = await myContract.createIncident(

@@ -4,7 +4,6 @@ import { useMemo } from 'react';
 import { useContractRead } from 'wagmi';
 
 import { incidentContract } from '../config/contracts/incidents';
-import { incidentContractAddress } from '../env';
 
 type UseIncidentsProps = {
   incident?: Incident | undefined;
@@ -13,8 +12,8 @@ type UseIncidentsProps = {
 
 export function useIncident(id: string): UseIncidentsProps {
   const { data, isLoading } = useContractRead({
-    address: incidentContractAddress,
-    abi: incidentContract.incidentsAbi,
+    address: incidentContract.address,
+    abi: incidentContract.abi,
     functionName: 'getIncidentById',
     args: [id],
   });

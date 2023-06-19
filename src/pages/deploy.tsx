@@ -15,20 +15,20 @@ const contracts = [
   {
     envVariable: 'NEXT_PUBLIC_INCIDENTS_CONTRACT_ADDRESS',
     contractName: 'incidents.sol',
-    abi: incidentContract.incidentsAbi,
-    bytecode: incidentContract.incidentsByteCode,
+    abi: incidentContract.abi,
+    bytecode: incidentContract.byteCode,
   },
   {
     envVariable: 'NEXT_PUBLIC_PROPOSALS_CONTRACT_ADDRESS',
     contractName: 'proposals.sol',
-    abi: proposalContract.proposalAbi,
-    bytecode: proposalContract.proposalByteCode,
+    abi: proposalContract.abi,
+    bytecode: proposalContract.byteCode,
   },
   {
     envVariable: 'NEXT_PUBLIC_OBJECTIONS_CONTRACT_ADDRESS',
     contractName: 'objections.sol',
-    abi: objectionContract.objectionAbi,
-    bytecode: objectionContract.objectionCode,
+    abi: objectionContract.abi,
+    bytecode: objectionContract.byteCode,
   },
 ];
 

@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import { useContractRead } from 'wagmi';
 
 import { incidentContract } from '../config/contracts/incidents';
-import { incidentContractAddress } from '../env';
 
 type useIncidentsProps = {
   incidents: OnChainIncident[];
@@ -16,8 +15,8 @@ export function useIncidents(): useIncidentsProps {
   const [loading, setLoading] = useState<boolean>(true);
 
   useContractRead({
-    address: incidentContractAddress,
-    abi: incidentContract.incidentsAbi,
+    address: incidentContract.address,
+    abi: incidentContract.abi,
     functionName: 'getIncidentByPage',
     args: [0],
     onSuccess: (data: any) => {
