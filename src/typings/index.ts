@@ -39,3 +39,8 @@ export type CreateIncidentForm = {
   images?: File[];
   positions?: Feature[];
 };
+
+export interface DeployedContract {
+  variable: string;
+  contractAddress: string;
+}

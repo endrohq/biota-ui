@@ -9,18 +9,25 @@ interface ContainerProps {
   children: React.ReactNode;
   access?: 'public' | 'private';
   withTopPadding?: boolean;
+  withWidth?: boolean;
 }
 
 export function Container({
   children,
   access,
   withTopPadding = true,
+  withWidth = true,
 }: ContainerProps) {
   const { address } = useUser();
   return (
     <div className="h-screen bg-white">
       <Header />
-      <div className={clsx('container mx-auto', withTopPadding && 'pt-20')}>
+      <div
+        className={clsx(
+          withTopPadding && 'pt-14',
+          withWidth && 'container mx-auto',
+        )}
+      >
         {!address && access === 'private' ? (
           <div className="mx-auto w-1/2">Connect your wallet first</div>
         ) : (

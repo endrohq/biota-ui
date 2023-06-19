@@ -27,7 +27,7 @@ export function Gallery({ cid }: GalleryProps) {
   };
 
   return (
-    <div className="flex h-72 flex-wrap overflow-hidden ">
+    <div className="flex h-72 flex-wrap overflow-hidden rounded">
       {images.slice(0, 1).map((url, index) => (
         <div key={index} className="h-full w-1/2 overflow-hidden rounded">
           <img

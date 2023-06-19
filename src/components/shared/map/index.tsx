@@ -1,5 +1,6 @@
 import { Feature } from '@nebula.gl/edit-modes';
 import { isArrayWithElements } from '@shared/utils/array.utils';
+import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import MapGL from 'react-map-gl';
 import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
@@ -23,6 +24,8 @@ interface PositionMapProps {
   positions?: Feature[];
   height?: number;
   mode?: 'read-only' | 'editable';
+  theme?: 'light' | 'dark';
+  rounded?: boolean;
 }
 
 export function MapBox({
@@ -30,6 +33,8 @@ export function MapBox({
   positions = [],
   height = 375,
   mode = 'read-only',
+  theme = 'dark',
+  rounded = true,
 }: PositionMapProps) {
   const [viewport, setViewport] = useState<ViewPort>();
   const [editorMode, setEditorMode] = useState<DrawPolygonMode | undefined>();
@@ -42,7 +47,6 @@ export function MapBox({
   }, [mode]);
 
   useEffect(() => {
-    console.log(positions);
     if (mode === 'read-only' && positions) {
       const [
         longitude = DEFAULT_VIEWPORT.longitude,
@@ -105,10 +109,11 @@ export function MapBox({
         <MapGL
           height="100%"
           width="100%"
-          className="overflow-hidden rounded"
+          className={clsx(rounded && `rounded`)}
           {...viewport}
+          attributionControl={false}
           mapboxApiAccessToken={MAPBOX_TOKEN}
-          mapStyle="mapbox://styles/mapbox/dark-v9"
+          mapStyle={`mapbox://styles/mapbox/${theme}-v11`}
           onViewportChange={(viewport: any) => setViewport(viewport)}
         >
           <Editor

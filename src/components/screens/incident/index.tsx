@@ -1,16 +1,13 @@
-import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import { MapBox } from '@shared/components/map';
 import { H1 } from '@shared/components/typography/Title';
 
-import { VoteTypes, Incident, IncidentContent } from '@shared/typings';
-import { getShortenedFormat } from '@shared/utils/string.utils';
+import { Incident, IncidentContent } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
-import { CastYourVote } from './_CastYourVote';
 import { Description } from './_Description';
 import { Gallery } from './_Gallery';
-import { Results } from './_Results';
+import { MapOverview } from './MapOverview';
+import { Proposals } from './Proposals';
 import { RequiredCourses } from './RequiredCourses';
 
 import { useStorage } from '../../../hooks/useStorage';
@@ -39,14 +36,6 @@ export function IncidentItemPage({ incident }: IncidentItemPageProps) {
     handleIpfsFetch();
   }, []);
 
-  function vote(_: VoteTypes) {
-    /* // TODO: Check if user has required courses
-    const hasOpenCourses = proposal.requiredCourseIds?.length > 0;
-    if (hasOpenCourses) {
-      setRequiredCourses(proposal.requiredCourseIds || []);
-    }*/
-  }
-
   if (loading) {
     return (
       <div className="mx-auto flex w-10/12 items-start justify-between space-x-10 pb-20">
@@ -56,35 +45,17 @@ export function IncidentItemPage({ incident }: IncidentItemPageProps) {
   }
 
   return (
-    <div className="mx-auto w-10/12 space-y-10 py-10">
-      <Gallery cid={incident.cid} />
-      <div className=" flex  items-start justify-between space-x-10 pb-20">
-        <div className="w-7/12 space-y-10">
-          <div className="">
-            <H1 weight="black" className="">
-              {ipfsContent?.title || '-'}
-            </H1>
-            <div className="my-3 space-y-1 rounded border border-gray-100 bg-gray-50 px-4 py-2 text-sm">
-              <div>Author</div>
-              <div className="flex items-center space-x-2">
-                <EthAddressIcon address={incident.author} />
-                <div className="font-medium text-gray-600">
-                  {getShortenedFormat(incident.author)}
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="space-y-6">
+      <MapOverview positions={ipfsContent?.positions} />
+      <div className=" mx-auto w-7/12 space-y-1 rounded bg-gray-100 px-6 py-4"></div>
+      <div className=" mx-auto flex w-7/12 items-start justify-between space-x-10 pb-20">
+        <div className="w-8/12 space-y-10">
+          <H1 className="!text-3xl !font-black">{ipfsContent?.title || '-'}</H1>
+          <Gallery cid={incident.cid} />
           <Description description={ipfsContent?.description || '-'} />
-          <CastYourVote vote={vote} />
+          <Proposals />
         </div>
-        <div className="w-5/12 space-y-4">
-          <MapBox
-            positions={ipfsContent?.positions}
-            height={300}
-            mode="read-only"
-          />
-          <Results />
-        </div>
+        <div className="w-4/12 space-y-4 text-xs">dssdf</div>
       </div>
       {requiredCourses && (
         <RequiredCourses
@@ -95,3 +66,15 @@ export function IncidentItemPage({ incident }: IncidentItemPageProps) {
     </div>
   );
 }
+
+/* <div className="">
+          <div className=" flex items-center space-x-2 text-xs">
+            <div>Reported By:</div>
+            <div className="flex items-center space-x-2">
+              <EthAddressIcon address={incident.author} />
+              <div className="font-medium text-gray-600">
+                {getShortenedFormat(incident.author)}
+              </div>
+            </div>
+          </div>
+        </div>*/

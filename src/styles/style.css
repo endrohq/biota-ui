@@ -25,3 +25,7 @@ html, body {
     display: grid;
     grid-template-rows: 1fr auto;
 }
+
+.mapboxgl-ctrl-logo {
+    display: none !important;
+}

@@ -2,89 +2,108 @@ import { Button } from '@shared/components/button';
 import { Container } from '@shared/components/container';
 import { Paragraph } from '@shared/components/typography/Paragraph';
 import { H1 } from '@shared/components/typography/Title';
-import { ContractFactory } from 'ethers';
-import { useEffect, useState } from 'react';
 
-import { abi } from '../config/contracts/abi';
-import { bytecode } from '../config/contracts/bytecode';
-import { useUser } from '../hooks/useUser';
+import { DeployedContract } from '@shared/typings';
+import { useState } from 'react';
+
+import { DeployItem } from '../components/screens/deploy/DeployItem';
+import { incidentContract } from '../config/contracts/incidents';
+import { objectionContract } from '../config/contracts/objections';
+import { proposalContract } from '../config/contracts/proposals';
+
+const contracts = [
+  {
+    envVariable: 'NEXT_PUBLIC_INCIDENTS_CONTRACT_ADDRESS',
+    contractName: 'incidents.sol',
+    abi: incidentContract.incidentsAbi,
+    bytecode: incidentContract.incidentsByteCode,
+  },
+  {
+    envVariable: 'NEXT_PUBLIC_PROPOSALS_CONTRACT_ADDRESS',
+    contractName: 'proposals.sol',
+    abi: proposalContract.proposalAbi,
+    bytecode: proposalContract.proposalByteCode,
+  },
+  {
+    envVariable: 'NEXT_PUBLIC_OBJECTIONS_CONTRACT_ADDRESS',
+    contractName: 'objections.sol',
+    abi: objectionContract.objectionAbi,
+    bytecode: objectionContract.objectionCode,
+  },
+];
 
 export default function Page() {
-  const [contractAddress, setContractAddress] = useState<string | null>(null);
-  const [status, setStatus] = useState<
-    'deploying' | 'error' | 'deployed' | 'stale'
-  >('stale');
-  const { signer } = useUser();
+  // Deploy in sequence
 
-  useEffect(() => {
-    if (status === 'deploying') {
-      handleDeploy();
-    }
-  }, [status]);
-
-  useEffect(() => {
-    if (contractAddress) {
-      setStatus('deployed');
-    }
-  }, [contractAddress]);
-
-  async function handleDeploy() {
-    try {
-      const gasLimit = 4000000;
-      const myContract = new ContractFactory(abi, bytecode, signer);
-      const contractDeployTx = await myContract.deploy({ gasLimit });
-      const contractDeployRx = await contractDeployTx.deployTransaction.wait();
-      setContractAddress(contractDeployRx.contractAddress);
-      console.log(
-        `- Contract deployed to address: \n${contractDeployRx.contractAddress} ✅`,
-      );
-    } catch (deployError) {
-      console.error(deployError);
-    }
-  }
+  const [deployingIndex, setDeployingIndex] = useState<number>(-1);
+  const [deployedContracts, setDeployedContracts] = useState<
+    DeployedContract[]
+  >([]);
 
   return (
     <Container access="private">
-      <section className="w-full">
+      <section className="mx-auto w-7/12">
         <div className="flex flex-col space-y-6">
-          <div>
-            <H1 className="!text-2xl font-black">
-              Easily deploy all related contracts
-            </H1>
-            <Paragraph className="w-6/12 text-sm text-gray-700">
-              Make sure to insert the contract addresses in the .env file with
-              names mentioned in README.md
-            </Paragraph>
-          </div>
-          <div className="space-y-6 rounded bg-gray-100 px-6 py-3">
+          <div className="space-y-4">
             <div>
-              <div className="font-bold">incidents.sol</div>
-              <div className="text-sm text-gray-600">
-                The contract responsible for reporting incidents
-              </div>
+              <H1 className="!text-xl font-black">1. Deploy Contracts</H1>
+              <Paragraph className="w-6/12 text-sm text-gray-700">
+                This step will deploy the contracts to the blockchain with the
+                help of metamask.
+              </Paragraph>
             </div>
-            <div className="flex items-center space-x-10">
-              <div className="text-sm">
-                <div className="text-xs text-gray-600">Status</div>
-                <div className="text-sm font-medium">{status}</div>
+            <div className="bg-gray-50 px-3 py-2">
+              <div className="mb-2 border-b border-gray-100 pb-2 text-sm font-semibold">
+                Contracts
               </div>
-              <div className="text-sm">
-                <div className="text-xs text-gray-600">Contract address</div>
-                <div className="text-sm font-medium">
-                  {contractAddress || '-'}
-                </div>
-              </div>
+              {contracts.map((contract, idx) => (
+                <DeployItem
+                  key={idx}
+                  idx={idx}
+                  deployingIndex={deployingIndex}
+                  contractName={contract.contractName}
+                  variable={contract.envVariable}
+                  registerAddress={value => {
+                    setDeployedContracts([...deployedContracts, value]);
+                    setDeployingIndex(idx + 1);
+                  }}
+                  abi={contract.abi}
+                  bytecode={contract.bytecode}
+                />
+              ))}
+            </div>
+            <div className="mb-10 border-b border-gray-100 pb-10">
+              <Button
+                variant="primary"
+                disabled={deployingIndex > contracts?.length}
+                loading={deployingIndex !== -1}
+                onClick={() => setDeployingIndex(0)}
+              >
+                deploy
+              </Button>
             </div>
           </div>
-          <div>
-            <Button
-              className="px-4 py-1"
-              variant="primary"
-              loading={'deploying' === status}
-              onClick={() => setStatus('deploying')}
-            >
-              Deploy
-            </Button>
+          <div className="space-y-5">
+            <div>
+              <H1 className="!text-xl font-black">
+                2. Copy contract variables to .env
+              </H1>
+              <Paragraph className="w-6/12 text-sm text-gray-700">
+                A simple copy paste of the contract addresses to the .env file.
+              </Paragraph>
+            </div>
+            <div className="rounded border border-gray-100 bg-gray-50 p-2">
+              {contracts.map(contract => (
+                <Paragraph className="mb-1 w-6/12 text-xs text-gray-900">
+                  {contract.envVariable}=
+                  {
+                    deployedContracts.find(
+                      c => c.variable === contract.envVariable,
+                    )?.contractAddress
+                  }
+                </Paragraph>
+              ))}
+            </div>
           </div>
         </div>
       </section>

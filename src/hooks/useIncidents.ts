@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react';
 
 import { useContractRead } from 'wagmi';
 
-import { abi } from '../config/contracts/abi';
+import { incidentContract } from '../config/contracts/incidents';
 import { incidentContractAddress } from '../env';
 
 type useIncidentsProps = {
@@ -17,7 +17,7 @@ export function useIncidents(): useIncidentsProps {
 
   useContractRead({
     address: incidentContractAddress,
-    abi,
+    abi: incidentContract.incidentsAbi,
     functionName: 'getIncidentByPage',
     args: [0],
     onSuccess: (data: any) => {

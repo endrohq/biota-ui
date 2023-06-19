@@ -11,7 +11,7 @@ export default function Page() {
   const { query } = useRouter();
   const { incident, loading } = useIncident(query.id as string);
   return (
-    <Container access="public">
+    <Container withWidth={false} withTopPadding={false} access="public">
       {loading ? (
         <LoadingOutlined />
       ) : (
