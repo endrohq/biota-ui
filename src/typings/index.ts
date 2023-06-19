@@ -34,10 +34,15 @@ export enum VoteTypes {
 export type Hash = `0x${string}`;
 
 export type CreateIncidentForm = {
-  title: string;
-  description: string;
+  proposal: CreateProposalForm;
+  location: Feature[];
+  locationName: string;
+};
+
+export type CreateProposalForm = {
+  title?: string;
+  description?: string;
   images?: File[];
-  positions?: Feature[];
 };
 
 export interface DeployedContract {

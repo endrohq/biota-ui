@@ -23,6 +23,7 @@ export function Container({
     <div className="h-screen bg-white">
       <Header />
       <div
+        style={{ height: 'calc(100% - 4rem)' }}
         className={clsx(
           withTopPadding && 'pt-14',
           withWidth && 'container mx-auto',

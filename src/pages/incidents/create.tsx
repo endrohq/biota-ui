@@ -4,7 +4,7 @@ import { CreateIncident } from '../../components/screens/createIncident';
 
 export default function Page() {
   return (
-    <Container access="private">
+    <Container withWidth={false} withTopPadding={false} access="private">
       <CreateIncident />
     </Container>
   );

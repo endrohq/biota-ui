@@ -49,7 +49,7 @@ function InputText({
   return (
     <div
       className={clsx(
-        'leading-11 m-0 flex h-9 rounded-full border border-gray-300 p-0 align-middle shadow-none transition-all duration-300',
+        'leading-11 m-0 flex h-9 rounded border border-gray-200 p-0 align-middle shadow-none transition-all duration-300',
         {
           'ring-1': focus,
           'hover:border-blue-300 hover:shadow-blue-300': !focus && isValid,

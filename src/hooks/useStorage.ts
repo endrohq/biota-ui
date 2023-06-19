@@ -1,4 +1,4 @@
-import { CreateIncidentForm } from '@shared/typings';
+import { CreateIncidentForm, CreateProposalForm } from '@shared/typings';
 import { Web3Storage } from 'web3.storage';
 
 const incidentFileName = 'incident.json';
@@ -13,7 +13,23 @@ export function useStorage() {
     });
   }
 
-  async function uploadIncident(id: string, props: CreateIncidentForm) {
+  async function uploadIncident(props: CreateIncidentForm) {
+    const client = await getClient();
+    const { location } = props;
+    const files: File[] = [
+      // all contents
+      createJsonFile(JSON.stringify({ location }), incidentFileName),
+      // metadata
+      createJsonFile(
+        JSON.stringify({ locationName: props.locationName }),
+        metadataFileName,
+      ),
+    ];
+
+    return client.put(files); // The IPFS hash of the data
+  }
+
+  async function uploadProposal(props: CreateProposalForm) {
     const client = await getClient();
     const { images, ...incident } = props;
     const files: File[] = [
@@ -85,5 +101,5 @@ export function useStorage() {
     return imageFiles?.map(file => getIpfsUrlPath(cid, file.name)) || [];
   }
 
-  return { getJsonFile, uploadIncident, getImageUrls };
+  return { getJsonFile, uploadIncident, getImageUrls, uploadProposal };
 }
