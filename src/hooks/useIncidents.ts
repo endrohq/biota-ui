@@ -25,9 +25,6 @@ export function useIncidents(): useIncidentsProps {
           id: incident.id,
           cid: incident.cid,
           author: incident.author,
-          abstainVotes: Number(incident.abstainVotes),
-          againstVotes: Number(incident.againstVotes),
-          forVotes: Number(incident.forVotes),
         })),
       );
       setLoading(false);

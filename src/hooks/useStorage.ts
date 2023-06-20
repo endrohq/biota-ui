@@ -2,9 +2,10 @@ import { CreateIncidentForm, CreateProposalForm } from '@shared/typings';
 import { Web3Storage } from 'web3.storage';
 
 const incidentFileName = 'incident.json';
+const proposalFileName = 'proposal.json';
 const metadataFileName = 'metadata.json';
 
-type FileType = 'incident' | 'metadata';
+type FileType = 'incident' | 'metadata' | 'proposal';
 
 export function useStorage() {
   function getClient() {
@@ -15,10 +16,9 @@ export function useStorage() {
 
   async function uploadIncident(props: CreateIncidentForm) {
     const client = await getClient();
-    const { location } = props;
     const files: File[] = [
       // all contents
-      createJsonFile(JSON.stringify({ location }), incidentFileName),
+      createJsonFile(JSON.stringify(props), incidentFileName),
       // metadata
       createJsonFile(
         JSON.stringify({ locationName: props.locationName }),
@@ -34,7 +34,7 @@ export function useStorage() {
     const { images, ...incident } = props;
     const files: File[] = [
       // all contents
-      createJsonFile(JSON.stringify(incident), incidentFileName),
+      createJsonFile(JSON.stringify(incident), proposalFileName),
       // metadata
       createJsonFile(
         JSON.stringify({ title: incident.title }),
@@ -64,7 +64,7 @@ export function useStorage() {
 
     // Retrieve the specific file directly using its path
     const files = await res?.files();
-    const fileName = type === 'incident' ? incidentFileName : metadataFileName;
+    const fileName = `${type}.json`;
     const file = files?.find(file => file.name === fileName);
     if (!file) return;
 

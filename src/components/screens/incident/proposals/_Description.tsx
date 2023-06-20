@@ -1,5 +1,5 @@
 import { Paragraph } from '@shared/components/typography/Paragraph';
-import { H5 } from '@shared/components/typography/Title';
+import { H6 } from '@shared/components/typography/Title';
 
 interface DescriptionProps {
   description: string;
@@ -8,8 +8,10 @@ interface DescriptionProps {
 export function Description({ description }: DescriptionProps) {
   return (
     <div>
-      <H5>Description</H5>
-      <Paragraph className="w-11/12 text-gray-800">{description}</Paragraph>
+      <H6 className="text-gray-700">Summary</H6>
+      <Paragraph className="w-11/12 text-sm text-gray-800">
+        {description}
+      </Paragraph>
     </div>
   );
 }

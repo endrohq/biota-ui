@@ -27,7 +27,11 @@ export function CreateIncident() {
         <div className="w-8/12">
           <div className="mx-auto w-8/12">
             {!isArrayWithElements(incidentForm.location) ? (
-              <LocationForm save={value => handleSave('location', value)} />
+              <LocationForm
+                save={value =>
+                  setIncidentForm(prevState => ({ ...prevState, ...value }))
+                }
+              />
             ) : !isObjectWithFields(incidentForm.proposal) ? (
               <CreateProposal save={value => handleSave('proposal', value)} />
             ) : (

@@ -25,6 +25,8 @@ export function IncidentItem({ incident }: IncidentItemProps) {
     }
   }, [incident?.cid]);
 
+  console.log(ipfsContent);
+
   return (
     <Link
       href={getIncidentItemRoute(incident.id)}
@@ -34,7 +36,7 @@ export function IncidentItem({ incident }: IncidentItemProps) {
         <LoadingOutlined />
       ) : (
         <div className="mb-2 break-all border-b border-gray-200 pb-2 text-sm last:mb-0 last:border-0 last:pb-0">
-          <div className="font-medium">{ipfsContent?.title || '-'}</div>
+          <div className="font-medium">{ipfsContent?.locationName || '-'}</div>
         </div>
       )}
     </Link>

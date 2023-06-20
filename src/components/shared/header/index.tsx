@@ -5,11 +5,7 @@ import { MenuItem } from '@shared/components/header/MenuItem';
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { Paragraph } from '@shared/components/typography/Paragraph';
 import { Hash } from '@shared/typings';
-import {
-  ROUTE_COURSES,
-  ROUTE_LANDING_PAGE,
-  ROUTE_INCIDENTS,
-} from '@shared/utils/route';
+import { ROUTE_LANDING_PAGE, ROUTE_INCIDENTS } from '@shared/utils/route';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -32,7 +28,6 @@ export function Header() {
           </Link>
           <div className="flex items-center space-x-6">
             <MenuItem label="Incidents" href={ROUTE_INCIDENTS} />
-            <MenuItem label="Courses" href={ROUTE_COURSES} />
           </div>
         </div>
         <div className="flex cursor-pointer items-center space-x-8">

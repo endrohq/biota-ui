@@ -1,0 +1,30 @@
+import { CategoryWithName, Category } from '@shared/typings';
+
+export const categories: CategoryWithName[] = [
+  { name: 'mobility', identifier: Category.MOBILITY },
+  { name: 'spatial planning', identifier: Category.SPATIAL_PLANNING },
+  { name: 'conflict of interest', identifier: Category.CONFLICT_OF_INTEREST },
+  { name: 'de-paving', identifier: Category.DE_PAVING },
+  { name: 'procedure', identifier: Category.PROCEDURE },
+  { name: 'construction phase', identifier: Category.CONSTRUCTION_PHASE },
+  { name: 'impact on climate', identifier: Category.IMPACT_ON_CLIMATE },
+  { name: 'safety', identifier: Category.SAFETY },
+  { name: 'visual impact', identifier: Category.VISUAL_IMPACT },
+  { name: 'privacy', identifier: Category.PRIVACY },
+  { name: 'nuisance', identifier: Category.NUISANCE },
+  { name: 'material usage', identifier: Category.MATERIAL_USAGE },
+  { name: 'forest compensation', identifier: Category.FOREST_COMPENSATION },
+  { name: 'health', identifier: Category.HEALTH },
+  { name: 'energy consumption', identifier: Category.ENERGY_CONSUMPTION },
+  { name: 'planning context', identifier: Category.PLANNING_CONTEXT },
+  {
+    name: 'environmental impact report',
+    identifier: Category.ENVIRONMENTAL_IMPACT_REPORT,
+  },
+  { name: 'water', identifier: Category.WATER },
+  { name: 'air quality', identifier: Category.AIR_QUALITY },
+  { name: 'ecology', identifier: Category.ECOLOGY },
+  { name: 'noise pollution', identifier: Category.NOISE_POLLUTION },
+  { name: 'light pollution', identifier: Category.LIGHT_POLLUTION },
+  { name: 'odor nuisance', identifier: Category.ODOR_NUISANCE },
+];

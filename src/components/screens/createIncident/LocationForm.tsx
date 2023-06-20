@@ -3,10 +3,11 @@ import { Button } from '@shared/components/button';
 import InputText from '@shared/components/input/InputText';
 import { MapBox } from '@shared/components/map';
 import { Paragraph } from '@shared/components/typography/Paragraph';
+import { CreateIncidentForm } from '@shared/typings';
 import React, { useState } from 'react';
 
 interface LocationFormProps {
-  save(location: Feature[]): void;
+  save(props: Partial<CreateIncidentForm>): void;
 }
 
 export function LocationForm({ save }: LocationFormProps) {
@@ -42,7 +43,7 @@ export function LocationForm({ save }: LocationFormProps) {
         <Button
           fullSize
           disabled={location?.length === 0}
-          onClick={() => save(location)}
+          onClick={() => save({ location, locationName: name })}
           className="px-6 py-2"
           variant="primary"
         >

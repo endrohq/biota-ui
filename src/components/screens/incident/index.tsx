@@ -1,14 +1,12 @@
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
+import { LocationOutlined } from '@shared/components/icons/LocationOutlined';
 import { H1 } from '@shared/components/typography/Title';
 
 import { Incident, IncidentContent } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
-import { Description } from './_Description';
-import { Gallery } from './_Gallery';
 import { MapOverview } from './MapOverview';
-import { Proposals } from './Proposals';
-import { RequiredCourses } from './RequiredCourses';
+import { Proposals } from './proposals';
 
 import { useStorage } from '../../../hooks/useStorage';
 
@@ -17,7 +15,6 @@ interface IncidentItemPageProps {
 }
 
 export function IncidentItemPage({ incident }: IncidentItemPageProps) {
-  const [requiredCourses, setRequiredCourses] = useState<string[]>();
   const { getJsonFile } = useStorage();
   const [ipfsContent, setIpfsContent] = useState<IncidentContent>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -45,24 +42,19 @@ export function IncidentItemPage({ incident }: IncidentItemPageProps) {
   }
 
   return (
-    <div className="space-y-6">
-      <MapOverview positions={ipfsContent?.positions} />
-      <div className=" mx-auto w-7/12 space-y-1 rounded bg-gray-100 px-6 py-4"></div>
-      <div className=" mx-auto flex w-7/12 items-start justify-between space-x-10 pb-20">
-        <div className="w-8/12 space-y-10">
-          <H1 className="!text-3xl !font-black">{ipfsContent?.title || '-'}</H1>
-          <Gallery cid={incident.cid} />
-          <Description description={ipfsContent?.description || '-'} />
-          <Proposals />
+    <div className="">
+      <MapOverview positions={ipfsContent?.location} />
+      <div className="mx-auto mt-6 w-7/12 pb-20">
+        <div className=" mb-3 flex items-center space-x-4 rounded-t border-b border-gray-100 py-3">
+          <div className="rounded bg-green-50 px-1.5 py-1">
+            <LocationOutlined className="text-xl text-green-900" />
+          </div>
+          <H1 className="space-x-2 !text-base !font-medium">
+            {ipfsContent?.locationName || '-'}
+          </H1>
         </div>
-        <div className="w-4/12 space-y-4 text-xs">dssdf</div>
+        <Proposals incidentId={incident.id} />
       </div>
-      {requiredCourses && (
-        <RequiredCourses
-          close={() => setRequiredCourses(undefined)}
-          requiredCourseIds={requiredCourses}
-        />
-      )}
     </div>
   );
 }
