@@ -14,7 +14,7 @@ import { Description } from './_Description';
 import { Gallery } from './_Gallery';
 import { Objections } from './objections';
 
-import { CastYourVote } from './votes/_CastYourVote';
+import { ProposalVote } from './votes';
 
 import { useStorage } from '../../../../hooks/useStorage';
 
@@ -72,15 +72,17 @@ export function ProposalItem({ proposal }: ProposalsProps) {
       <div className="flex items-start justify-between space-x-10 ">
         <div className="w-8/12 space-y-6">
           <div>
-            <div className="text-sm">#1 Proposal</div>
+            <div className="text-xs text-gray-600">#1 Proposal</div>
             <H4 className="capitalize">{ipfsContent?.title}</H4>
           </div>
           <Description description={ipfsContent?.description || ''} />
-          <CastYourVote vote={vote} />
         </div>
         <div className="w-4/12 space-y-4 px-10">
           <Gallery cid={proposal.cid} />
         </div>
+      </div>
+      <div className="pt-10">
+        <ProposalVote vote={vote} />
       </div>
       <PageMenu
         activeItem={menuItem}

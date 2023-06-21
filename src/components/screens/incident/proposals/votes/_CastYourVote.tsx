@@ -22,7 +22,7 @@ export function CastYourVote({ vote }: CastYourVoteProps) {
     );
   }
   return (
-    <div className="rounded border-b border-gray-100 bg-gray-50">
+    <div className="rounded border-b border-gray-100 bg-white">
       <div className="border-b border-gray-100 px-4 py-2">
         <div className="font-medium">Cast your vote</div>
       </div>
