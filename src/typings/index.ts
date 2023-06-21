@@ -61,6 +61,11 @@ export interface DeployedContract {
   contractAddress: string;
 }
 
+export interface DeployedToken {
+  variable: string;
+  tokenId: string;
+}
+
 export enum Category {
   MOBILITY = 'mobility',
   SPATIAL_PLANNING = 'spatial-planning',
@@ -93,3 +98,5 @@ export type MenuItem<T> = {
   label: T;
   id: string;
 };
+
+export type DeployState = 'deploying' | 'error' | 'deployed' | 'stale';

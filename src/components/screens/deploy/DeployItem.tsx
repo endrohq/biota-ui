@@ -54,13 +54,13 @@ export function DeployItem({
       <div className="flex items-center space-x-10">
         <div className="text-sm font-medium">
           {status === 'stale' ? (
-            <MinusCircleOutlined />
+            <MinusCircleOutlined className="text-gray-600" />
           ) : status === 'deploying' ? (
             <LoadingOutlined />
           ) : status === 'deployed' ? (
-            <CheckCircleOutlined />
+            <CheckCircleOutlined className="text-green-800" />
           ) : (
-            <MinusCircleOutlined />
+            <MinusCircleOutlined className="text-gray-600" />
           )}
         </div>
       </div>

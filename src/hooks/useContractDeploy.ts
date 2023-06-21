@@ -1,11 +1,10 @@
 import { ContractInterface } from '@ethersproject/contracts/src.ts';
+import { DeployState } from '@shared/typings';
 import { ContractFactory } from 'ethers';
 
 import { useEffect, useMemo, useState } from 'react';
 
 import { useUser } from './useUser';
-
-type DeployState = 'deploying' | 'error' | 'deployed' | 'stale';
 
 interface useContractDeployProps {
   deploy: () => void;

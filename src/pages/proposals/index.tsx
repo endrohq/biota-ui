@@ -1,11 +1,11 @@
 import { Container } from '@shared/components/container';
 
-import { IncidentsPage } from '../../components/screens/incidents';
+import { ProposalsPage } from '../../components/screens/proposals';
 
 export default function Page() {
   return (
     <Container withTopPadding>
-      <IncidentsPage />
+      <ProposalsPage />
     </Container>
   );
 }

@@ -11,7 +11,7 @@ interface IncidentItemProps {
   incident: OnChainIncident;
 }
 
-export function IncidentItem({ incident }: IncidentItemProps) {
+export function ProposalItem({ incident }: IncidentItemProps) {
   const { getJsonFile } = useStorage();
   const [loading, setLoading] = useState<boolean>(true);
   const [ipfsContent, setIpfsContent] = useState<IncidentContent>();

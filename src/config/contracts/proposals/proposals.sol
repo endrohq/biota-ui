@@ -6,7 +6,7 @@ contract ProposalContract {
 
     struct Proposal {
         bytes32 id;
-        bytes32 incidentId;
+        uint256 forestTokenId;
         string cid;
         address author;
         uint forVotes;
@@ -15,27 +15,31 @@ contract ProposalContract {
     }
 
     mapping(bytes32 => Proposal) public proposals;
-    mapping(bytes32 => bytes32[]) public proposalsByIncident;
+    bytes32[] public proposalIds;
+    mapping(bytes32 => mapping(address => bool)) public voted; // Mapping to keep track of who voted on which proposal
+
 
 
     constructor() {
         owner = msg.sender;
     }
 
-    function createProposal(bytes32 _incidentId, bytes32 _proposalId, string memory cid) public {
+    function createProposal(uint256 _forestTokenId, bytes32 _proposalId, string memory cid) public {
         proposals[_proposalId] = Proposal({
             id: _proposalId,
             cid: cid,
-            incidentId: _incidentId,
+            forestTokenId: _forestTokenId,
             author: msg.sender,
             forVotes: 0,
             againstVotes: 0,
             abstainVotes: 0
         });
-        proposalsByIncident[_incidentId].push(_proposalId);
+        proposalIds.push(_proposalId);
     }
 
     function vote(bytes32 _proposalId, bool voteFor, bool voteAgainst) external payable {
+        require(voted[_proposalId][msg.sender] == false, "User has already voted."); // Require that the user has not already voted
+
         Proposal storage proposal = proposals[_proposalId];
 
         if (voteFor) {
@@ -45,28 +49,30 @@ contract ProposalContract {
         } else {
             proposal.abstainVotes += 1;
         }
+
+        voted[_proposalId][msg.sender] = true; // Mark user as having voted on this proposal
     }
 
-    function getProposalsByIncidentIdAndPage(bytes32 _incidentId, uint page) public view returns (Proposal[] memory) {
+    function getProposalsByPage(uint page) public view returns (Proposal[] memory) {
         uint size = 4;
 
-        uint incidentCount = proposalsByIncident[_incidentId].length;
+        uint tokenCount = proposalIds.length;
         uint start = page * size;
         uint end = start + size;
 
         // Ensure the start index is not out of bounds
-        require(start < incidentCount, "Start index out of bounds");
+        require(start < tokenCount, "Start index out of bounds");
 
         // Adjust the end index if it's out of bounds
-        if (end > incidentCount) {
-            end = incidentCount;
+        if (end > tokenCount) {
+            end = tokenCount;
         }
 
         Proposal[] memory proposalsPage = new Proposal[](end - start);
 
         // Loop through the range and assign each proposal to the new array
         for (uint i = 0; i < (end - start); i++) {
-            bytes32 id = proposalsByIncident[_incidentId][start + i];
+            bytes32 id = proposalIds[start + i];
             proposalsPage[i] = proposals[id];
         }
         return proposalsPage;

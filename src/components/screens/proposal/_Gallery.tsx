@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useStorage } from '../../../../hooks/useStorage';
+import { useStorage } from '../../../hooks/useStorage';
 
 interface GalleryProps {
   cid: string;
@@ -16,15 +16,11 @@ export function Gallery({ cid }: GalleryProps) {
         const urls = await getImageUrls(cid);
         setImages([...urls, '', '', '', '', '']);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     getImages();
   }, [cid]);
-
-  const showAllImages = () => {
-    // Functionality to show all images
-  };
 
   return (
     <div className="flex flex-wrap gap-2 overflow-hidden rounded">

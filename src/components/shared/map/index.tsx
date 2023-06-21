@@ -22,7 +22,7 @@ const DEFAULT_VIEWPORT: ViewPort = {
 interface PositionMapProps {
   onChange?: (features: Feature[]) => void;
   positions?: Feature[];
-  height?: number;
+  height?: number | '100%';
   mode?: 'read-only' | 'editable';
   theme?: 'light' | 'dark';
   rounded?: boolean;

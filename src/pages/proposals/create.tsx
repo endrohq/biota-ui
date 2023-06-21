@@ -1,11 +1,11 @@
 import { Container } from '@shared/components/container';
 
-import { CreateIncident } from '../../components/screens/createIncident';
+import { CreateProposalPage } from '../../components/screens/createProposal';
 
 export default function Page() {
   return (
     <Container withWidth={false} withTopPadding={false} access="private">
-      <CreateIncident />
+      <CreateProposalPage />
     </Container>
   );
 }

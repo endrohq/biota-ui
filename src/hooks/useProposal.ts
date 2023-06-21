@@ -10,7 +10,7 @@ type UseIncidentsProps = {
   loading: boolean;
 };
 
-export function useIncident(id: string): UseIncidentsProps {
+export function useProposal(id: string): UseIncidentsProps {
   const { data, isLoading } = useContractRead({
     address: incidentContract.address,
     abi: incidentContract.abi,

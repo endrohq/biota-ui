@@ -7,7 +7,7 @@ import { Paragraph } from '@shared/components/typography/Paragraph';
 import { Hash } from '@shared/typings';
 import {
   ROUTE_LANDING_PAGE,
-  ROUTE_INCIDENTS,
+  ROUTE_PROPOSALS,
   ROUTE_FORESTS,
 } from '@shared/utils/route';
 import { getShortenedFormat } from '@shared/utils/string.utils';
@@ -31,7 +31,7 @@ export function Header() {
             ⚫️
           </Link>
           <div className="flex items-center space-x-6">
-            <MenuItem label="Incidents" href={ROUTE_INCIDENTS} />
+            <MenuItem label="Proposals" href={ROUTE_PROPOSALS} />
             <MenuItem label="Forests" href={ROUTE_FORESTS} />
           </div>
         </div>

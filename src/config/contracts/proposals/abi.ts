@@ -7,9 +7,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: '_incidentId',
-        type: 'bytes32',
+        internalType: 'uint256',
+        name: '_forestTokenId',
+        type: 'uint256',
       },
       {
         internalType: 'bytes32',
@@ -45,9 +45,9 @@ export const abi = [
             type: 'bytes32',
           },
           {
-            internalType: 'bytes32',
-            name: 'incidentId',
-            type: 'bytes32',
+            internalType: 'uint256',
+            name: 'forestTokenId',
+            type: 'uint256',
           },
           {
             internalType: 'string',
@@ -86,17 +86,12 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'bytes32',
-        name: '_incidentId',
-        type: 'bytes32',
-      },
-      {
         internalType: 'uint256',
         name: 'page',
         type: 'uint256',
       },
     ],
-    name: 'getProposalsByIncidentIdAndPage',
+    name: 'getProposalsByPage',
     outputs: [
       {
         components: [
@@ -106,9 +101,9 @@ export const abi = [
             type: 'bytes32',
           },
           {
-            internalType: 'bytes32',
-            name: 'incidentId',
-            type: 'bytes32',
+            internalType: 'uint256',
+            name: 'forestTokenId',
+            type: 'uint256',
           },
           {
             internalType: 'string',
@@ -147,6 +142,25 @@ export const abi = [
   {
     inputs: [
       {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'proposalIds',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
         internalType: 'bytes32',
         name: '',
         type: 'bytes32',
@@ -160,9 +174,9 @@ export const abi = [
         type: 'bytes32',
       },
       {
-        internalType: 'bytes32',
-        name: 'incidentId',
-        type: 'bytes32',
+        internalType: 'uint256',
+        name: 'forestTokenId',
+        type: 'uint256',
       },
       {
         internalType: 'string',
@@ -197,30 +211,6 @@ export const abi = [
     inputs: [
       {
         internalType: 'bytes32',
-        name: '',
-        type: 'bytes32',
-      },
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    name: 'proposalsByIncident',
-    outputs: [
-      {
-        internalType: 'bytes32',
-        name: '',
-        type: 'bytes32',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes32',
         name: '_proposalId',
         type: 'bytes32',
       },
@@ -238,6 +228,30 @@ export const abi = [
     name: 'vote',
     outputs: [],
     stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    name: 'voted',
+    outputs: [
+      {
+        internalType: 'bool',
+        name: '',
+        type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
 ];

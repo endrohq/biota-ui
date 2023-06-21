@@ -4,7 +4,7 @@ import { ForestsPage } from '../components/screens/forests';
 
 export default function Page() {
   return (
-    <Container access="private">
+    <Container withWidth={false} withTopPadding={false} access="private">
       <ForestsPage />
     </Container>
   );

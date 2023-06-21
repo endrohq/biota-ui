@@ -9,7 +9,7 @@ import { CreateProposal } from './CreateProposal';
 import { CreateSummary } from './CreateSummary';
 import { LocationForm } from './LocationForm';
 
-export function CreateIncident() {
+export function CreateProposalPage() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [incidentForm, setIncidentForm] = useState<CreateIncidentForm>({
     location: [],
