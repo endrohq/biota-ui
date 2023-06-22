@@ -1,4 +1,5 @@
 import { Button } from '@shared/components/button';
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { LocationOutlined } from '@shared/components/icons/LocationOutlined';
 import { MapBox } from '@shared/components/map';
 import { Paragraph } from '@shared/components/typography/Paragraph';
@@ -16,7 +17,7 @@ interface LocationFormProps {
 const tokenId = process.env.NEXT_PUBLIC_FOREST_TOKEN_ID || '';
 
 export function LocationForm({ save }: LocationFormProps) {
-  const { forests } = useForests(tokenId);
+  const { forests, loading } = useForests(tokenId);
   const [selectedForest, setSelectedForest] = React.useState<Forest>();
 
   const locations = useMemo(() => {
@@ -54,14 +55,18 @@ export function LocationForm({ save }: LocationFormProps) {
             </div>
           </div>
           <div className="grid w-full grid-cols-2 gap-4">
-            {forests.map((forest, key) => (
-              <ForestItem
-                forest={forest}
-                key={key}
-                selectedForest={selectedForest}
-                handleSelect={handleSelect}
-              />
-            ))}
+            {loading ? (
+              <LoadingOutlined />
+            ) : (
+              forests.map((forest, key) => (
+                <ForestItem
+                  forest={forest}
+                  key={key}
+                  selectedForest={selectedForest}
+                  handleSelect={handleSelect}
+                />
+              ))
+            )}
           </div>
           <div className="!mt-10 flex justify-end space-y-1 border-t border-gray-100 pt-10">
             <Button

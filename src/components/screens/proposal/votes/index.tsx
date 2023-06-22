@@ -1,10 +1,11 @@
 import { Button } from '@shared/components/button';
 import { Modal } from '@shared/components/modal';
 import { Paragraph } from '@shared/components/typography/Paragraph';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { CastYourVote } from './_CastYourVote';
+
+import { useVotes } from '../../../../hooks/useVotes';
 
 interface CastYourVoteProps {
   proposalId: string;
@@ -12,6 +13,7 @@ interface CastYourVoteProps {
 
 export function ProposalVote({ proposalId }: CastYourVoteProps) {
   const [active, setActive] = useState<boolean>(false);
+  const { votes } = useVotes(proposalId);
 
   return (
     <div className="rounded bg-white p-2">
@@ -22,6 +24,7 @@ export function ProposalVote({ proposalId }: CastYourVoteProps) {
             Showcasing the opinions of local communities should be an important
             part on the discussion table.
           </Paragraph>
+          {JSON.stringify(votes)}
         </div>
         <Button
           onClick={() => setActive(true)}

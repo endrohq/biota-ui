@@ -52,6 +52,8 @@ export function CreateProposal({
     // MetaMask is present, set it as the current provider for ethers.js
 
     try {
+      const startTimestamp = Math.floor(Date.now() / 1000); // Current Unix timestamp in seconds
+      const endTimestamp = startTimestamp + 604800;
       const proposalId = randomBytes32();
       const myContract = new ethers.Contract(
         proposalContract.address,
@@ -62,6 +64,8 @@ export function CreateProposal({
         proposal.forest?.tokenId,
         utils.formatBytes32String(proposalId),
         cid,
+        startTimestamp,
+        endTimestamp,
       );
       await incrementTx.wait();
       onSuccess(proposalId);

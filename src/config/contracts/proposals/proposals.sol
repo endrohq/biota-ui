@@ -12,11 +12,21 @@ contract ProposalContract {
         uint forVotes;
         uint againstVotes;
         uint abstainVotes;
+        uint startTimestamp;
+        uint endTimestamp;
+    }
+
+    enum VoteChoice { FOR, AGAINST, ABSTAIN }
+
+    struct VoterData {
+        address voter;
+        VoteChoice choice;
     }
 
     mapping(bytes32 => Proposal) public proposals;
     bytes32[] public proposalIds;
-    mapping(bytes32 => mapping(address => bool)) public voted; // Mapping to keep track of who voted on which proposal
+    mapping(bytes32 => mapping(address => bool)) private hasVoted;
+    mapping(bytes32 => VoterData[]) public voters;
 
 
 
@@ -24,7 +34,7 @@ contract ProposalContract {
         owner = msg.sender;
     }
 
-    function createProposal(string _forestTokenId, bytes32 _proposalId, string memory cid) public {
+    function createProposal(string memory _forestTokenId, bytes32 _proposalId, string memory cid, uint startTimestamp, uint endTimestamp) public {
         proposals[_proposalId] = Proposal({
             id: _proposalId,
             cid: cid,
@@ -32,25 +42,39 @@ contract ProposalContract {
             author: msg.sender,
             forVotes: 0,
             againstVotes: 0,
-            abstainVotes: 0
+            abstainVotes: 0,
+            startTimestamp: startTimestamp,
+            endTimestamp: endTimestamp
         });
         proposalIds.push(_proposalId);
     }
 
-    function vote(bytes32 _proposalId, bool voteFor, bool voteAgainst) external payable {
-        require(voted[_proposalId][msg.sender] == false, "User has already voted."); // Require that the user has not already voted
-
+    function vote(bytes32 _proposalId, bool voteFor, bool voteAgainst) external {
+        require(!hasVoted[_proposalId][msg.sender], "User already voted for this proposal");
         Proposal storage proposal = proposals[_proposalId];
+        require(block.timestamp >= proposal.startTimestamp && block.timestamp <= proposal.endTimestamp, "Voting period is not active");
+
+        VoteChoice choice = VoteChoice.ABSTAIN;
 
         if (voteFor) {
             proposal.forVotes += 1;
+            choice = VoteChoice.FOR;
         } else if (voteAgainst) {
             proposal.againstVotes += 1;
+            choice = VoteChoice.AGAINST;
         } else {
             proposal.abstainVotes += 1;
         }
 
-        voted[_proposalId][msg.sender] = true; // Mark user as having voted on this proposal
+        hasVoted[_proposalId][msg.sender] = true;
+        voters[_proposalId].push(VoterData({
+            voter: msg.sender,
+            choice: choice
+        }));
+    }
+
+    function getVotersForProposal(bytes32 _proposalId) public view returns (VoterData[] memory) {
+        return voters[_proposalId];
     }
 
     function getProposalsByPage(uint page) public view returns (Proposal[] memory) {

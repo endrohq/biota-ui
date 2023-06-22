@@ -21,6 +21,16 @@ export const abi = [
         name: 'cid',
         type: 'string',
       },
+      {
+        internalType: 'uint256',
+        name: 'startTimestamp',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'endTimestamp',
+        type: 'uint256',
+      },
     ],
     name: 'createProposal',
     outputs: [],
@@ -72,6 +82,16 @@ export const abi = [
           {
             internalType: 'uint256',
             name: 'abstainVotes',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'startTimestamp',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'endTimestamp',
             type: 'uint256',
           },
         ],
@@ -130,8 +150,49 @@ export const abi = [
             name: 'abstainVotes',
             type: 'uint256',
           },
+          {
+            internalType: 'uint256',
+            name: 'startTimestamp',
+            type: 'uint256',
+          },
+          {
+            internalType: 'uint256',
+            name: 'endTimestamp',
+            type: 'uint256',
+          },
         ],
         internalType: 'struct ProposalContract.Proposal[]',
+        name: '',
+        type: 'tuple[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_proposalId',
+        type: 'bytes32',
+      },
+    ],
+    name: 'getVotersForProposal',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'address',
+            name: 'voter',
+            type: 'address',
+          },
+          {
+            internalType: 'enum ProposalContract.VoteChoice',
+            name: 'choice',
+            type: 'uint8',
+          },
+        ],
+        internalType: 'struct ProposalContract.VoterData[]',
         name: '',
         type: 'tuple[]',
       },
@@ -203,6 +264,16 @@ export const abi = [
         name: 'abstainVotes',
         type: 'uint256',
       },
+      {
+        internalType: 'uint256',
+        name: 'startTimestamp',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'endTimestamp',
+        type: 'uint256',
+      },
     ],
     stateMutability: 'view',
     type: 'function',
@@ -227,7 +298,7 @@ export const abi = [
     ],
     name: 'vote',
     outputs: [],
-    stateMutability: 'payable',
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -238,17 +309,22 @@ export const abi = [
         type: 'bytes32',
       },
       {
-        internalType: 'address',
+        internalType: 'uint256',
         name: '',
-        type: 'address',
+        type: 'uint256',
       },
     ],
-    name: 'voted',
+    name: 'voters',
     outputs: [
       {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
+        internalType: 'address',
+        name: 'voter',
+        type: 'address',
+      },
+      {
+        internalType: 'enum ProposalContract.VoteChoice',
+        name: 'choice',
+        type: 'uint8',
       },
     ],
     stateMutability: 'view',
