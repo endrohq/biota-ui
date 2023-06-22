@@ -1,11 +1,11 @@
 import { Container } from '@shared/components/container';
 
-import { ForestsPage } from '../components/screens/forests';
+import { CreateForestPage } from '../../components/screens/createForest';
 
 export default function Page() {
   return (
     <Container withWidth={false} withTopPadding={false} access="private">
-      <ForestsPage />
+      <CreateForestPage />
     </Container>
   );
 }

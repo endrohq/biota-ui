@@ -1,7 +1,7 @@
-import { CreateIncidentForm, CreateProposalForm } from '@shared/typings';
+import { Feature } from '@nebula.gl/edit-modes';
+import { CreateProposalForm } from '@shared/typings';
 import { Web3Storage } from 'web3.storage';
 
-const incidentFileName = 'incident.json';
 const proposalFileName = 'proposal.json';
 const metadataFileName = 'metadata.json';
 
@@ -14,16 +14,29 @@ export function useStorage() {
     });
   }
 
-  async function uploadIncident(props: CreateIncidentForm) {
+  async function uploadForest(
+    name: string,
+    creator: string,
+    description: string,
+    location: Feature[],
+  ) {
+    const props = {
+      name,
+      creator,
+      description,
+      image:
+        'https://bafybeibv3qve4co27gkgapqwftkmzcxgscbp4il7rwiyj2al4vl36hzfcu.ipfs.w3s.link/nft-placeholder.png',
+      checksum:
+        'ff32974d2a8cfeb8deb2437556b53296021bfe02d466f449d52b583a6e8fbcef',
+      type: 'image/png',
+      format: 'HIP412@2.0.0',
+      properties: {
+        location,
+      },
+    };
     const client = await getClient();
     const files: File[] = [
-      // all contents
-      createJsonFile(JSON.stringify(props), incidentFileName),
-      // metadata
-      createJsonFile(
-        JSON.stringify({ locationName: props.locationName }),
-        metadataFileName,
-      ),
+      createJsonFile(JSON.stringify(props), 'metadata.json'),
     ];
 
     return client.put(files); // The IPFS hash of the data
@@ -31,7 +44,7 @@ export function useStorage() {
 
   async function uploadProposal(props: CreateProposalForm) {
     const client = await getClient();
-    const { images, ...incident } = props;
+    const { images, forest, ...incident } = props;
     const files: File[] = [
       // all contents
       createJsonFile(JSON.stringify(incident), proposalFileName),
@@ -72,7 +85,7 @@ export function useStorage() {
     let fileContent = '';
     await readStream(file, value => (fileContent += decoder.decode(value)));
 
-    return JSON.parse(fileContent);
+    return { ...JSON.parse(fileContent), cid };
   }
 
   async function readStream(file: File, callback: (value: Uint8Array) => void) {
@@ -101,5 +114,5 @@ export function useStorage() {
     return imageFiles?.map(file => getIpfsUrlPath(cid, file.name)) || [];
   }
 
-  return { getJsonFile, uploadIncident, getImageUrls, uploadProposal };
+  return { getJsonFile, uploadForest, getImageUrls, uploadProposal };
 }

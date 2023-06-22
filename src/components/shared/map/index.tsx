@@ -2,7 +2,7 @@ import { Feature } from '@nebula.gl/edit-modes';
 import { isArrayWithElements } from '@shared/utils/array.utils';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import MapGL from 'react-map-gl';
+import MapGL, { Layer, Source } from 'react-map-gl';
 import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 
 const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX || '';
@@ -17,6 +17,16 @@ const DEFAULT_VIEWPORT: ViewPort = {
   longitude: 4.4775362,
   latitude: 51.0258761,
   zoom: 12,
+};
+
+// Define your themes
+const darkThemeLine = {
+  'line-width': 1,
+  'line-color': 'rgba(0, 255, 0, 0.75)',
+  'line-dasharray': [3, 3],
+};
+const darkThemeFill = {
+  'fill-color': 'rgba(0, 255, 0, 0.05)',
 };
 
 interface PositionMapProps {
@@ -111,18 +121,36 @@ export function MapBox({
           width="100%"
           className={clsx(rounded && `rounded`)}
           {...viewport}
-          attributionControl={false}
           mapboxApiAccessToken={MAPBOX_TOKEN}
           mapStyle={`mapbox://styles/mapbox/${theme}-v11`}
-          onViewportChange={(viewport: any) => setViewport(viewport)}
+          onViewportChange={setViewport}
         >
-          <Editor
-            clickRadius={13}
-            mode={editorMode}
-            selectable={mode === 'editable'}
-            features={positions || []}
-            onUpdate={_onUpdate}
-          />
+          {mode === 'editable' && (
+            <Editor
+              clickRadius={13}
+              mode={editorMode}
+              selectable={mode === 'editable'}
+              features={positions || []}
+              onUpdate={_onUpdate}
+            />
+          )}
+          {mode === 'read-only' &&
+            positions?.map((position, index) => (
+              <Source
+                key={index}
+                id={`source-${index}`}
+                type="geojson"
+                // @ts-ignore
+                data={position}
+              >
+                <Layer paint={darkThemeLine} id={`line-${index}`} type="line" />
+                <Layer
+                  paint={darkThemeFill}
+                  id={`polygon-${index}`}
+                  type="fill"
+                />
+              </Source>
+            ))}
         </MapGL>
       )}
     </div>

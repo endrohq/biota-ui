@@ -12,16 +12,14 @@ import { useStorage } from '../../../../hooks/useStorage';
 import { useUser } from '../../../../hooks/useUser';
 
 interface CreateModalProps {
-  incidentId: string;
   proposal: CreateProposalForm;
-  onSuccess: () => void;
+  onSuccess: (id: string) => void;
   onError: (error: Error | unknown) => void;
 }
 
 type WriteStatus = 'stale' | 'writeToIpfs' | 'writeToHedera' | 'done' | 'error';
 
 export function CreateProposal({
-  incidentId,
   proposal,
   onSuccess,
   onError,
@@ -61,12 +59,12 @@ export function CreateProposal({
         signer,
       );
       const incrementTx = await myContract.createProposal(
-        utils.formatBytes32String(incidentId),
+        proposal.forest?.tokenId,
         utils.formatBytes32String(proposalId),
         cid,
       );
       await incrementTx.wait();
-      onSuccess();
+      onSuccess(proposalId);
     } catch (error) {
       onError(error);
       console.log(error);

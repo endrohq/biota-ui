@@ -7,9 +7,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'uint256',
+        internalType: 'string',
         name: '_forestTokenId',
-        type: 'uint256',
+        type: 'string',
       },
       {
         internalType: 'bytes32',
@@ -45,9 +45,9 @@ export const abi = [
             type: 'bytes32',
           },
           {
-            internalType: 'uint256',
+            internalType: 'string',
             name: 'forestTokenId',
-            type: 'uint256',
+            type: 'string',
           },
           {
             internalType: 'string',
@@ -101,9 +101,9 @@ export const abi = [
             type: 'bytes32',
           },
           {
-            internalType: 'uint256',
+            internalType: 'string',
             name: 'forestTokenId',
-            type: 'uint256',
+            type: 'string',
           },
           {
             internalType: 'string',
@@ -174,9 +174,9 @@ export const abi = [
         type: 'bytes32',
       },
       {
-        internalType: 'uint256',
+        internalType: 'string',
         name: 'forestTokenId',
-        type: 'uint256',
+        type: 'string',
       },
       {
         internalType: 'string',

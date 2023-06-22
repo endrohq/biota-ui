@@ -1,21 +1,9 @@
 import { Feature } from '@nebula.gl/edit-modes';
 
-export type OnChainIncident = {
-  id: string;
-  cid: string;
-  author: Hash;
-};
-
-export type IncidentContent = {
-  locationName: string;
-  location: Feature[];
-};
-
-export type Incident = IncidentContent & OnChainIncident;
-
 export type OnChainProposal = {
   id: string;
   cid: string;
+  forestTokenId: string;
   forVotes: number;
   againstVotes: number;
   abstainVotes: number;
@@ -28,7 +16,7 @@ export type IpfsProposal = {
   requiredCourseIds: string[];
 };
 
-export type Proposal = IncidentContent & OnChainIncident;
+export type Proposal = IpfsProposal & OnChainProposal;
 
 export type Course = {
   id: string;
@@ -44,16 +32,11 @@ export enum VoteTypes {
 
 export type Hash = `0x${string}`;
 
-export type CreateIncidentForm = {
-  proposal: CreateProposalForm;
-  location: Feature[];
-  locationName: string;
-};
-
 export type CreateProposalForm = {
   title?: string;
   description?: string;
   images?: File[];
+  forest?: Forest;
 };
 
 export interface DeployedContract {
@@ -100,3 +83,14 @@ export type MenuItem<T> = {
 };
 
 export type DeployState = 'deploying' | 'error' | 'deployed' | 'stale';
+
+export interface Forest {
+  tokenId: string;
+  cid: string;
+  name: string;
+  creator: string;
+  description: string;
+  image: string;
+  checksum: string;
+  properties: { location: Feature[] };
+}

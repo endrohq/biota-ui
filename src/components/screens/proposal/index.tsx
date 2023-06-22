@@ -18,9 +18,10 @@ import { Objections } from './objections';
 
 import { ProposalVote } from './votes';
 
+import { useForest } from '../../../hooks/useForest';
 import { useStorage } from '../../../hooks/useStorage';
 
-interface IncidentItemPageProps {
+interface ProposalItemPageProps {
   proposal: OnChainProposal;
 }
 
@@ -36,8 +37,9 @@ const menuItems: MenuItem<ProposalMenu>[] = Object.keys(ProposalMenu).map(
   }),
 );
 
-export function ProposalItemPage({ proposal }: IncidentItemPageProps) {
+export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
   const { getJsonFile } = useStorage();
+  const { forest } = useForest(proposal.forestTokenId);
   const [ipfsContent, setIpfsContent] = useState<IpfsProposal>();
   const [loading, setLoading] = useState<boolean>(true);
   const [menuItem, setMenuItem] = useState<ProposalMenu>(
@@ -76,13 +78,15 @@ export function ProposalItemPage({ proposal }: IncidentItemPageProps) {
 
   return (
     <div className="">
-      <MapOverview positions={[]} />
+      <MapOverview positions={forest?.properties?.location} />
       <div className="mx-auto mt-6 w-7/12 pb-20">
         <div className=" mb-3 flex items-center space-x-4 rounded-t border-b border-gray-100 py-3">
           <div className="rounded bg-green-50 px-1.5 py-1">
             <LocationOutlined className="text-xl text-green-900" />
           </div>
-          <H1 className="space-x-2 !text-base !font-medium">{'-'}</H1>
+          <H1 className="space-x-2 !text-base !font-medium">
+            {forest?.name || '-'}
+          </H1>
         </div>
         <div className="rounded bg-gray-50 p-10 pb-20">
           <div className="flex items-start justify-between space-x-10 ">

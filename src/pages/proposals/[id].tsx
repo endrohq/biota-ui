@@ -9,13 +9,13 @@ import { useProposal } from '../../hooks/useProposal';
 
 export default function Page() {
   const { query } = useRouter();
-  const { incident, loading } = useProposal(query.id as string);
+  const { proposal, loading } = useProposal(query.id as string);
   return (
     <Container withWidth={false} withTopPadding={false} access="public">
       {loading ? (
         <LoadingOutlined />
       ) : (
-        incident && <ProposalItemPage proposal={incident} />
+        proposal && <ProposalItemPage proposal={proposal} />
       )}
     </Container>
   );

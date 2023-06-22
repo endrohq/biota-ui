@@ -1,53 +1,41 @@
-import { CreateIncidentForm } from '@shared/typings';
-import { isArrayWithElements } from '@shared/utils/array.utils';
+import { CreateProposalForm } from '@shared/typings';
 import { isObjectWithFields } from '@shared/utils/object.utils';
 import React, { useState } from 'react';
 
-import { Overview } from './_Overview';
 import { CreateModal } from './createModal';
 import { CreateProposal } from './CreateProposal';
 import { CreateSummary } from './CreateSummary';
-import { LocationForm } from './LocationForm';
+import { LocationForm } from './location';
 
 export function CreateProposalPage() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [incidentForm, setIncidentForm] = useState<CreateIncidentForm>({
-    location: [],
-    proposal: {},
-    locationName: '',
-  });
-
-  const handleSave = (key: keyof CreateIncidentForm, value: any) =>
-    setIncidentForm(prevState => ({ ...prevState, [key]: value }));
+  const [props, setProps] = useState<CreateProposalForm>({});
 
   return (
     <>
       <div className="flex h-full items-center">
-        <Overview incident={incidentForm} />
-        <div className="w-8/12">
-          <div className="mx-auto w-8/12">
-            {!isArrayWithElements(incidentForm.location) ? (
-              <LocationForm
-                save={value =>
-                  setIncidentForm(prevState => ({ ...prevState, ...value }))
-                }
-              />
-            ) : !isObjectWithFields(incidentForm.proposal) ? (
-              <CreateProposal save={value => handleSave('proposal', value)} />
-            ) : (
-              <CreateSummary
-                createIncident={() => setIsSubmitting(true)}
-                incident={incidentForm}
-              />
-            )}
-          </div>
+        <div className="mx-auto w-11/12">
+          {!isObjectWithFields(props?.forest) ? (
+            <LocationForm
+              save={forest => setProps(prevState => ({ ...prevState, forest }))}
+            />
+          ) : !props.title || !props.description ? (
+            <CreateProposal
+              forest={props.forest}
+              save={value =>
+                setProps(prevState => ({ ...prevState, ...value }))
+              }
+            />
+          ) : (
+            <CreateSummary
+              createIncident={() => setIsSubmitting(true)}
+              proposal={props}
+            />
+          )}
         </div>
       </div>
       {isSubmitting && (
-        <CreateModal
-          close={() => setIsSubmitting(true)}
-          incident={incidentForm}
-        />
+        <CreateModal close={() => setIsSubmitting(true)} proposal={props} />
       )}
     </>
   );

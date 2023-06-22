@@ -6,7 +6,7 @@ contract ProposalContract {
 
     struct Proposal {
         bytes32 id;
-        uint256 forestTokenId;
+        string forestTokenId;
         string cid;
         address author;
         uint forVotes;
@@ -24,7 +24,7 @@ contract ProposalContract {
         owner = msg.sender;
     }
 
-    function createProposal(uint256 _forestTokenId, bytes32 _proposalId, string memory cid) public {
+    function createProposal(string _forestTokenId, bytes32 _proposalId, string memory cid) public {
         proposals[_proposalId] = Proposal({
             id: _proposalId,
             cid: cid,

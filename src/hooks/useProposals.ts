@@ -17,7 +17,7 @@ export function useProposals(): useIncidentsProps {
   useContractRead({
     address: proposalContract.address,
     abi: proposalContract.abi,
-    functionName: 'getProposalsByForestTokenIdAndPage',
+    functionName: 'getProposalsByPage',
     args: [0],
     onSuccess: (data: any) => {
       setProposals(

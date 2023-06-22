@@ -1,3 +1,3 @@
-export const isObjectWithFields = (obj: Record<string, unknown>) => {
+export const isObjectWithFields = (obj: any) => {
   return typeof obj === 'object' && obj !== null && Object.keys(obj).length > 0;
 };

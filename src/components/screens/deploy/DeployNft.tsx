@@ -1,7 +1,4 @@
 import {
-  AccountId,
-  Client,
-  PrivateKey,
   TokenCreateTransaction,
   TokenSupplyType,
   TokenType,
@@ -12,13 +9,7 @@ import { MinusCircleOutlined } from '@shared/components/icons/MinusCircleOutline
 import { DeployedToken, DeployState } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
-// Instantiate the client
-const operatorPrivateKey = PrivateKey.fromString(
-  process.env.NEXT_PUBLIC_ADMIN_PRIVATE_KEY || '',
-);
-const account = AccountId.fromString(
-  process.env.NEXT_PUBLIC_ADMIN_HEDERA_ADDRESS || '',
-);
+import { useHederaClient } from '../../../hooks/useHederaClient';
 
 interface DeployNFTProps {
   name: string;
@@ -37,6 +28,7 @@ export function DeployNFT({
   deployingIndex,
   idx,
 }: DeployNFTProps) {
+  const { client, accountId, privateKey } = useHederaClient();
   const [status, setStatus] = useState<DeployState>('stale');
   const [tokenId, setTokenId] = useState<string>();
 
@@ -56,29 +48,24 @@ export function DeployNFT({
   }, [tokenId]);
 
   async function deploy() {
-    const client = Client.forTestnet();
-    client.setOperator(account, operatorPrivateKey);
     const nftCreateTx = new TokenCreateTransaction()
       .setTokenName(name)
       .setTokenSymbol(symbol)
       .setTokenType(TokenType.NonFungibleUnique)
       .setDecimals(0)
       .setInitialSupply(0)
-      .setTreasuryAccountId(account)
+      .setTreasuryAccountId(accountId)
       .setSupplyType(TokenSupplyType.Finite)
       .setMaxSupply(250)
-      .setSupplyKey(operatorPrivateKey.publicKey)
+      .setSupplyKey(privateKey.publicKey)
       .freezeWith(client);
 
-    const nftCreateTxSigned = await nftCreateTx.sign(operatorPrivateKey);
+    const nftCreateTxSigned = await nftCreateTx.sign(privateKey);
 
     const nftCreateSubmit = await nftCreateTxSigned.execute(client);
 
     // Get the transaction receipt
     const receipt = await nftCreateSubmit.getReceipt(client);
-
-    console.log(receipt.tokenId);
-
     setTokenId(receipt.tokenId?.toString());
   }
 
