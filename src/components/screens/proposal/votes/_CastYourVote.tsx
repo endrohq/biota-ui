@@ -1,32 +1,60 @@
 import { Button } from '@shared/components/button';
 import { VoteTypes } from '@shared/typings';
-import { useState } from 'react';
+import { ethers } from 'ethers';
+import { useEffect, useState } from 'react';
+
+import { proposalContract } from '../../../../config/contracts/proposals';
+import { useUser } from '../../../../hooks/useUser';
 
 interface CastYourVoteProps {
-  vote: (vote: VoteTypes) => void;
+  proposalId: string;
+  onSuccess: () => void;
+  onError: (error: unknown) => void;
 }
 
-export function CastYourVote({ vote }: CastYourVoteProps) {
-  const [active, setActive] = useState<boolean>(false);
+export function CastYourVote({
+  proposalId,
+  onSuccess,
+  onError,
+}: CastYourVoteProps) {
+  const { signer } = useUser();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [voteType, setVoteType] = useState<VoteTypes>();
 
-  if (!active) {
-    return (
-      <Button
-        onClick={() => setActive(true)}
-        variant="primary"
-        className="px-28 py-1.5"
-      >
-        Vote
-      </Button>
-    );
+  useEffect(() => {
+    if (isSubmitting) {
+      handleVote();
+    }
+  }, [isSubmitting]);
+
+  async function handleVote() {
+    try {
+      const myContract = new ethers.Contract(
+        proposalContract.address,
+        proposalContract.abi,
+        signer,
+      );
+      const incrementTx = await myContract.vote(
+        proposalId,
+        voteType === VoteTypes.for,
+        voteType === VoteTypes.against,
+      );
+      await incrementTx.wait();
+      onSuccess();
+    } catch (error) {
+      onError(error);
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
+
   return (
-    <div className="rounded border-b border-gray-100 bg-white">
-      <div className="border-b border-gray-100 px-4 py-2">
+    <div className="space-y-6 rounded border-b border-gray-100 bg-white">
+      <div className="border-b border-gray-100 py-2">
         <div className="font-medium">Cast your vote</div>
       </div>
-      <div className="space-y-2 p-6">
+      <div className="grid grid-cols-3 gap-x-2">
         {Object.keys(VoteTypes).map(key => (
           <Button
             key={key}
@@ -38,16 +66,18 @@ export function CastYourVote({ vote }: CastYourVoteProps) {
             {key}
           </Button>
         ))}
-        <div className="!mt-4 border-t border-gray-100 pt-4">
-          <Button
-            variant={voteType ? 'primary' : 'default'}
-            onClick={() => voteType && vote(voteType)}
-            className="px-10 py-1"
-            fullSize
-          >
-            Vote
-          </Button>
-        </div>
+      </div>
+      <div className="!mt-4 border-t border-gray-100 pt-4">
+        <Button
+          loading={isSubmitting}
+          disabled={!voteType}
+          variant="primary"
+          onClick={() => setIsSubmitting(true)}
+          className="px-10 py-1"
+          fullSize
+        >
+          Vote
+        </Button>
       </div>
     </div>
   );

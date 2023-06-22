@@ -45,7 +45,7 @@ export function ForestsPage() {
           ))
         )}
       </div>
-      <div className="flex h-full w-8/12">
+      <div className="flex h-full w-8/12 p-4">
         <MapBox
           theme="dark"
           positions={locations}

@@ -3,12 +3,7 @@ import { LocationOutlined } from '@shared/components/icons/LocationOutlined';
 import { PageMenu } from '@shared/components/pageMenu';
 import { H1, H4 } from '@shared/components/typography/Title';
 
-import {
-  IpfsProposal,
-  MenuItem,
-  OnChainProposal,
-  VoteTypes,
-} from '@shared/typings';
+import { IpfsProposal, MenuItem, OnChainProposal } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
 import { Description } from './_Description';
@@ -60,14 +55,6 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
     handleIpfsFetch();
   }, []);
 
-  function vote(_: VoteTypes) {
-    /* // TODO: Check if user has required courses
-    const hasOpenCourses = proposal.requiredCourseIds?.length > 0;
-    if (hasOpenCourses) {
-      setRequiredCourses(proposal.requiredCourseIds || []);
-    }*/
-  }
-
   if (loading) {
     return (
       <div className="mx-auto flex w-10/12 items-start justify-between space-x-10 pb-20">
@@ -102,7 +89,7 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
             </div>
           </div>
           <div className="pt-10">
-            <ProposalVote vote={vote} />
+            <ProposalVote proposalId={proposal.id} />
           </div>
           <PageMenu
             activeItem={menuItem}

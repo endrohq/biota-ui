@@ -1,15 +1,17 @@
 import { Button } from '@shared/components/button';
+import { Modal } from '@shared/components/modal';
 import { Paragraph } from '@shared/components/typography/Paragraph';
-import { VoteTypes } from '@shared/typings';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { CastYourVote } from './_CastYourVote';
+
 interface CastYourVoteProps {
-  vote: (vote: VoteTypes) => void;
+  proposalId: string;
 }
 
-export function ProposalVote({ vote }: CastYourVoteProps) {
+export function ProposalVote({ proposalId }: CastYourVoteProps) {
   const [active, setActive] = useState<boolean>(false);
-  const [voteType, setVoteType] = useState<VoteTypes>();
 
   return (
     <div className="rounded bg-white p-2">
@@ -29,6 +31,13 @@ export function ProposalVote({ vote }: CastYourVoteProps) {
           Vote
         </Button>
       </div>
+      <Modal open={active} close={() => setActive(false)}>
+        <CastYourVote
+          onSuccess={() => window.location.reload()}
+          onError={() => ''}
+          proposalId={proposalId}
+        />
+      </Modal>
     </div>
   );
 }

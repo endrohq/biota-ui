@@ -1,5 +1,6 @@
 import { Feature } from '@nebula.gl/edit-modes';
-import { isArrayWithElements } from '@shared/utils/array.utils';
+import bbox from '@turf/bbox';
+import { featureCollection } from '@turf/helpers';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import MapGL, { Layer, Source } from 'react-map-gl';
@@ -10,13 +11,15 @@ const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX || '';
 type ViewPort = {
   longitude: number;
   latitude: number;
-  zoom: number;
+  maxLatitude?: number;
+  maxLongitude?: number;
+  minLatitude?: number;
+  minLongitude?: number;
 };
 
 const DEFAULT_VIEWPORT: ViewPort = {
   longitude: 4.4775362,
   latitude: 51.0258761,
-  zoom: 12,
 };
 
 // Define your themes
@@ -58,15 +61,18 @@ export function MapBox({
 
   useEffect(() => {
     if (mode === 'read-only' && positions) {
-      const [
-        longitude = DEFAULT_VIEWPORT.longitude,
-        latitude = DEFAULT_VIEWPORT.latitude,
-      ] = getGeographicalMidpoint(positions);
+      // @ts-ignore
+      const collection = featureCollection(positions || []);
+      const bounds = bbox(collection);
 
       setViewport({
-        ...DEFAULT_VIEWPORT,
-        longitude,
-        latitude,
+        latitude: (bounds[1] + bounds[3]) / 2 || DEFAULT_VIEWPORT.latitude,
+        longitude: (bounds[0] + bounds[2]) / 2 || DEFAULT_VIEWPORT.longitude,
+        // Additional properties to fit to bounds
+        maxLongitude: bounds[2],
+        minLongitude: bounds[0],
+        maxLatitude: bounds[3],
+        minLatitude: bounds[1],
       });
     }
   }, [positions, mode]);
@@ -75,48 +81,13 @@ export function MapBox({
     onChange?.(data);
   };
 
-  function getGeographicalMidpoint(features: Feature[]) {
-    if (!isArrayWithElements(features)) return [];
-    let x = 0.0;
-    let y = 0.0;
-    let z = 0.0;
-    let total = 0;
-
-    const feature = features[0];
-
-    for (const polygon of feature.geometry.coordinates) {
-      for (const point of polygon as number[]) {
-        const latitude = (point[1] * Math.PI) / 180;
-        const longitude = (point[0] * Math.PI) / 180;
-
-        x += Math.cos(latitude) * Math.cos(longitude);
-        y += Math.cos(latitude) * Math.sin(longitude);
-        z += Math.sin(latitude);
-
-        total += 1;
-      }
-    }
-
-    x = x / total;
-    y = y / total;
-    z = z / total;
-
-    const centralLongitude = Math.atan2(y, x);
-    const centralSquareRoot = Math.sqrt(x * x + y * y);
-    const centralLatitude = Math.atan2(z, centralSquareRoot);
-
-    return [
-      (centralLongitude * 180) / Math.PI,
-      (centralLatitude * 180) / Math.PI,
-    ];
-  }
-
   return (
     <div style={{ height }} className="w-full">
       {!viewport ? (
         <div>Loading...</div>
       ) : (
         <MapGL
+          zoom={11}
           height="100%"
           width="100%"
           className={clsx(rounded && `rounded`)}
