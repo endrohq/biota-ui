@@ -1,4 +1,5 @@
 import { Feature } from '@nebula.gl/edit-modes';
+import { isArrayWithElements } from '@shared/utils/array.utils';
 import bbox from '@turf/bbox';
 import { featureCollection } from '@turf/helpers';
 import clsx from 'clsx';
@@ -57,7 +58,7 @@ export function MapBox({
       setEditorMode(new DrawPolygonMode());
       setViewport(DEFAULT_VIEWPORT);
     }
-  }, [mode]);
+  }, []);
 
   useEffect(() => {
     if (mode === 'read-only' && positions) {
@@ -65,15 +66,17 @@ export function MapBox({
       const collection = featureCollection(positions || []);
       const bounds = bbox(collection);
 
-      setViewport({
-        latitude: (bounds[1] + bounds[3]) / 2 || DEFAULT_VIEWPORT.latitude,
-        longitude: (bounds[0] + bounds[2]) / 2 || DEFAULT_VIEWPORT.longitude,
-        // Additional properties to fit to bounds
-        maxLongitude: bounds[2],
-        minLongitude: bounds[0],
-        maxLatitude: bounds[3],
-        minLatitude: bounds[1],
-      });
+      if (isArrayWithElements(bounds)) {
+        setViewport({
+          latitude: (bounds[1] + bounds[3]) / 2 || DEFAULT_VIEWPORT.latitude,
+          longitude: (bounds[0] + bounds[2]) / 2 || DEFAULT_VIEWPORT.longitude,
+          // Additional properties to fit to bounds
+          maxLongitude: bounds[2],
+          minLongitude: bounds[0],
+          maxLatitude: bounds[3],
+          minLatitude: bounds[1],
+        });
+      }
     }
   }, [positions, mode]);
 

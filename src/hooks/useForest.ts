@@ -1,12 +1,12 @@
 import { NftId, TokenInfoQuery, TokenNftInfoQuery } from '@hashgraph/sdk';
 
-import { Forest } from '@shared/typings';
+import { Forest, StorageJsonFileType } from '@shared/typings';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useHederaClient } from './useHederaClient';
 import { useStorage } from './useStorage';
 
-export function useForest(forestId: string) {
+export function useForest(forestId: string | undefined) {
   const { client } = useHederaClient();
   const { getJsonFile } = useStorage();
   const [forest, setForest] = useState<Forest>();
@@ -25,6 +25,7 @@ export function useForest(forestId: string) {
   };
 
   async function getForest() {
+    if (!forestId) return;
     const [tokenId, serial] = forestId.split('/');
     const query = new TokenInfoQuery().setTokenId(tokenId);
     const tokenInfo = await query.execute(client);
@@ -36,7 +37,7 @@ export function useForest(forestId: string) {
       .execute(client);
     const data = await getJsonFile(
       extractCID(nftInfos?.[0].metadata),
-      'metadata',
+      StorageJsonFileType.METADATA,
     );
 
     setForest({

@@ -7,7 +7,7 @@ import { proposalContract } from '../../../../config/contracts/proposals';
 import { useUser } from '../../../../hooks/useUser';
 
 interface CastYourVoteProps {
-  proposalId: string;
+  proposalId?: string;
   onSuccess: () => void;
   onError: (error: unknown) => void;
 }
@@ -43,7 +43,7 @@ export function CastYourVote({
       onSuccess();
     } catch (error) {
       onError(error);
-      console.log(error);
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }

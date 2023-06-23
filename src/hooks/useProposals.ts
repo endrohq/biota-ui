@@ -1,42 +1,56 @@
-import { OnChainProposal } from '@shared/typings';
-import { useMemo, useState } from 'react';
+import { Proposal, StorageJsonFileType } from '@shared/typings';
+import {
+  convertToIpfsProposal,
+  convertToOnChainProposal,
+} from '@shared/utils/proposal.utils';
+import { ethers } from 'ethers';
+import { useEffect, useMemo, useState } from 'react';
 
-import { useContractRead } from 'wagmi';
+import { useStorage } from './useStorage';
+
+import { useUser } from './useUser';
 
 import { proposalContract } from '../config/contracts/proposals';
 
 type useIncidentsProps = {
-  proposals: OnChainProposal[];
+  proposals: Proposal[];
   loading: boolean;
 };
 
 export function useProposals(): useIncidentsProps {
-  const [proposals, setProposals] = useState<OnChainProposal[]>([]);
+  const { signer } = useUser();
+  const [proposals, setProposals] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const { getJsonFile } = useStorage();
 
-  useContractRead({
-    address: proposalContract.address,
-    abi: proposalContract.abi,
-    functionName: 'getProposalsByPage',
-    args: [0],
-    onSuccess: (data: any) => {
-      setProposals(
-        data?.map((incident: Record<string, any>) => ({
-          id: incident.id,
-          cid: incident.cid,
-          author: incident.author,
-          abstainVotes: Number(incident.abstainVotes),
-          againstVotes: Number(incident.againstVotes),
-          forVotes: Number(incident.forVotes),
-        })),
+  useEffect(() => {
+    getProposalsByPage();
+  }, []);
+
+  async function getProposalsByPage() {
+    // Create a new contract instance with the Contract constructor
+    const contract = new ethers.Contract(
+      proposalContract.address,
+      proposalContract.abi,
+      signer,
+    );
+    const arr: Proposal[] = [];
+    const onChainProposals = await contract.getProposalsByPage(0);
+    for (const onChainProposal of onChainProposals) {
+      const props = convertToOnChainProposal(onChainProposal);
+      const res = await getJsonFile(
+        onChainProposal.cid,
+        StorageJsonFileType.PROPOSAL,
       );
-      setLoading(false);
-    },
-    onError: (error: any) => {
-      console.error(error);
-      setLoading(false);
-    },
-  });
+      const proposal = convertToIpfsProposal(res);
+      arr.push({
+        ...props,
+        ...proposal,
+      } as Proposal);
+    }
+    setProposals(arr);
+    setLoading(false);
+  }
 
   return useMemo(() => ({ loading, proposals }), [loading, proposals]);
 }

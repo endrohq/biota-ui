@@ -1,9 +1,9 @@
 import jazzicon from '@raugfer/jazzicon';
-import { Hash } from '@shared/typings';
 import clsx from 'clsx';
+import { utils } from 'ethers';
 
 interface EthAddressIconProps {
-  address: Hash;
+  address?: string;
   size?: 'large' | 'medium';
 }
 
@@ -15,14 +15,25 @@ export function EthAddressIcon({
   function buildDataUrl(address: string): string {
     return `data:image/svg+xml;base64,${btoa(jazzicon(address))}`;
   }
-  const imageUrl = buildDataUrl(address);
+
+  if (!address || !utils.isAddress(address)) {
+    return (
+      <div
+        className={clsx('rounded-full bg-gray-100', {
+          'h-10 w-10': size === 'large',
+          'h-6 w-6': size === 'medium',
+        })}
+      />
+    );
+  }
+
   return (
     <img
       className={clsx('rounded-full', {
         'h-10 w-10': size === 'large',
         'h-6 w-6': size === 'medium',
       })}
-      src={imageUrl}
+      src={buildDataUrl(address)}
       alt="user address"
     />
   );

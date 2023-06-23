@@ -1,5 +1,6 @@
 import { Space_Grotesk } from 'next/font/google';
 
+import 'mapbox-gl/dist/mapbox-gl.css';
 import '../styles/style.css';
 import React from 'react';
 

@@ -46,7 +46,7 @@ export function DeployPage() {
 
   useEffect(() => {
     if (deployingContractIndex >= contracts?.length) {
-      setDeployingTokenIndex(0);
+      // setDeployingTokenIndex(0);
     }
   }, [deployingContractIndex]);
 

@@ -1,11 +1,6 @@
 import { Feature } from '@nebula.gl/edit-modes';
-import { CreateProposalForm } from '@shared/typings';
+import { CreateProposalForm, StorageJsonFileType } from '@shared/typings';
 import { Web3Storage } from 'web3.storage';
-
-const proposalFileName = 'proposal.json';
-const metadataFileName = 'metadata.json';
-
-type FileType = 'incident' | 'metadata' | 'proposal';
 
 export function useStorage() {
   function getClient() {
@@ -36,7 +31,10 @@ export function useStorage() {
     };
     const client = await getClient();
     const files: File[] = [
-      createJsonFile(JSON.stringify(props), 'metadata.json'),
+      createJsonFile(
+        JSON.stringify(props),
+        `${StorageJsonFileType.METADATA}.json`,
+      ),
     ];
 
     return client.put(files); // The IPFS hash of the data
@@ -44,14 +42,17 @@ export function useStorage() {
 
   async function uploadProposal(props: CreateProposalForm) {
     const client = await getClient();
-    const { images, forest, ...incident } = props;
+    const { images, forest, ...proposal } = props;
     const files: File[] = [
       // all contents
-      createJsonFile(JSON.stringify(incident), proposalFileName),
+      createJsonFile(
+        JSON.stringify(proposal),
+        `${StorageJsonFileType.PROPOSAL}.json`,
+      ),
       // metadata
       createJsonFile(
-        JSON.stringify({ title: incident.title }),
-        metadataFileName,
+        JSON.stringify({ title: proposal.title }),
+        `${StorageJsonFileType.METADATA}.json`,
       ),
     ];
 
@@ -64,6 +65,16 @@ export function useStorage() {
     return client.put(files); // The IPFS hash of the data
   }
 
+  async function uploadObjection(props: { content: string; category: string }) {
+    const client = await getClient();
+    return client.put([
+      createJsonFile(
+        JSON.stringify(props),
+        `${StorageJsonFileType.OBJECTION}.json`,
+      ),
+    ]);
+  }
+
   function createJsonFile(data: string, fileName: string) {
     return new File([new Blob([data])], fileName, {
       type: 'application/json',
@@ -71,7 +82,7 @@ export function useStorage() {
     });
   }
 
-  async function getJsonFile(cid: string, type: FileType) {
+  async function getJsonFile(cid: string, type: StorageJsonFileType) {
     const client = await getClient();
     const res = await client?.get(cid);
 
@@ -114,5 +125,11 @@ export function useStorage() {
     return imageFiles?.map(file => getIpfsUrlPath(cid, file.name)) || [];
   }
 
-  return { getJsonFile, uploadForest, getImageUrls, uploadProposal };
+  return {
+    getJsonFile,
+    uploadForest,
+    getImageUrls,
+    uploadProposal,
+    uploadObjection,
+  };
 }

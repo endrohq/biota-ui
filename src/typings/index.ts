@@ -15,7 +15,6 @@ export type OnChainProposal = {
 export type IpfsProposal = {
   title: string;
   description: string;
-  requiredCourseIds: string[];
 };
 
 export type Proposal = IpfsProposal & OnChainProposal;
@@ -84,6 +83,13 @@ export type MenuItem<T> = {
   id: string;
 };
 
+export type WriteStatus =
+  | 'stale'
+  | 'writeToIpfs'
+  | 'writeToHedera'
+  | 'done'
+  | 'error';
+
 export type DeployState = 'deploying' | 'error' | 'deployed' | 'stale';
 
 export interface Forest {
@@ -107,8 +113,13 @@ export type OnChainObjection = {
 
 export type IpfsObjection = {
   content: string;
-  author?: string;
   category: Category;
 };
 
 export type Objection = IpfsObjection & OnChainObjection;
+
+export enum StorageJsonFileType {
+  OBJECTION = 'objection',
+  METADATA = 'metadata',
+  PROPOSAL = 'proposal',
+}

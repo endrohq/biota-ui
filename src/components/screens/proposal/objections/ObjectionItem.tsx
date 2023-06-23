@@ -1,15 +1,16 @@
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { Paragraph } from '@shared/components/typography/Paragraph';
-import { Hash, IpfsObjection } from '@shared/typings';
+import { Objection } from '@shared/typings';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 import { useState } from 'react';
 
 interface ObjectionItemProps {
-  objection: IpfsObjection;
+  objection: Objection;
 }
 
 export function ObjectionItem({ objection }: ObjectionItemProps) {
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [expanded, _] = useState<boolean>(true);
+
   const content = expanded
     ? `${objection.content.slice(0, 100)}...`
     : objection.content;
@@ -17,7 +18,7 @@ export function ObjectionItem({ objection }: ObjectionItemProps) {
     <div className="space-y-4 rounded border-b border-gray-100 bg-white p-4 last:border-0">
       <div className=" flex items-center justify-between ">
         <div className="flex items-center space-x-4">
-          <EthAddressIcon size="large" address={objection.author as Hash} />
+          <EthAddressIcon size="large" address={objection.author} />
           <div>
             <div className="text-sm font-medium">
               {getShortenedFormat(objection.author)}

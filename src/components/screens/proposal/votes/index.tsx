@@ -8,7 +8,7 @@ import { CastYourVote } from './_CastYourVote';
 import { useVotes } from '../../../../hooks/useVotes';
 
 interface CastYourVoteProps {
-  proposalId: string;
+  proposalId?: string;
   start: Date;
   end: Date;
 }

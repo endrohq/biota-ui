@@ -1,40 +1,58 @@
-import { OnChainProposal } from '@shared/typings';
-import { useMemo } from 'react';
+import { Proposal, StorageJsonFileType } from '@shared/typings';
+import {
+  convertToOnChainProposal,
+  convertToIpfsProposal,
+} from '@shared/utils/proposal.utils';
+import { ethers, utils } from 'ethers';
+import { useEffect, useMemo, useState } from 'react';
 
-import { useContractRead } from 'wagmi';
+import { useStorage } from './useStorage';
+
+import { useUser } from './useUser';
 
 import { proposalContract } from '../config/contracts/proposals';
 
-type UseIncidentsProps = {
-  proposal?: OnChainProposal | undefined;
+type useProposalProps = {
+  proposal?: Proposal | undefined;
   loading: boolean;
 };
 
-export function useProposal(id: string): UseIncidentsProps {
-  const { data, isLoading } = useContractRead({
-    address: proposalContract.address,
-    abi: proposalContract.abi,
-    functionName: 'getProposalById',
-    args: [id],
-  });
+export function useProposal(id: string): useProposalProps {
+  const { signer } = useUser();
+  const { getJsonFile } = useStorage();
+  const [isLoadingIpfs, setIsLoadingIpfs] = useState<boolean>(true);
+  const [proposal, setProposal] = useState<Proposal>();
 
-  function convertToProposal(data: unknown) {
-    if (!data) return undefined;
-    const props = data as Record<string, any>;
-    return {
-      id: props.id,
-      cid: props.cid,
-      author: props.author,
-      forestTokenId: props.forestTokenId,
-      abstainVotes: Number(props.abstainVotes),
-      againstVotes: Number(props.againstVotes),
-      forVotes: Number(props.forVotes),
-      startTimestamp: new Date(Number(props.startTimestamp) * 1000),
-      endTimestamp: new Date(Number(props.endTimestamp) * 1000),
-    } as OnChainProposal;
+  useEffect(() => {
+    getProposal();
+  }, []);
+
+  async function getProposal() {
+    // Create a new contract instance with the Contract constructor
+    const contract = new ethers.Contract(
+      proposalContract.address,
+      proposalContract.abi,
+      signer,
+    );
+    const data = await contract.getProposalById(utils.formatBytes32String(id));
+    const props = convertToOnChainProposal(data as Record<string, any>);
+
+    if (props?.cid) {
+      const res = await getJsonFile(props.cid, StorageJsonFileType.PROPOSAL);
+      const ipfsProposal = convertToIpfsProposal(res);
+      setProposal({
+        ...props,
+        ...ipfsProposal,
+      } as Proposal);
+      setIsLoadingIpfs(false);
+    }
   }
 
-  return useMemo(() => {
-    return { loading: isLoading, proposal: convertToProposal(data) };
-  }, [data, isLoading]);
+  return useMemo(
+    () => ({
+      loading: isLoadingIpfs,
+      proposal,
+    }),
+    [isLoadingIpfs, proposal],
+  );
 }

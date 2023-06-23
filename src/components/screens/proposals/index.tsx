@@ -34,7 +34,7 @@ export function ProposalsPage() {
           ) : (
             <div className="grid grid-cols-3 gap-4">
               {proposals.map((proposal, idx) => (
-                <ProposalItem key={idx} incident={proposal} />
+                <ProposalItem key={idx} proposal={proposal} />
               ))}
             </div>
           )}

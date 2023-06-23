@@ -1,8 +1,5 @@
-import { CheckCircleOutlined } from '@shared/components/icons/CheckCircleOutlined';
-import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-
-import { MinusCircleOutlined } from '@shared/components/icons/MinusCircleOutlined';
-import { CreateProposalForm } from '@shared/typings';
+import { UploadState } from '@shared/components/uploadState';
+import { CreateProposalForm, WriteStatus } from '@shared/typings';
 import { randomBytes32 } from '@shared/utils/string.utils';
 import { ethers, utils } from 'ethers';
 import { useEffect, useState } from 'react';
@@ -16,8 +13,6 @@ interface CreateModalProps {
   onSuccess: (id: string) => void;
   onError: (error: Error | unknown) => void;
 }
-
-type WriteStatus = 'stale' | 'writeToIpfs' | 'writeToHedera' | 'done' | 'error';
 
 export function CreateProposal({
   proposal,
@@ -75,39 +70,5 @@ export function CreateProposal({
     }
   }
 
-  return (
-    <div className="flex h-full flex-col px-4">
-      <div className="mb-3 border-b border-gray-100 pb-4 text-sm font-semibold">
-        Uploading Proposal
-      </div>
-      <div className="mb-2 flex justify-between">
-        <div className="text-sm">Writing to IPFS</div>
-        <div className="text-gray-500">
-          {writeStatus === 'stale' ? (
-            <MinusCircleOutlined />
-          ) : writeStatus === 'writeToIpfs' ? (
-            <LoadingOutlined />
-          ) : (
-            (writeStatus === 'writeToHedera' || writeStatus === 'done') && (
-              <CheckCircleOutlined className="text-green-500" />
-            )
-          )}
-        </div>
-      </div>
-      <div className="flex justify-between">
-        <div className="text-sm">Writing to Hedera</div>
-        <div className="text-gray-500">
-          {writeStatus === 'stale' || writeStatus === 'writeToIpfs' ? (
-            <MinusCircleOutlined />
-          ) : writeStatus === 'writeToHedera' ? (
-            <LoadingOutlined />
-          ) : (
-            writeStatus === 'done' && (
-              <CheckCircleOutlined className="text-green-500" />
-            )
-          )}
-        </div>
-      </div>
-    </div>
-  );
+  return <UploadState title="Create Proposal" writeStatus={writeStatus} />;
 }

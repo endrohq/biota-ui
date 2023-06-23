@@ -2,20 +2,30 @@ import { Container } from '@shared/components/container';
 
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
-import { ProposalItemPage } from '../../components/screens/proposal';
-import { useProposal } from '../../hooks/useProposal';
+const ProposalItemPage = dynamic(
+  () => import('../../components/screens/proposal'),
+  { ssr: false },
+);
+
+const ProposalProvider = dynamic(
+  () => import('../../context/ProposalProvider'),
+  { ssr: false },
+);
 
 export default function Page() {
   const { query } = useRouter();
-  const { proposal, loading } = useProposal(query.id as string);
+  console.log(query);
   return (
     <Container withWidth={false} withTopPadding={false} access="public">
-      {loading ? (
+      {!query?.id || query?.id?.length === 0 ? (
         <LoadingOutlined />
       ) : (
-        proposal && <ProposalItemPage proposal={proposal} />
+        <ProposalProvider proposalId={query.id as string}>
+          <ProposalItemPage />
+        </ProposalProvider>
       )}
     </Container>
   );

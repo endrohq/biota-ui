@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { ethers } from 'ethers';
+import { useEffect, useMemo, useState } from 'react';
 
-import { useContractRead } from 'wagmi';
+import { useUser } from './useUser';
 
 import { proposalContract } from '../config/contracts/proposals';
 
@@ -9,15 +10,29 @@ type UseIncidentsProps = {
   loading: boolean;
 };
 
-export function useVotes(proposalId: string): UseIncidentsProps {
-  const { data, isLoading } = useContractRead({
-    address: proposalContract.address,
-    abi: proposalContract.abi,
-    functionName: 'getVotersForProposal',
-    args: [proposalId],
-  });
+export function useVotes(proposalId?: string): UseIncidentsProps {
+  const { signer } = useUser();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [votes, setVotes] = useState<any[]>([]);
+  useEffect(() => {
+    getProposalVotes();
+  }, []);
+
+  async function getProposalVotes() {
+    if (!proposalId) return;
+
+    // Create a new contract instance with the Contract constructor
+    const contract = new ethers.Contract(
+      proposalContract.address,
+      proposalContract.abi,
+      signer,
+    );
+    const data = await contract.getVotersForProposal(proposalId);
+    setVotes(data);
+    setLoading(false);
+  }
 
   return useMemo(() => {
-    return { loading: isLoading, votes: data as any[] };
-  }, [data, isLoading]);
+    return { loading, votes };
+  }, [votes, loading]);
 }

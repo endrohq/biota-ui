@@ -59,6 +59,10 @@ export default function AuthenticatedProvider({
   const router = useRouter();
 
   useEffect(() => {
+    connect();
+  }, []);
+
+  useEffect(() => {
     const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {
       if (account) {
         // console.log('new account', account);

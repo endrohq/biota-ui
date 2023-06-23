@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useStorage } from '../../../hooks/useStorage';
 
 interface GalleryProps {
-  cid: string;
+  cid?: string;
 }
 
 export function Gallery({ cid }: GalleryProps) {
@@ -12,6 +12,7 @@ export function Gallery({ cid }: GalleryProps) {
 
   useEffect(() => {
     const getImages = async () => {
+      if (!cid) return;
       try {
         const urls = await getImageUrls(cid);
         setImages([...urls, '', '', '', '', '']);
