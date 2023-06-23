@@ -75,7 +75,7 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
             {forest?.name || '-'}
           </H1>
         </div>
-        <div className="rounded bg-gray-50 p-10 pb-20">
+        <div className="space-y-14 rounded bg-gray-50 p-10 pb-20">
           <div className="flex items-start justify-between space-x-10 ">
             <div className="w-8/12 space-y-6">
               <div>
@@ -88,16 +88,14 @@ export function ProposalItemPage({ proposal }: ProposalItemPageProps) {
               <Gallery cid={proposal.cid} />
             </div>
           </div>
-          <div className="pt-10">
-            <ProposalVote proposalId={proposal.id} />
-          </div>
-          <PageMenu
-            activeItem={menuItem}
-            menu={menuItems}
-            // @ts-ignore
-            onClick={val => setMenuItem(val)}
+          <ProposalVote
+            start={proposal.startTimestamp}
+            end={proposal.endTimestamp}
+            proposalId={proposal.id}
           />
-          <Objections />
+          <div>
+            <Objections />
+          </div>
         </div>
       </div>
     </div>

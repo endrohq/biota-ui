@@ -9,9 +9,11 @@ import { useVotes } from '../../../../hooks/useVotes';
 
 interface CastYourVoteProps {
   proposalId: string;
+  start: Date;
+  end: Date;
 }
 
-export function ProposalVote({ proposalId }: CastYourVoteProps) {
+export function ProposalVote({ proposalId, start, end }: CastYourVoteProps) {
   const [active, setActive] = useState<boolean>(false);
   const { votes } = useVotes(proposalId);
 
@@ -24,6 +26,14 @@ export function ProposalVote({ proposalId }: CastYourVoteProps) {
             Showcasing the opinions of local communities should be an important
             part on the discussion table.
           </Paragraph>
+          <div className="my-4 flex items-center space-x-4 text-sm">
+            <div>
+              Start: <span className="font-bold">{start.toDateString()}</span>
+            </div>
+            <div>
+              End: <span className="font-bold">{end.toDateString()}</span>
+            </div>
+          </div>
           {JSON.stringify(votes)}
         </div>
         <Button

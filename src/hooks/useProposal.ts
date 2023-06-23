@@ -29,6 +29,8 @@ export function useProposal(id: string): UseIncidentsProps {
       abstainVotes: Number(props.abstainVotes),
       againstVotes: Number(props.againstVotes),
       forVotes: Number(props.forVotes),
+      startTimestamp: new Date(Number(props.startTimestamp) * 1000),
+      endTimestamp: new Date(Number(props.endTimestamp) * 1000),
     } as OnChainProposal;
   }
 

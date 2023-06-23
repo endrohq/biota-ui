@@ -7,6 +7,8 @@ export type OnChainProposal = {
   forVotes: number;
   againstVotes: number;
   abstainVotes: number;
+  startTimestamp: Date;
+  endTimestamp: Date;
   author: Hash;
 };
 
@@ -94,3 +96,19 @@ export interface Forest {
   checksum: string;
   properties: { location: Feature[] };
 }
+
+export type OnChainObjection = {
+  id: string;
+  cid: string;
+  proposalId: string;
+  author: string;
+  dateCreated: Date;
+};
+
+export type IpfsObjection = {
+  content: string;
+  author?: string;
+  category: Category;
+};
+
+export type Objection = IpfsObjection & OnChainObjection;

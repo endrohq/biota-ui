@@ -48,7 +48,7 @@ export function Modal({
   return (
     <div
       onClick={() => close?.()}
-      className="absolute inset-0 z-10 h-full bg-black/25"
+      className="fixed inset-0 z-10 m-0 h-full bg-black/25 p-0"
     >
       <AnimatePresence>
         <motion.div
