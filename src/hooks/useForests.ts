@@ -1,7 +1,9 @@
 import { NftId, TokenInfoQuery, TokenNftInfoQuery } from '@hashgraph/sdk';
 
-import { Forest } from '@shared/typings';
+import { Forest, StorageJsonFileType } from '@shared/typings';
 import { useEffect, useMemo, useState } from 'react';
+
+import toast from 'react-hot-toast';
 
 import { useHederaClient } from './useHederaClient';
 import { useStorage } from './useStorage';
@@ -25,30 +27,34 @@ export function useForests(tokenId: string) {
   };
 
   async function getForests() {
-    const query = new TokenInfoQuery().setTokenId(tokenId);
+    try {
+      const query = new TokenInfoQuery().setTokenId(tokenId);
 
-    // Submit the query to the network and obtain the token supply
-    const tokenInfo = await query.execute(client);
-    const totalSupply = await tokenInfo.totalSupply;
+      // Submit the query to the network and obtain the token supply
+      const tokenInfo = await query.execute(client);
+      const totalSupply = await tokenInfo.totalSupply;
 
-    const arr = [];
-    for (let i = 0; i < Number(totalSupply); i++) {
-      const nftId = new NftId(tokenInfo.tokenId, i + 1);
-      // Returns the info for the specified NFT ID
-      const nftInfos = await new TokenNftInfoQuery()
-        .setNftId(nftId)
-        .execute(client);
-      const data = await getJsonFile(
-        extractCID(nftInfos?.[0].metadata),
-        'metadata',
-      );
-      arr.push({
-        ...data,
-        tokenId: nftId.toString(),
-      });
+      const arr = [];
+      for (let i = 0; i < Number(totalSupply); i++) {
+        const nftId = new NftId(tokenInfo.tokenId, i + 1);
+        // Returns the info for the specified NFT ID
+        const nftInfos = await new TokenNftInfoQuery()
+          .setNftId(nftId)
+          .execute(client);
+        const data = await getJsonFile(
+          extractCID(nftInfos?.[0].metadata),
+          StorageJsonFileType.METADATA,
+        );
+        arr.push({
+          ...data,
+          tokenId: nftId.toString(),
+        });
+      }
+
+      setForests(arr);
+    } catch (error) {
+      toast.error('Something went wrong. Please reload the page.');
     }
-
-    setForests(arr);
   }
 
   return useMemo(() => ({ loading, forests }), [loading, forests]);

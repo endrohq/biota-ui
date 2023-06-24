@@ -6,6 +6,8 @@ import {
 import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
+import toast from 'react-hot-toast';
+
 import { useStorage } from './useStorage';
 
 import { useUser } from './useUser';
@@ -28,28 +30,33 @@ export function useProposals(): useIncidentsProps {
   }, []);
 
   async function getProposalsByPage() {
-    // Create a new contract instance with the Contract constructor
-    const contract = new ethers.Contract(
-      proposalContract.address,
-      proposalContract.abi,
-      signer,
-    );
-    const arr: Proposal[] = [];
-    const onChainProposals = await contract.getProposalsByPage(0);
-    for (const onChainProposal of onChainProposals) {
-      const props = convertToOnChainProposal(onChainProposal);
-      const res = await getJsonFile(
-        onChainProposal.cid,
-        StorageJsonFileType.PROPOSAL,
+    try {
+      // Create a new contract instance with the Contract constructor
+      const contract = new ethers.Contract(
+        proposalContract.address,
+        proposalContract.abi,
+        signer,
       );
-      const proposal = convertToIpfsProposal(res);
-      arr.push({
-        ...props,
-        ...proposal,
-      } as Proposal);
+      const arr: Proposal[] = [];
+      const onChainProposals = await contract.getProposalsByPage(0);
+      for (const onChainProposal of onChainProposals) {
+        const props = convertToOnChainProposal(onChainProposal);
+        const res = await getJsonFile(
+          onChainProposal.cid,
+          StorageJsonFileType.PROPOSAL,
+        );
+        const proposal = convertToIpfsProposal(res);
+        arr.push({
+          ...props,
+          ...proposal,
+        } as Proposal);
+      }
+      setProposals(arr);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong. Please reload the page.');
     }
-    setProposals(arr);
-    setLoading(false);
   }
 
   return useMemo(() => ({ loading, proposals }), [loading, proposals]);

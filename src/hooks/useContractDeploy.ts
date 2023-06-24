@@ -4,6 +4,8 @@ import { ContractFactory } from 'ethers';
 
 import { useEffect, useMemo, useState } from 'react';
 
+import toast from 'react-hot-toast';
+
 import { useUser } from './useUser';
 
 interface useContractDeployProps {
@@ -42,6 +44,7 @@ export function useContractDeploy(
     } catch (deployError) {
       console.error(deployError);
       setStatus('error');
+      toast.error('Something went wrong. Please reload the page.');
     }
   }
 

@@ -128,3 +128,7 @@ export type Vote = {
   voter: string;
   choice: VoteType;
 };
+
+export enum HederaMessageTopics {
+  PROPOSAL = 'proposal',
+}

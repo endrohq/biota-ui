@@ -50,7 +50,7 @@ type AuthenticatedProviderProps = {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProviderProps) {
-  const { address, isConnected, connector } = useAccount();
+  const { address, isConnected, connector, isDisconnected } = useAccount();
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
@@ -59,8 +59,8 @@ export default function AuthenticatedProvider({
   const router = useRouter();
 
   useEffect(() => {
-    connect();
-  }, []);
+    // connect();
+  }, [isDisconnected]);
 
   useEffect(() => {
     const handleConnectorUpdate = ({ account, chain }: ConnectorData) => {

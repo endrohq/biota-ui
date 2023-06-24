@@ -6,6 +6,8 @@ import {
 import { ethers, utils } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
+import toast from 'react-hot-toast';
+
 import { useStorage } from './useStorage';
 
 import { useUser } from './useUser';
@@ -28,23 +30,30 @@ export function useProposal(id: string): useProposalProps {
   }, []);
 
   async function getProposal() {
-    // Create a new contract instance with the Contract constructor
-    const contract = new ethers.Contract(
-      proposalContract.address,
-      proposalContract.abi,
-      signer,
-    );
-    const data = await contract.getProposalById(utils.formatBytes32String(id));
-    const props = convertToOnChainProposal(data as Record<string, any>);
+    try {
+      // Create a new contract instance with the Contract constructor
+      const contract = new ethers.Contract(
+        proposalContract.address,
+        proposalContract.abi,
+        signer,
+      );
+      const data = await contract.getProposalById(
+        utils.formatBytes32String(id),
+      );
+      const props = convertToOnChainProposal(data as Record<string, any>);
 
-    if (props?.cid) {
-      const res = await getJsonFile(props.cid, StorageJsonFileType.PROPOSAL);
-      const ipfsProposal = convertToIpfsProposal(res);
-      setProposal({
-        ...props,
-        ...ipfsProposal,
-      } as Proposal);
-      setIsLoadingIpfs(false);
+      if (props?.cid) {
+        const res = await getJsonFile(props.cid, StorageJsonFileType.PROPOSAL);
+        const ipfsProposal = convertToIpfsProposal(res);
+        setProposal({
+          ...props,
+          ...ipfsProposal,
+        } as Proposal);
+        setIsLoadingIpfs(false);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong. Please reload the page.');
     }
   }
 

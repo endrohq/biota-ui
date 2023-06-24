@@ -6,7 +6,14 @@
 ## Features
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+There are a few steps before you can start using the application that you need to follow to be able to interact and use the application.
+
+1. Make sure that [Metamask](https://metamask.io/) is installed in your browser
+2. Register for a testnet wallet on [Hedera Portal](https://portal.hedera.com/)
+3. Add "Hedera Testnet" to Metamask via [Chainlist](https://chainlist.org/?testnets=true&search=hedera)
+4. Import the private key from your testnet account in [Metamask](https://support.metamask.io/hc/en-us/articles/360015489331-How-to-import-an-account)
+
 
 ### Prerequisites
 

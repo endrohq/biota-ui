@@ -1,3 +1,4 @@
+import { ConnectWallet } from '@shared/components/container/ConnectWallet';
 import { WrongNetwork } from '@shared/components/container/WrongNetwork';
 import { Header } from '@shared/components/header';
 
@@ -7,14 +8,12 @@ import { useUser } from '../../../hooks/useUser';
 
 interface ContainerProps {
   children: React.ReactNode;
-  access?: 'public' | 'private';
   withTopPadding?: boolean;
   withWidth?: boolean;
 }
 
 export function Container({
   children,
-  access,
   withTopPadding = true,
   withWidth = true,
 }: ContainerProps) {
@@ -29,11 +28,7 @@ export function Container({
           withWidth && 'container mx-auto',
         )}
       >
-        {!address && access === 'private' ? (
-          <div className="mx-auto w-1/2">Connect your wallet first</div>
-        ) : (
-          children
-        )}
+        {!address ? <ConnectWallet /> : children}
       </div>
       <WrongNetwork />
     </div>

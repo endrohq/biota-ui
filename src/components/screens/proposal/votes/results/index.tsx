@@ -12,7 +12,7 @@ export function Results({ votes }: ResultsProps) {
     acc[vote.choice] = acc[vote.choice] + 1 || 1;
     return acc;
   }, {} as Record<VoteType, number>);
-  console.log(votesAsObject);
+
   return (
     <div className="rounded border border-gray-100 bg-gray-50">
       <div className="border-b border-gray-100 px-4 py-2">

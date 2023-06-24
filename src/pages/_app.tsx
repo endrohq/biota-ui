@@ -4,10 +4,12 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '../styles/style.css';
 import React from 'react';
 
+import { Toaster } from 'react-hot-toast';
 import { createPublicClient, http } from 'viem';
 import { createConfig, WagmiConfig } from 'wagmi';
 
 import { hederaTestnet } from '../config/chains';
+import { HederaNotificationProvider } from '../context/HederaNotificationProvider';
 import AuthenticatedProvider from '../hooks/useUser';
 
 const config = createConfig({
@@ -30,7 +32,10 @@ export default function RootLayout({ Component, pageProps }: any) {
     <div className={inter.className}>
       <WagmiConfig config={config}>
         <AuthenticatedProvider>
-          <Component {...pageProps} />
+          <HederaNotificationProvider>
+            <Toaster position="top-right" reverseOrder={false} />
+            <Component {...pageProps} />
+          </HederaNotificationProvider>
         </AuthenticatedProvider>
       </WagmiConfig>
     </div>

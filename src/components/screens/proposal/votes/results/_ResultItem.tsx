@@ -7,8 +7,6 @@ interface ResultItemProps {
 }
 
 export function ResultItem({ vote, totalVotes, votes = 0 }: ResultItemProps) {
-  console.log(votes, totalVotes);
-
   const percentage = (votes / totalVotes) * 100;
   return (
     <div className="space-y-1.5 py-1">

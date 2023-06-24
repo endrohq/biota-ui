@@ -14,7 +14,6 @@ interface ObjectionsProps {
 }
 
 export function Objections({ proposalId }: ObjectionsProps) {
-  console.log(proposalId);
   const { objections } = useObjections(proposalId);
   const [intentionToCreateObjection, setIntentionToCreateObjection] =
     useState<boolean>(false);

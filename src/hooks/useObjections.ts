@@ -6,6 +6,8 @@ import {
 import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
+import toast from 'react-hot-toast';
+
 import { useStorage } from './useStorage';
 
 import { useUser } from './useUser';
@@ -57,6 +59,7 @@ export function useObjections(proposalId: string): useIncidentsProps {
 
       setObjections(arr);
     } catch (error) {
+      toast.error('Something went wrong. Please reload the page.');
       console.error(error);
     } finally {
       setLoading(false);

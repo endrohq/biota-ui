@@ -25,8 +25,6 @@ function UploadInput({ images, onChange }: UploadComponentProps) {
     onChange(images?.filter((_, i) => i !== index) || []);
   }
 
-  console.log(images);
-
   return (
     <div className="w-full">
       <label
