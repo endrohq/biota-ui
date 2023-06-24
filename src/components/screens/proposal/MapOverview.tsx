@@ -8,7 +8,7 @@ interface GalleryProps {
 export function MapOverview({ positions }: GalleryProps) {
   return (
     <div className="-z-10 bg-third brightness-105">
-      <MapBox rounded={false} positions={positions} height={250} />
+      <MapBox zoom={13} rounded={false} positions={positions} height={250} />
     </div>
   );
 }

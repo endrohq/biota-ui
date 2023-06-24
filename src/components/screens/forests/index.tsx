@@ -1,6 +1,7 @@
 import { Button } from '@shared/components/button';
 import { MapBox } from '@shared/components/map';
 
+import { Paragraph } from '@shared/components/typography/Paragraph';
 import { H4 } from '@shared/components/typography/Title';
 import { Forest } from '@shared/typings';
 import { isArrayWithElements } from '@shared/utils/array.utils';
@@ -27,7 +28,7 @@ export function ForestsPage({ forests }: ForestsPageProps) {
 
   return (
     <div className="flex h-full items-center">
-      <div className="flex h-full w-4/12 flex-col space-y-3 rounded bg-white p-10">
+      <div className="flex h-full w-4/12 flex-col space-y-3 overflow-y-scroll rounded bg-white p-10">
         {activeForest ? (
           <ActiveForest
             forest={activeForest}
@@ -35,8 +36,15 @@ export function ForestsPage({ forests }: ForestsPageProps) {
           />
         ) : isArrayWithElements(forests) ? (
           <>
-            <div className="flex items-center justify-between">
-              <H4 className="font-bold">Forests</H4>
+            <div className="mb-4 flex items-center justify-between border-b border-gray-100 pb-6">
+              <div>
+                <H4 className="font-bold">Forests</H4>
+                <Paragraph className="w-10/12 text-sm text-gray-600">
+                  An active directory of existing forests around the world.
+                  Users with administrator's rights can add new forests to the
+                  directory.
+                </Paragraph>
+              </div>
               <Link href={ROUTE_CREATE_FOREST}>
                 <Button>Add Forest</Button>
               </Link>
@@ -59,6 +67,7 @@ export function ForestsPage({ forests }: ForestsPageProps) {
           height="100%"
           rounded={false}
           mode="read-only"
+          zoom={activeForest && 14}
         />
       </div>
     </div>

@@ -18,7 +18,7 @@ export function CreateForestPage() {
   const router = useRouter();
   const [uploading, setUploading] = useState<boolean>(false);
   const { client, privateKey } = useHederaClient();
-  const [name, setName] = useState<string>('Zennebeemden, Mechelen (Belgium)');
+  const [name, setName] = useState<string>('');
   const [location, setLocation] = useState<Feature[]>([]);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export function CreateForestPage() {
   return (
     <div className="flex h-full items-center">
       <div className="flex h-full w-4/12 flex-col space-y-10 rounded bg-white p-20">
-        <div className="w-full space-y-4">
+        <div className="w-full space-y-10">
           <BackLink href={ROUTE_FORESTS} />
           <div>
             <div>Location</div>
@@ -63,7 +63,7 @@ export function CreateForestPage() {
           </div>
           <div className="space-y-1">
             <label className="text-sm" htmlFor="title">
-              Title
+              Location Name
             </label>
             <InputText
               name="title"
@@ -76,6 +76,7 @@ export function CreateForestPage() {
             <Button
               fullSize
               disabled={location?.length === 0}
+              loading={uploading}
               onClick={() => setUploading(true)}
               className="px-6 py-2"
               variant="primary"
@@ -85,13 +86,14 @@ export function CreateForestPage() {
           </div>
         </div>
       </div>
-      <div className="flex h-full w-8/12 p-4">
+      <div className="flex h-full w-8/12">
         <MapBox
           theme="dark"
           positions={location}
           height="100%"
           rounded={false}
           mode="editable"
+          zoom={13}
           onChange={value => setLocation(value)}
         />
       </div>

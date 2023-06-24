@@ -1,4 +1,5 @@
 import { Feature } from '@nebula.gl/edit-modes';
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { isArrayWithElements } from '@shared/utils/array.utils';
 import bbox from '@turf/bbox';
 import { featureCollection } from '@turf/helpers';
@@ -40,6 +41,7 @@ interface PositionMapProps {
   mode?: 'read-only' | 'editable';
   theme?: 'light' | 'dark';
   rounded?: boolean;
+  zoom?: number;
 }
 
 export function MapBox({
@@ -49,6 +51,7 @@ export function MapBox({
   mode = 'read-only',
   theme = 'dark',
   rounded = true,
+  zoom = 12,
 }: PositionMapProps) {
   const [viewport, setViewport] = useState<ViewPort>();
   const [editorMode, setEditorMode] = useState<DrawPolygonMode | undefined>();
@@ -61,7 +64,7 @@ export function MapBox({
   }, []);
 
   useEffect(() => {
-    if (mode === 'read-only' && positions) {
+    if (mode === 'read-only' && isArrayWithElements(positions)) {
       // @ts-ignore
       const collection = featureCollection(positions || []);
       const bounds = bbox(collection);
@@ -87,10 +90,12 @@ export function MapBox({
   return (
     <div style={{ height }} className="w-full">
       {!viewport ? (
-        <div>Loading...</div>
+        <div className="flex h-full w-full items-center justify-center">
+          <LoadingOutlined className="text-gray-500" />
+        </div>
       ) : (
         <MapGL
-          zoom={11}
+          zoom={zoom}
           height="100%"
           width="100%"
           className={clsx(rounded && `rounded`)}

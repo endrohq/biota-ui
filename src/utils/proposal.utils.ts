@@ -22,7 +22,6 @@ export function convertToIpfsProposal(
   props: Record<string, any>,
 ): IpfsProposal | undefined {
   if (!props) return undefined;
-  console.log(props);
   return {
     title: props?.title,
     description: props?.description,
