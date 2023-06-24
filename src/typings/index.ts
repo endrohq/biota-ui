@@ -1,4 +1,5 @@
 import { Feature } from '@nebula.gl/edit-modes';
+import { Position } from '@nebula.gl/edit-modes/src/geojson-types';
 
 export type OnChainProposal = {
   id: string;
@@ -132,3 +133,15 @@ export type Vote = {
 export enum HederaMessageTopics {
   PROPOSAL = 'proposal',
 }
+
+export type MessageType = 'PROPOSAL_CREATED';
+
+export type HcsNewProposalMessage = {
+  type: MessageType;
+  location: Position;
+  name?: string;
+  route: string;
+  isViewed?: boolean;
+};
+
+export type HcsMessage = HcsNewProposalMessage;

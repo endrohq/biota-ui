@@ -27,7 +27,7 @@ export function CreateModal({ proposal, close }: CreateModalProps) {
             onError={setError}
           />
         ) : (
-          <SuccessfulCreate id={proposalId} />
+          <SuccessfulCreate id={proposalId} proposal={proposal} />
         )}
       </div>
     </Modal>

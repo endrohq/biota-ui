@@ -1,7 +1,7 @@
 import { Button } from '@shared/components/button';
 
 import { MenuItem } from '@shared/components/header/MenuItem';
-import { UserDetails } from '@shared/components/header/UserDetails';
+import { UserDetails } from '@shared/components/header/userDetails';
 import {
   ROUTE_LANDING_PAGE,
   ROUTE_PROPOSALS,

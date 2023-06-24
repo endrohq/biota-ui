@@ -1,16 +1,10 @@
-import {
-  TopicMessageSubmitTransaction,
-  TopicMessageQuery,
-  TopicMessage,
-} from '@hashgraph/sdk';
-import { Feature } from '@nebula.gl/edit-modes';
-import React, { createContext, useState, useEffect, useCallback } from 'react';
-
-import { useHederaClient } from '../hooks/useHederaClient';
+import { HcsMessage } from '@shared/typings';
+import React, { createContext, useState, useCallback, useEffect } from 'react';
 
 interface HederaContextType {
-  messages: Message[];
-  submitMessage: (message: string) => Promise<void>;
+  messages: HcsMessage[];
+  submitMessage: (message: HcsMessage) => Promise<void>;
+  setHasViewed: () => void;
 }
 
 export const useHederaNotifications = (): HederaContextType => {
@@ -31,57 +25,51 @@ interface HederaProviderProps {
   children: React.ReactNode;
 }
 
-type MessageType = 'PROPOSAL_CREATED';
-
-type Message = {
-  type: MessageType;
-  location: Feature[];
-};
-
-// TODO: Store as .env variable
-const PUBLIC_TOPIC_ID = '0.0.14973703';
-
 export function HederaNotificationProvider({ children }: HederaProviderProps) {
-  const { client } = useHederaClient();
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  useEffect(() => {
-    // createTopic();
-  }, []);
+  const [messages, setMessages] = useState<HcsMessage[]>([]);
 
   const submitMessage = useCallback(
-    async (message: string): Promise<void> => {
-      await new TopicMessageSubmitTransaction()
-        .setTopicId(PUBLIC_TOPIC_ID)
-        .setMessage(message)
-        .execute(client);
+    async (message: HcsMessage): Promise<void> => {
+      const response = await fetch('http://localhost:8080/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+      });
 
-      listenForMessages();
+      if (!response.ok) {
+        // Handle error...
+      }
     },
-    [client],
+    [],
   );
 
-  const listenForMessages = useCallback(() => {
-    const listener = new TopicMessageQuery();
-    listener.setTopicId(PUBLIC_TOPIC_ID).subscribe(
-      client,
-      (message: TopicMessage) => {
-        const decoder = new TextDecoder();
-        const messageAsString = decoder.decode(message.contents);
-        if (messageAsString !== '') {
-          const message = JSON.parse(messageAsString) as Message;
-          setMessages(prevMessages => [...prevMessages, message]);
-        }
-      },
-      error => console.error(error),
+  function setHasViewed() {
+    setMessages(prevState =>
+      prevState.map(message => ({ ...message, isViewed: true })),
     );
-  }, [PUBLIC_TOPIC_ID, client]);
+  }
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://localhost:8080');
+
+    ws.onmessage = event => {
+      const message = JSON.parse(event.data);
+      setMessages(prevMessages => [...prevMessages, message]);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   return (
     <HederaContext.Provider
       value={{
         messages,
         submitMessage,
+        setHasViewed,
       }}
     >
       {children}

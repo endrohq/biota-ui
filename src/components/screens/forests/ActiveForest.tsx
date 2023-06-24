@@ -26,7 +26,6 @@ function TableItem({
 
 export function ActiveForest({ forest, remove }: ActiveForestProps) {
   const token = forest?.tokenId?.split('/')[0];
-
   return (
     <div className="space-y-4 px-10">
       <BackButton onClick={remove} />
