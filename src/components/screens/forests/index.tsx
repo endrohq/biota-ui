@@ -1,23 +1,23 @@
-import * as process from 'process';
-
 import { Feature } from '@nebula.gl/edit-modes';
 import { Button } from '@shared/components/button';
-import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { MapBox } from '@shared/components/map';
 
+import { H4 } from '@shared/components/typography/Title';
+import { Forest } from '@shared/typings';
+import { isArrayWithElements } from '@shared/utils/array.utils';
 import { ROUTE_CREATE_FOREST } from '@shared/utils/route';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 import { ForestItem } from './ForestItem';
 
-import { useForests } from '../../../hooks/useForests';
+interface ForestsPageProps {
+  forests: Forest[];
+}
 
-const tokenId = process.env.NEXT_PUBLIC_FOREST_TOKEN_ID || '';
-
-export function ForestsPage() {
+export function ForestsPage({ forests }: ForestsPageProps) {
   const [locations, setLocations] = useState<Feature[]>([]);
-  const { forests, loading } = useForests(tokenId);
+  const [activeForest, setActiveForest] = useState<string>();
 
   useEffect(() => {
     setLocations(forests.map(forest => forest.properties.location).flat());
@@ -25,27 +25,24 @@ export function ForestsPage() {
 
   return (
     <div className="flex h-full items-center">
-      <div className="flex h-full w-4/12 flex-col space-y-10 rounded bg-white p-20">
+      <div className="flex h-full w-4/12 flex-col space-y-3 rounded bg-white p-10">
         <div className="flex items-center justify-between">
-          <div className="font-bold">Forests</div>
+          <H4 className="font-bold">Forests</H4>
           <Link href={ROUTE_CREATE_FOREST}>
             <Button>Add Forest</Button>
           </Link>
         </div>
-        {loading ? (
-          <LoadingOutlined />
-        ) : (
+        {activeForest ? (
+          <div>sdfsfs</div>
+        ) : isArrayWithElements(forests) ? (
           forests.map(forest => (
-            <ForestItem
-              forest={forest}
-              registerLocation={location => {
-                setLocations(prev => [...prev, ...location]);
-              }}
-            />
+            <ForestItem forest={forest} setActive={id => setActiveForest(id)} />
           ))
+        ) : (
+          <div>No forests founds</div>
         )}
       </div>
-      <div className="flex h-full w-8/12 p-4">
+      <div className="flex h-full w-8/12">
         <MapBox
           theme="dark"
           positions={locations}

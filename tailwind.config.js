@@ -15,19 +15,19 @@ module.exports = {
         'screen-xxl': '1600px',
       },
       backgroundColor: {
-        primary: '#40513B',
+        primary: '#344942',
         accent: '#609966',
         secondary: '#9DC08B',
-        third: '#EDF1D6',
+        third: '#fdf3e7',
       },
       borderColor: {
-        primary: '#40513B',
+        primary: '#344942',
         accent: '#609966',
         secondary: '#9DC08B',
         third: '#EDF1D6',
       },
       color: {
-        primary: '#40513B',
+        primary: '#344942',
         accent: '#609966',
         secondary: '#9DC08B',
         third: '#EDF1D6',

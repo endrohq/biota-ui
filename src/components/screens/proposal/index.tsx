@@ -21,8 +21,8 @@ export default function ProposalItemPage() {
   return (
     <div>
       <MapOverview positions={forest?.properties?.location} />
-      <div className="mx-auto mt-6 w-7/12 pb-20">
-        <div className=" mb-3 flex items-center space-x-4 rounded-t border-b border-gray-100 py-3">
+      <div className="mx-auto mt-6 w-8/12 rounded bg-white px-10 py-4 pb-20">
+        <div className="mb-3 flex items-center space-x-4 rounded-t border-b border-gray-100 py-3">
           <div className="rounded bg-green-50 px-1.5 py-1">
             <LocationOutlined className="text-xl text-green-900" />
           </div>
@@ -30,7 +30,7 @@ export default function ProposalItemPage() {
             {forest?.name || '-'}
           </H1>
         </div>
-        <div className="space-y-14 rounded bg-gray-50 p-10 pb-20">
+        <div className="space-y-14 rounded py-10 pb-20">
           <div className="flex items-start justify-between space-x-10 ">
             <div className="w-8/12 space-y-6">
               <div>

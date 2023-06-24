@@ -1,5 +1,5 @@
 import { Button } from '@shared/components/button';
-import { VoteTypes } from '@shared/typings';
+import { VoteType } from '@shared/typings';
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
@@ -19,7 +19,7 @@ export function CastYourVote({
 }: CastYourVoteProps) {
   const { signer } = useUser();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [voteType, setVoteType] = useState<VoteTypes>();
+  const [voteType, setVoteType] = useState<VoteType>();
 
   useEffect(() => {
     if (isSubmitting) {
@@ -36,8 +36,8 @@ export function CastYourVote({
       );
       const incrementTx = await myContract.vote(
         proposalId,
-        voteType === VoteTypes.for,
-        voteType === VoteTypes.against,
+        voteType === VoteType.FOR,
+        voteType === VoteType.AGAINST,
       );
       await incrementTx.wait();
       onSuccess();
@@ -55,13 +55,13 @@ export function CastYourVote({
         <div className="font-medium">Cast your vote</div>
       </div>
       <div className="grid grid-cols-3 gap-x-2">
-        {Object.keys(VoteTypes).map(key => (
+        {Object.keys(VoteType).map(key => (
           <Button
             key={key}
-            onClick={() => setVoteType(VoteTypes[key])}
+            onClick={() => setVoteType(VoteType[key])}
             className="px-10 py-1"
             fullSize
-            variant={voteType === VoteTypes[key] ? 'black' : 'default'}
+            variant={voteType === VoteType[key] ? 'black' : 'default'}
           >
             {key}
           </Button>

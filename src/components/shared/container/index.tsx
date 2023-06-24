@@ -20,7 +20,7 @@ export function Container({
 }: ContainerProps) {
   const { address } = useUser();
   return (
-    <div className="h-screen bg-white">
+    <div className="h-screen">
       <Header />
       <div
         style={{ height: 'calc(100% - 4rem)' }}

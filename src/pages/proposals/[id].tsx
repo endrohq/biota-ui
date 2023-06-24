@@ -17,7 +17,6 @@ const ProposalProvider = dynamic(
 
 export default function Page() {
   const { query } = useRouter();
-  console.log(query);
   return (
     <Container withWidth={false} withTopPadding={false} access="public">
       {!query?.id || query?.id?.length === 0 ? (

@@ -13,8 +13,10 @@ export function useForest(forestId: string | undefined) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getForest().then(() => setLoading(false));
-  }, []);
+    if (forestId) {
+      getForest().then(() => setLoading(false));
+    }
+  }, [forestId]);
 
   const extractCID = (buffer: Uint8Array | null) => {
     const decoder = new TextDecoder();

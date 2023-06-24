@@ -5,6 +5,8 @@ import { useState } from 'react';
 
 import { CastYourVote } from './_CastYourVote';
 
+import { Results } from './results';
+
 import { useVotes } from '../../../../hooks/useVotes';
 
 interface CastYourVoteProps {
@@ -18,8 +20,8 @@ export function ProposalVote({ proposalId, start, end }: CastYourVoteProps) {
   const { votes } = useVotes(proposalId);
 
   return (
-    <div className="rounded bg-white p-2">
-      <div className="space-y-6 p-4">
+    <div className="rounded bg-white">
+      <div className="space-y-6">
         <div>
           <div className="text-sm font-medium">Share your opinion</div>
           <Paragraph className="w-5/12 text-sm text-gray-600">
@@ -34,6 +36,7 @@ export function ProposalVote({ proposalId, start, end }: CastYourVoteProps) {
               End: <span className="font-bold">{end.toDateString()}</span>
             </div>
           </div>
+          <div>{votes && <Results votes={votes} />}</div>
           {JSON.stringify(votes)}
         </div>
         <Button

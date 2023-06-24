@@ -1,3 +1,4 @@
+import { Vote } from '@shared/typings';
 import { ethers } from 'ethers';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -6,14 +7,14 @@ import { useUser } from './useUser';
 import { proposalContract } from '../config/contracts/proposals';
 
 type UseIncidentsProps = {
-  votes?: any[];
+  votes?: Vote[];
   loading: boolean;
 };
 
 export function useVotes(proposalId?: string): UseIncidentsProps {
   const { signer } = useUser();
   const [loading, setLoading] = useState<boolean>(true);
-  const [votes, setVotes] = useState<any[]>([]);
+  const [votes, setVotes] = useState<Vote[]>([]);
   useEffect(() => {
     getProposalVotes();
   }, []);
@@ -28,7 +29,12 @@ export function useVotes(proposalId?: string): UseIncidentsProps {
       signer,
     );
     const data = await contract.getVotersForProposal(proposalId);
-    setVotes(data);
+    setVotes(
+      data?.map((v: any) => ({
+        voter: v.voter,
+        choice: v.choice,
+      })),
+    );
     setLoading(false);
   }
 

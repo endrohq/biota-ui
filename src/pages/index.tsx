@@ -1,15 +1,12 @@
-import { Container } from '@shared/components/container';
-
-import { IncidentsPage } from '../components/screens/incidents';
+import { ROUTE_PROPOSALS } from '@shared/utils/route';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function LandingPage() {
-  return (
-    <Container>
-      <section className="w-full">
-        <div className="flex flex-col space-y-6">
-          <IncidentsPage />
-        </div>
-      </section>
-    </Container>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace(ROUTE_PROPOSALS);
+  }, []);
+  return <></>;
 }

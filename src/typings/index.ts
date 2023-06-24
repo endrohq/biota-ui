@@ -25,10 +25,10 @@ export type Course = {
   description?: string;
 };
 
-export enum VoteTypes {
-  'for' = 'for',
-  'against' = 'against',
-  'abstain' = 'abstain',
+export enum VoteType {
+  FOR = 0,
+  AGAINST = 1,
+  ABSTAIN = 2,
 }
 
 export type Hash = `0x${string}`;
@@ -123,3 +123,8 @@ export enum StorageJsonFileType {
   METADATA = 'metadata',
   PROPOSAL = 'proposal',
 }
+
+export type Vote = {
+  voter: string;
+  choice: VoteType;
+};
