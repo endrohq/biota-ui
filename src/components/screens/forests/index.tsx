@@ -1,4 +1,3 @@
-import { Feature } from '@nebula.gl/edit-modes';
 import { Button } from '@shared/components/button';
 import { MapBox } from '@shared/components/map';
 
@@ -7,8 +6,9 @@ import { Forest } from '@shared/typings';
 import { isArrayWithElements } from '@shared/utils/array.utils';
 import { ROUTE_CREATE_FOREST } from '@shared/utils/route';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 
+import { ActiveForest } from './ActiveForest';
 import { ForestItem } from './ForestItem';
 
 interface ForestsPageProps {
@@ -16,28 +16,38 @@ interface ForestsPageProps {
 }
 
 export function ForestsPage({ forests }: ForestsPageProps) {
-  const [locations, setLocations] = useState<Feature[]>([]);
-  const [activeForest, setActiveForest] = useState<string>();
+  const [activeForest, setActiveForest] = useState<Forest>();
 
-  useEffect(() => {
-    setLocations(forests.map(forest => forest.properties.location).flat());
-  }, [forests]);
+  const locations = useMemo(() => {
+    return (
+      activeForest?.properties?.location ??
+      forests.map(forest => forest.properties.location).flat()
+    );
+  }, [forests, activeForest]);
 
   return (
     <div className="flex h-full items-center">
       <div className="flex h-full w-4/12 flex-col space-y-3 rounded bg-white p-10">
-        <div className="flex items-center justify-between">
-          <H4 className="font-bold">Forests</H4>
-          <Link href={ROUTE_CREATE_FOREST}>
-            <Button>Add Forest</Button>
-          </Link>
-        </div>
         {activeForest ? (
-          <div>sdfsfs</div>
+          <ActiveForest
+            forest={activeForest}
+            remove={() => setActiveForest(undefined)}
+          />
         ) : isArrayWithElements(forests) ? (
-          forests.map(forest => (
-            <ForestItem forest={forest} setActive={id => setActiveForest(id)} />
-          ))
+          <>
+            <div className="flex items-center justify-between">
+              <H4 className="font-bold">Forests</H4>
+              <Link href={ROUTE_CREATE_FOREST}>
+                <Button>Add Forest</Button>
+              </Link>
+            </div>
+            {forests.map(forest => (
+              <ForestItem
+                forest={forest}
+                setActive={() => setActiveForest(forest)}
+              />
+            ))}
+          </>
         ) : (
           <div>No forests founds</div>
         )}
