@@ -7,9 +7,9 @@ interface ResultItemProps {
 }
 
 export function ResultItem({ vote, totalVotes, votes = 0 }: ResultItemProps) {
-  const percentage = (votes / totalVotes) * 100;
+  const percentage = (votes / totalVotes || 0) * 100;
   return (
-    <div className="space-y-1.5 py-1">
+    <div className="w-full space-y-1.5 py-1">
       <div className="flex items-center justify-between text-sm">
         <div className=" capitalize">
           {vote === VoteType.FOR
@@ -22,7 +22,7 @@ export function ResultItem({ vote, totalVotes, votes = 0 }: ResultItemProps) {
       </div>
       <div className="h-1.5 w-full rounded-full bg-gray-200">
         <div
-          style={{ width: `${percentage}%` }}
+          style={{ width: `${percentage || 0}%` }}
           className="h-full rounded-full bg-green-500"
         />
       </div>

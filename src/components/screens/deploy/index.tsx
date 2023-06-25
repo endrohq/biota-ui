@@ -1,10 +1,9 @@
-import { Hbar, TopicCreateTransaction, TopicId } from '@hashgraph/sdk';
 import { Button } from '@shared/components/button';
 import { Paragraph } from '@shared/components/typography/Paragraph';
 import { H1 } from '@shared/components/typography/Title';
 
 import { DeployedContract, DeployedToken } from '@shared/typings';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DeployItem } from './DeployItem';
 
@@ -44,18 +43,6 @@ export function DeployPage() {
     DeployedContract[]
   >([]);
   const [deployedTokens, setDeployedTokens] = useState<DeployedToken[]>([]);
-
-  const createTopic = useCallback(async (): Promise<TopicId | null> => {
-    const transactionId = await new TopicCreateTransaction()
-      .setMaxTransactionFee(new Hbar(2))
-      .execute(client);
-
-    const receipt = await transactionId.getReceipt(client);
-    const topicId = receipt.topicId;
-
-    setTopicId(topicId);
-    return topicId;
-  }, [client]);
 
   useEffect(() => {
     if (deployingContractIndex >= contracts?.length) {

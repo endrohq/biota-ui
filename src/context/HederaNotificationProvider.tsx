@@ -1,6 +1,9 @@
 import { HcsMessage } from '@shared/typings';
 import React, { createContext, useState, useCallback, useEffect } from 'react';
 
+const notificationsServiceUrl =
+  process.env.NEXT_PUBLIC_NOTIFICATIONS_SERVICE || '';
+
 interface HederaContextType {
   messages: HcsMessage[];
   submitMessage: (message: HcsMessage) => Promise<void>;
@@ -30,13 +33,16 @@ export function HederaNotificationProvider({ children }: HederaProviderProps) {
 
   const submitMessage = useCallback(
     async (message: HcsMessage): Promise<void> => {
-      const response = await fetch('http://localhost:8080/api/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://${notificationsServiceUrl}/api/messages`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message }),
         },
-        body: JSON.stringify({ message }),
-      });
+      );
 
       if (!response.ok) {
         // Handle error...
@@ -52,7 +58,7 @@ export function HederaNotificationProvider({ children }: HederaProviderProps) {
   }
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080');
+    const ws = new WebSocket(`ws://${notificationsServiceUrl}`);
 
     ws.onmessage = event => {
       const message = JSON.parse(event.data);

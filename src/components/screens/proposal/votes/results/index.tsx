@@ -18,7 +18,7 @@ export function Results({ votes }: ResultsProps) {
       <div className="border-b border-gray-100 px-4 py-2">
         <H5>Results</H5>
       </div>
-      <div className="space-y-3 p-6">
+      <div className="flex items-center  p-6">
         <ResultItem
           totalVotes={votes.length}
           votes={votesAsObject[VoteType.FOR]}
