@@ -55,22 +55,34 @@ export function CastYourVote({
         <div className="font-medium">Cast your vote</div>
       </div>
       <div className="grid grid-cols-3 gap-x-2">
-        {Object.keys(VoteType).map(key => (
-          <Button
-            key={key}
-            onClick={() => setVoteType(VoteType[key])}
-            className="px-10 py-1"
-            fullSize
-            variant={voteType === VoteType[key] ? 'black' : 'default'}
-          >
-            {key}
-          </Button>
-        ))}
+        <Button
+          onClick={() => setVoteType(VoteType.FOR)}
+          className="px-10 py-1"
+          fullSize
+          variant={voteType === VoteType.FOR ? 'black' : 'default'}
+        >
+          For
+        </Button>
+        <Button
+          onClick={() => setVoteType(VoteType.AGAINST)}
+          className="px-10 py-1"
+          fullSize
+          variant={voteType === VoteType.AGAINST ? 'black' : 'default'}
+        >
+          Against
+        </Button>
+        <Button
+          onClick={() => setVoteType(VoteType.ABSTAIN)}
+          className="px-10 py-1"
+          fullSize
+          variant={voteType === VoteType.ABSTAIN ? 'black' : 'default'}
+        >
+          Abstain
+        </Button>
       </div>
       <div className="!mt-4 border-t border-gray-100 pt-4">
         <Button
           loading={isSubmitting}
-          disabled={!voteType}
           variant="primary"
           onClick={() => setIsSubmitting(true)}
           className="px-10 py-1"

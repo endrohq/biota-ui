@@ -9,7 +9,7 @@ export default function Page() {
   const tokenId = process.env.NEXT_PUBLIC_FOREST_TOKEN_ID || '';
   const { forests, loading } = useForests(tokenId);
   return (
-    <Container withWidth={false} withTopPadding={false} access="public">
+    <Container withWidth={false} withTopPadding={false}>
       {loading ? <LoadingOutlined /> : <ForestsPage forests={forests} />}
     </Container>
   );

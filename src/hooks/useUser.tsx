@@ -1,6 +1,4 @@
-'use client';
-
-import { JsonRpcSigner } from '@ethersproject/providers/src.ts/json-rpc-provider';
+import { JsonRpcSigner } from '@ethersproject/providers';
 import { Hash } from '@shared/typings';
 import { ethers } from 'ethers';
 import { useRouter } from 'next/navigation';
@@ -84,13 +82,14 @@ export default function AuthenticatedProvider({
 
   const value = useMemo(() => {
     let signer: JsonRpcSigner | undefined;
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && window?.ethereum) {
       const provider = new ethers.providers.Web3Provider(
-        // @ts-ignore
         window?.ethereum,
         'any',
       );
-      signer = provider.getSigner();
+      if (provider) {
+        signer = provider.getSigner();
+      }
     }
 
     return {

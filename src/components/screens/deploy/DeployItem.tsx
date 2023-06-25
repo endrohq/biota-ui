@@ -1,4 +1,4 @@
-import { ContractInterface } from '@ethersproject/contracts/src.ts';
+import { ContractInterface } from '@ethersproject/contracts';
 
 import { CheckCircleOutlined } from '@shared/components/icons/CheckCircleOutlined';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';

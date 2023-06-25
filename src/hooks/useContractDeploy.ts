@@ -1,4 +1,4 @@
-import { ContractInterface } from '@ethersproject/contracts/src.ts';
+import { ContractInterface } from '@ethersproject/contracts';
 import { DeployState } from '@shared/typings';
 import { ContractFactory } from 'ethers';
 

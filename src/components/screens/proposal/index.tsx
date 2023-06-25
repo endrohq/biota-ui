@@ -48,7 +48,7 @@ export default function ProposalItemPage() {
             end={proposal?.endTimestamp || new Date()}
             proposalId={proposal?.id}
           />
-          <div>
+          <div className="mt-4 border-t border-gray-100 pt-4">
             <Objections proposalId={proposal?.id || ''} />
           </div>
         </div>

@@ -66,7 +66,7 @@ export function CreateProposal({
       onSuccess(proposalId);
     } catch (error) {
       onError(error);
-      console.log(error);
+      console.error(error);
     }
   }
 

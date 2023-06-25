@@ -10,7 +10,7 @@ export function ResultItem({ vote, totalVotes, votes = 0 }: ResultItemProps) {
   const percentage = (votes / totalVotes || 0) * 100;
   return (
     <div className="w-full space-y-1.5 py-1">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between px-2 text-xs">
         <div className=" capitalize">
           {vote === VoteType.FOR
             ? 'For'

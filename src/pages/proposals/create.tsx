@@ -4,7 +4,7 @@ import { CreateProposalPage } from '../../components/screens/createProposal';
 
 export default function Page() {
   return (
-    <Container withWidth={false} withTopPadding={false} access="private">
+    <Container withWidth={false} withTopPadding={false}>
       <CreateProposalPage />
     </Container>
   );

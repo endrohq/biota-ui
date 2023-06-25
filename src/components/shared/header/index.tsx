@@ -30,8 +30,8 @@ export function Header() {
             ⚫️
           </Link>
           <div className="flex items-center space-x-6">
-            <MenuItem label="Proposals" href={ROUTE_PROPOSALS} />
             <MenuItem label="Forests" href={ROUTE_FORESTS} />
+            <MenuItem label="Proposals" href={ROUTE_PROPOSALS} />
           </div>
         </div>
         <div className="flex cursor-pointer items-center space-x-8">

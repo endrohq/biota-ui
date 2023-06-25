@@ -4,7 +4,7 @@ import { DeployPage } from '../components/screens/deploy';
 
 export default function Page() {
   return (
-    <Container access="private">
+    <Container>
       <DeployPage />
     </Container>
   );

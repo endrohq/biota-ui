@@ -101,6 +101,7 @@ export function useStorage() {
 
   async function readStream(file: File, callback: (value: Uint8Array) => void) {
     const reader = file.stream().getReader();
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const { done, value } = await reader.read();
       if (done) {

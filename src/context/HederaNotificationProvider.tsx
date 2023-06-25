@@ -4,6 +4,8 @@ import React, { createContext, useState, useCallback, useEffect } from 'react';
 const notificationsServiceUrl =
   process.env.NEXT_PUBLIC_NOTIFICATIONS_SERVICE || '';
 
+const protocol = process.env.NEXT_PUBLIC_ENVIRONMENT === 'local' ? 'ws' : 'wss';
+
 interface HederaContextType {
   messages: HcsMessage[];
   submitMessage: (message: HcsMessage) => Promise<void>;
@@ -58,7 +60,7 @@ export function HederaNotificationProvider({ children }: HederaProviderProps) {
   }
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://${notificationsServiceUrl}`);
+    const ws = new WebSocket(`${protocol}://${notificationsServiceUrl}`);
 
     ws.onmessage = event => {
       const message = JSON.parse(event.data);

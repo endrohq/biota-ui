@@ -4,7 +4,7 @@ import { CreateForestPage } from '../../components/screens/createForest';
 
 export default function Page() {
   return (
-    <Container withWidth={false} withTopPadding={false} access="private">
+    <Container withWidth={false} withTopPadding={false}>
       <CreateForestPage />
     </Container>
   );

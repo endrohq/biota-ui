@@ -41,7 +41,6 @@ export function Modal({
   title,
   open,
   position = 'bottom',
-  bodyClassName,
 }: ModalProps) {
   if (!open) return <></>;
 

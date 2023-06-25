@@ -1,4 +1,3 @@
-import { H5 } from '@shared/components/typography/Title';
 import { Vote, VoteType } from '@shared/typings';
 
 import { ResultItem } from './_ResultItem';
@@ -15,10 +14,7 @@ export function Results({ votes }: ResultsProps) {
 
   return (
     <div className="rounded border border-gray-100 bg-gray-50">
-      <div className="border-b border-gray-100 px-4 py-2">
-        <H5>Results</H5>
-      </div>
-      <div className="flex items-center  p-6">
+      <div className="flex items-center space-x-4 p-4">
         <ResultItem
           totalVotes={votes.length}
           votes={votesAsObject[VoteType.FOR]}

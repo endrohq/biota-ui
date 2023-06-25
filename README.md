@@ -1,4 +1,4 @@
-# Hashgraph
+# Biota UI
 
 ## Introduction
 

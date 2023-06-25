@@ -59,7 +59,7 @@ export function useObjections(proposalId: string): useIncidentsProps {
 
       setObjections(arr);
     } catch (error) {
-      toast.error('Something went wrong. Please reload the page.');
+      // toast.error('Something went wrong. Please reload the page.');
       console.error(error);
     } finally {
       setLoading(false);

@@ -18,7 +18,7 @@ export function ForestItem({
     <div
       onClick={() => handleSelect(forest)}
       className={clsx(
-        'bg-transition flex w-full cursor-pointer justify-between rounded border border-transparent bg-gray-50 px-6 py-4',
+        'bg-transition flex w-full cursor-pointer justify-between rounded border border-transparent bg-gray-50 p-2',
         selectedForest?.cid === forest.cid && 'border-green-500 bg-green-50',
         selectedForest?.cid !== forest.cid && 'hover:bg-gray-100',
       )}

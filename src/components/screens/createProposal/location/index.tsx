@@ -40,7 +40,7 @@ export function LocationForm({ save }: LocationFormProps) {
         <MapBox mode="read-only" height={850} positions={locations} />
       </div>
       <div className=" mt-10 w-7/12 ">
-        <div className="mx-auto w-10/12 space-y-12">
+        <div className="mx-auto w-10/12 space-y-4">
           <div className="">
             <div className="flex items-start space-x-6">
               <div className="rounded bg-green-50 px-1.5 py-1">
@@ -54,7 +54,7 @@ export function LocationForm({ save }: LocationFormProps) {
               </div>
             </div>
           </div>
-          <div className="grid w-full grid-cols-2 gap-4">
+          <div className="grid w-full grid-cols-2 gap-2">
             {loading ? (
               <LoadingOutlined />
             ) : (
